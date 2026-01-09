@@ -44,7 +44,7 @@ int main(int argc, char* argv[])  //explain the new types here
       rats[count].num = top;
       rats[count].denom = bottom;
       if(DEBUG) {
-		cout << rats[count].num << "/" << rats[count].denom << endl;
+		    cout << rats[count].num << "/" << rats[count].denom << endl;
       }
       count++;
     }
