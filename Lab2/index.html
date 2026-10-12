@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 2 · Debugging, Classes, and Operators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lab.css">
+</head>
+<body>
+<div class="layout">
+
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Lab 2</div>
+    <a href="#before">Before lab</a>
+    <a href="#schedule">Schedule</a>
+    <details>
+      <summary title="Show or hide the sections of Part 1"><a href="#part1">1. Finding bugs</a></summary>
+      <a href="#p1-lecture" class="sub">Lecture: cerr and the debugger</a>
+      <a href="#ex1" class="sub">Exercise 1: debug grades.cpp</a>
+      <a href="#p1-solution" class="sub">Walkthrough 1</a>
+      <a href="#p1-selftest" class="sub">Self-test</a>
+      <a href="#p1-quiz" class="sub">Section quiz</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of Part 2"><a href="#part2">2. Classes in C++</a></summary>
+      <a href="#p2-lecture" class="sub">Lecture: writing a class</a>
+      <a href="#ex2" class="sub">Exercise 2: Rational</a>
+      <a href="#p2-solution" class="sub">Walkthrough 2</a>
+      <a href="#p2-selftest" class="sub">Self-test</a>
+      <a href="#p2-quiz" class="sub">Section quiz</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of Part 3"><a href="#part3">3. Object lifetime</a></summary>
+      <a href="#p3-lecture" class="sub">Lecture: birth and death</a>
+      <a href="#ex3" class="sub">Exercise 3: Tracer, Counter</a>
+      <a href="#p3-solution" class="sub">Walkthrough 3</a>
+      <a href="#p3-selftest" class="sub">Self-test</a>
+      <a href="#p3-quiz" class="sub">Section quiz</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of Part 4"><a href="#part4">4. Operator overloading</a></summary>
+      <a href="#p4-lecture" class="sub">Lecture: operators</a>
+      <a href="#ex4" class="sub">Exercise 4: Rational operators</a>
+      <a href="#p4-solution" class="sub">Walkthrough 4</a>
+      <a href="#p4-selftest" class="sub">Self-test</a>
+      <a href="#p4-quiz" class="sub">Section quiz</a>
+    </details>
+    <a href="#submit">What to submit</a>
+    <a href="#takeaways">Takeaways</a>
+    <div class="label" style="margin-top:24px">Reference</div>
+    <a href="../reference/linux.html">Linux commands</a>
+    <a href="../reference/gdb.html">gdb commands</a>
+    <div class="label" style="margin-top:24px">Files</div>
+    <a href="Lab2-starter.zip">⬇ Starter code (.zip)</a>
+    <a href="Lab2-Slides.pptx">⬇ Lecture slides (.pptx)</a>
+    <div class="label" style="margin-top:24px">Labs</div>
+    <a href="../Pre-Lab/index.html">Pre-Lab: set up your computer</a>
+    <a href="../Lab1/index.html">Lab 1</a>
+    <a href="index.html" aria-current="page" style="color:var(--text);font-weight:600">Lab 2 (this page)</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">CSS SKL 342 · Lab 2</div>
+      <h1>Debugging, Classes, and Operators</h1>
+      <p>Find bugs with the debugger instead of guessing, write a class the C++ way, know exactly when its objects are created and destroyed, and give it operators. The first data structures you'll write in your CSS 342 assignments are classes built from these pieces.</p>
+      <div class="hero-links">
+        <a class="btn" href="#schedule">Schedule</a>
+        <a class="btn" href="#submit">What to submit</a>
+        <a class="btn" href="Lab2-starter.zip">⬇ Starter code</a>
+        <a class="btn" href="Lab2-Slides.pptx">⬇ Slides</a>
+      </div>
+    </header>
+
+    <section id="before">
+      <h2>Before lab</h2>
+      <div class="card">
+        <ol class="steps">
+          <li>Finish Lab 1. This lab assumes you can build multi-file programs with <code>make</code> and pass by <code>const&amp;</code>.</li>
+          <li>Start Docker Desktop, attach VS Code to your container, and open your <span class="path">CSSSKL342</span> folder (as in the Pre-Lab).</li>
+          <li>Download the starter code, <a href="Lab2-starter.zip">Lab2-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder, so you have <span class="path">CSSSKL342/Lab2/exercises/</span>, with one folder per exercise, and <span class="path">CSSSKL342/Lab2/examples/</span> (the lecture examples) (the same way as in Lab 1). That <span class="path">Lab2</span> folder is what you zip and submit.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="schedule">
+      <h2>Schedule</h2>
+      <div class="tbl tbl-scroll">
+        <table class="schedule">
+          <thead>
+            <tr><th>Topic</th><th>Block</th><th>Time</th><th>Length</th><th>Activity</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part1"><span class="num">1</span>Finding bugs</a><small>cout vs. cerr, gdb, VS Code debugger</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">1:15</td><td class="time">15 min</td><td><a href="#p1-lecture">cerr and the debugger</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:30</td><td class="time">30 min</td><td><a href="#ex1">Exercise 1: debug grades.cpp</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:00</td><td class="time">10 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part2"><span class="num">2</span>Classes in C++</a><small>.h/.cpp split, constructors, const members</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">2:10</td><td class="time">20 min</td><td><a href="#p2-lecture">Writing a class</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:30</td><td class="time">30 min</td><td><a href="#ex2">Exercise 2: the Rational class</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:00</td><td class="time">10 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part3"><span class="num">3</span>Object lifetime</a><small>scope, destructors, copies, in the debugger</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:10</td><td class="time">15 min</td><td><a href="#p3-lecture">Birth and death of objects</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:25</td><td class="time">30 min</td><td><a href="#ex3">Exercise 3: Tracer and Counter</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:55</td><td class="time">10 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+          </tbody>
+          <tbody class="break">
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">4:05</td><td class="time">10 min</td><td></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part4"><span class="num">4</span>Operator overloading</a><small>member vs. non-member, <code>&lt;&lt;</code>, <code>return *this</code></small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">4:15</td><td class="time">15 min</td><td><a href="#p4-lecture">Operators are functions</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:30</td><td class="time">30 min</td><td><a href="#ex4">Exercise 4: Rational operators</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">5:00</td><td class="time">5 min</td><td><a href="#p4-solution">Walkthrough 4</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr><td class="topic"><a href="#submit">Catch-up and wrap-up</a><small>finish, package, review</small></td><td><span class="tag solution">Wrap-up</span></td><td class="time">5:05</td><td class="time">10 min</td><td>Finish any exercise, build your <a href="#submit">submission zip</a>, and review the <a href="#takeaways">takeaways</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <span class="title">Self-checks</span>
+        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. Everything is submitted together as one zip at the end (see <a href="#submit">What to submit</a>).
+      </div>
+    </section>
+
+    <!-- ============================== PART 1 ============================== -->
+    <section id="part1">
+      <div class="part-head">
+        <div class="part-num">1</div>
+        <div><h2>Finding bugs</h2><div class="sub">cout vs. cerr, gdb, the VS Code debugger</div></div>
+      </div>
+
+      <div class="card lecture" id="p1-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>cerr and the debugger</h3><span class="mins">15 min</span></div>
+        <p class="why">Your programs will crash or print wrong answers, and rereading the code is the slowest way to find out why. Two tools are faster: printing what the program is doing, in a way that doesn't mix with its real output, and a debugger, which stops the program at any line and shows every variable. C++ makes them more important than in Java, because a crash often comes with nothing but <code>Segmentation fault</code> and no stack trace.</p>
+        <ul>
+          <li><b>Two output streams.</b> <code>cout</code> is the program's real output: what a grader compares. <code>cerr</code> is for errors and debug messages. <code>./prog &gt; out.txt</code> sends only <code>cout</code> to the file; <code>cerr</code> still appears on the screen. (<code>2&gt;</code> redirects <code>cerr</code>.) Example: <a href="examples/1.1.cerr_vs_cout/streams.cpp">1.1.cerr_vs_cout/streams.cpp</a>, with its output in <a href="examples/1.1.cerr_vs_cout/README.txt">README.txt</a>.</li>
+          <li><b>cout waits; cerr doesn't.</b> Text sent to <code>cout</code> can sit in a buffer and be written later (<code>endl</code> writes it right away). If the program crashes, whatever was waiting is lost, which is easy to miss because on a terminal it usually appears anyway. <code>cerr</code> is written immediately. <b>Debug messages go to <code>cerr</code>.</b> Example: <a href="examples/1.2.cout_lost_on_crash/crash.cpp">1.2.cout_lost_on_crash/crash.cpp</a> prints with <code>cout</code> and no newline, then crashes: the message never appears. Its <a href="examples/1.2.cout_lost_on_crash/README.txt">README.txt</a> shows the output, and two fixes to try.</li>
+          <li><b>Compile with <code>-g</code></b> so the debugger knows file names, line numbers, and variable names. Every Makefile in this course uses it.</li>
+          <li><b>gdb, in the terminal</b> (works everywhere, including over SSH). The essentials are below; the full list is in the <a href="../reference/gdb.html">gdb command reference</a>, a separate page linked from every lab's left menu (<b>Reference</b>):
+            <div class="tbl tbl-scroll" style="margin-top:8px">
+              <table>
+                <thead><tr><th style="width:34%">Command</th><th>What it does</th></tr></thead>
+                <tbody>
+                  <tr><td><code>gdb ./grades</code></td><td>Start gdb on a program (it doesn't run yet).</td></tr>
+                  <tr><td><code>run</code></td><td>Run it. It stops at a breakpoint, or where it crashes.</td></tr>
+                  <tr><td><code>bt</code></td><td>Backtrace: which function you're in, and which line called it, all the way up to <code>main</code>. <b>The first thing to type after a crash.</b></td></tr>
+                  <tr><td><code>break average</code><br><code>break grades.cpp:13</code></td><td>Stop when that function or line is reached.</td></tr>
+                  <tr><td><code>next</code> / <code>step</code></td><td>Run one line; <code>step</code> goes <i>into</i> a function call, <code>next</code> runs the call without stopping in it.</td></tr>
+                  <tr><td><code>print total</code></td><td>Show a variable, or any expression: <code>print total / count</code>.</td></tr>
+                  <tr><td><code>frame 1</code></td><td>Look at the caller's variables (frame numbers come from <code>bt</code>).</td></tr>
+                  <tr><td><code>continue</code> / <code>finish</code></td><td>Run to the next breakpoint / to the end of the current function.</td></tr>
+                  <tr><td><code>quit</code></td><td>Leave gdb.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+          <li><b>The VS Code debugger</b> runs the container's gdb for you, with buttons and panes instead of typed commands. It comes from the <b>C/C++</b> extension, which must be installed <i>in the container</i> (Pre-Lab step 7). Click left of a line number to set a breakpoint (a red dot). For a one-file program, with the <code>.cpp</code> file open, use the <b>&#9655;</b> menu at the top right of the editor &rarr; <b>Debug C/C++ File</b>, or type <b>Debug C/C++ File</b> in the Command Palette (<code>Ctrl+Shift+P</code>). The first time, choose <b>C/C++: g++ build and debug active file</b>. Then <code>F10</code> = next, <code>F11</code> = step into, <code>Shift+F11</code> = step out, <code>F5</code> = continue; the <b>Variables</b>, <b>Watch</b>, and <b>Call Stack</b> panes show what <code>print</code> and <code>bt</code> would.</li>
+          <li><b>Which tool when:</b> a <i>crash</i>: run it in the debugger and read <code>bt</code>. <i>Wrong output</i>: set a breakpoint before it goes wrong, step, and watch the variables until one isn't what you expected.</li>
+        </ul>
+        <div class="callout java"><span class="title">Coming from Java</span><code>cout</code> and <code>cerr</code> are <code>System.out</code> and <code>System.err</code>. The VS Code debugger works like IntelliJ's or Eclipse's. The difference: a crashed C++ program gives you no stack trace unless you run it in a debugger.</div>
+      </div>
+
+      <div class="card handson" id="ex1">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 1: Debug grades.cpp</h3><span class="mins">30 min</span></div>
+        <p>Folder: <span class="path">Lab2/exercises/ex1-debug/</span>. <code>grades.cpp</code> prints each student's average and letter grade. It compiles with no warnings, but it has three bugs. The comments in <code>main</code> show the expected output. Find the bugs <i>with the debugger</i>, then fix them without changing <code>main</code>.</p>
+        <ol class="steps">
+          <li><b>Run it.</b> <code>make</code>, then <code>./grades</code>. Compare with the expected lines in <code>main</code>, and note how the program ends.</li>
+          <li><b>Where did the output go?</b> Run <code>./grades &gt; out.txt</code>, then <code>cat out.txt</code>. Now change the progress message in <code>report</code> (<code>cout &lt;&lt; "computing "</code>) to use <code>cerr</code>, run <code>make</code> and the same two commands again, and compare.</li>
+          <li><b>Find the crash with gdb.</b> <code>gdb ./grades</code>, <code>run</code>, <code>bt</code>. Then <code>frame 1</code> and <code>print name</code>. <code>quit</code> (answer <code>y</code>). gdb may warn about "address space randomization" inside the container; that's harmless.</li>
+          <li><b>Find the wrong values with VS Code.</b>
+            <div class="callout warn" style="margin:6px 0 10px"><span class="title">No &#9655; button, or no "Debug C/C++ File"?</span>
+              The C/C++ extension isn't installed in your container. Check that the bottom-left corner says <b>Container &hellip; (cssskl342)</b>, then open Extensions (<code>Ctrl+Shift+X</code>), search <b>C/C++ Extension Pack</b> (Microsoft), and click <b>Install in Container</b>. Installing it on your own computer isn't enough: extensions run where the code is. Then open a <code>.cpp</code> file; the &#9655; button appears at the top right of the editor. If you still can't get it working, do this step with gdb in the terminal instead: <code>break average</code>, <code>run</code>, <code>print total</code>, <code>print count</code>, <code>next</code>.</div>
+            Open <code>grades.cpp</code>, set a breakpoint on <code>return total / count;</code>, and start <b>Debug C/C++ File</b>. When it stops for Ana, look at <code>total</code> and <code>count</code> in <b>Variables</b>; press <code>F10</code> and check the result. Then put a breakpoint in <code>letter</code>, press <code>F5</code> until <code>avg</code> is 70, and step with <code>F10</code> to see which branch it takes.
+            <figure class="shot"><a href="images/vscode-debug-menu.png"><img src="images/vscode-debug-menu.png" alt="VS Code with grades.cpp open: a red breakpoint dot on line 13, return total / count;, and the run menu at the top right of the editor open, showing Debug C/C++ File (outlined) and Run C/C++ File." style="max-width:560px"></a><figcaption>Start the debugger: the &#9655; menu at the top right of the editor &rarr; <b>Debug C/C++ File</b>. The first time, choose <b>C/C++: g++ build and debug active file</b>; VS Code saves that choice in <code>CSSSKL342/.vscode/tasks.json</code>.</figcaption></figure>
+            <figure class="shot"><a href="images/vscode-debug-paused.png"><img src="images/vscode-debug-paused.png" alt="VS Code paused at the breakpoint on line 13. Outlined: the Locals pane showing total = 269 and count = 3; the debug toolbar (continue, step over, step into, step out, restart, stop); the highlighted current line 13; and the Call Stack showing average called from report." style="max-width:760px"></a><figcaption>Paused at the breakpoint for Ana: <b>Locals</b> shows <code>total = 269</code>, <code>count = 3</code>; the <b>Call Stack</b> shows <code>average</code> was called from <code>report</code>. The toolbar: continue (<code>F5</code>), step over (<code>F10</code>), step into (<code>F11</code>), step out (<code>Shift+F11</code>), restart, stop.</figcaption></figure></li>
+          <li><b>Fix all three bugs</b>, rebuild, and run again.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span><code>./grades</code> prints <code>Ana: 89.6667 B</code>, <code>Ben: 70 C</code>, <code>Cy: no scores</code>, <code>Dee: 91 A</code>, <code>done</code> (with the <code>computing</code> lines mixed in), and after <code>./grades &gt; out.txt</code>, <code>out.txt</code> holds only those five lines.</div>
+      </div>
+
+      <div class="card solution" id="p1-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">10 min</span></div>
+        <p>The empty <code>out.txt</code>, live, and why <code>cerr</code> fixes it; <code>bt</code> on the crash; stepping through <code>average</code> and <code>letter</code> in VS Code; the three one-line fixes.</p>
+      </div>
+
+      <div class="review" id="p1-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li>Your program prints <code>step 3 done</code> with <code>cout &lt;&lt; "step 3 done\n"</code>, then crashes. On your screen the line appears, but the grader runs <code>./prog &gt; out.txt</code> and the line isn't in the file. Why? Give two fixes.
+            <details><summary>Show answer</summary><p>Output to <code>cout</code> waits in a buffer when it goes to a file, and the crash killed the program before the buffer was written. Fixes: send debug messages to <code>cerr</code>, which is written immediately (best: it also keeps them out of the graded output), or end the line with <code>endl</code>, which writes the buffer. And fix the crash.</p></details>
+          </li>
+          <li>You're stopped in gdb on <code>double avg = average(total, count);</code>. What is the difference between typing <code>next</code> and <code>step</code>?
+            <details><summary>Show answer</summary><p><code>step</code> goes into <code>average</code> and stops at its first line; <code>next</code> runs the whole call and stops at the following line of the current function. (In VS Code: <code>F11</code> and <code>F10</code>.)</p></details>
+          </li>
+          <li>A program you didn't write dies with <code>Segmentation fault (core dumped)</code>. What is the fastest way to find the line?
+            <details><summary>Show answer</summary><p>Rebuild it with <code>-g</code>, then <code>gdb ./prog</code>, <code>run</code>, <code>bt</code>. The first line of the backtrace that is in your code is where it crashed; <code>frame</code> and <code>print</code> show the values there.</p></details>
+          </li>
+          <li>What do you lose in gdb if the program was compiled without <code>-g</code>?
+            <details><summary>Show answer</summary><p>File names, line numbers, and variable names and values. <code>bt</code> still names the functions, but shows lines like <code>#0 ... in average(int, int) ()</code> with no file or line, and <code>print total</code> doesn't work.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p1-quiz" data-quiz="Lab 2 Exercise 1 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 1 available on Canvas as the quiz <b>Lab 2 Exercise 1 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PART 2 ============================== -->
+    <section id="part2">
+      <div class="part-head">
+        <div class="part-num">2</div>
+        <div><h2>Classes in C++</h2><div class="sub">.h/.cpp split, constructors, initializer lists, const member functions</div></div>
+      </div>
+
+      <div class="card lecture" id="p2-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Writing a class</h3><span class="mins">20 min</span></div>
+        <p class="why">A class bundles data with the functions that keep it valid: if only <code>Rational</code>'s own functions can set the denominator, it can never be zero. The ideas are the ones you know from Java, but C++ splits a class across a header and a <code>.cpp</code> file and adds details Java doesn't have, such as initializer lists and <code>const</code> member functions. Every CSS 342 assignment is built from classes written this way.</p>
+        <ul>
+          <li><b>The class declaration goes in the header</b>: data members and member function declarations. <b>Member function definitions go in the <code>.cpp</code></b>, each prefixed with the class name: <code>int Rational::numerator() const { ... }</code>. Note the <code>;</code> after the class's closing brace.</li>
+          <li><b>Access:</b> <code>public:</code> and <code>private:</code> label whole sections, not single members. Data members are private.</li>
+          <li><b>Constructors</b> have the class's name and no return type. You can overload them. Initialize members in the <b>initializer list</b>, which runs before the body:
+<pre><code>Rational::Rational(int num, int den) : num_(num), den_(den) {
+    normalize();
+}</code></pre>
+            <b>The older way you'll also see:</b> assigning the members inside the constructor body. Much existing code (and many textbook and online examples) is written like this, and it still works:
+<pre><code>Rational::Rational(int num, int den) {
+    num_ = num;      // assignment, not initialization
+    den_ = den;
+    normalize();
+}</code></pre>
+            For <code>int</code> members, both versions give the same result. But the initializer list is the proper way, and the one to write: the members are <i>created</i> with their values, instead of being created first and assigned afterward (for members that are themselves objects, that means doing the work twice). Some members <i>can't</i> be assigned at all: with a <code>const</code> member, the body version fails with <code>error: assignment of read-only member</code>, and only the initializer list compiles. So read the old style when you meet it, and write initializer lists in your own code.</li>
+          <li><b>Members are not initialized for you.</b> An <code>int</code> member you forget holds garbage, not 0.</li>
+          <li><b>const member functions</b> promise not to change the object: <code>int numerator() const;</code>. A <code>const</code> object, or a <code>const&amp;</code> parameter, can only call const member functions. Mark every function that doesn't change the object as const.</li>
+          <li><b>Creating objects:</b> <code>Rational r(1, 2);</code> or <code>Rational r;</code> for the default constructor. Not <code>Rational r();</code>, which declares a <i>function</i>.</li>
+          <li><code>struct</code> is the same as <code>class</code>, except members are public by default.</li>
+        </ul>
+        <div class="callout java"><span class="title">Coming from Java</span>No <code>new</code>: <code>Rational r(1, 2);</code> creates the object right there, as a local variable, and it is destroyed at the end of the scope. Java's <code>Rational r = new Rational(1, 2);</code> corresponds to pointers and <code>new</code>, which come later.</div>
+      </div>
+
+      <div class="card handson" id="ex2">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: The Rational class</h3><span class="mins">30 min</span></div>
+        <p>Folder: <span class="path">Lab2/exercises/ex2-classes/</span>. <code>Rational</code> stores a fraction in lowest terms with a positive denominator: <code>Rational(6, -8)</code> holds &minus;3/4. You'll keep building it in Exercise 4.</p>
+        <ol class="steps">
+          <li>Run <code>make</code>. <code>main.cpp</code> doesn't compile. Read the error, and fix it by changing only <code>rational.h</code> and <code>rational.cpp</code>, never <code>main.cpp</code>.</li>
+          <li>Leave the default constructor's body empty, run <code>./rational_app</code>, and note what <code>default:</code> prints.</li>
+          <li>Complete the TODOs in <code>rational.cpp</code>: constructors with initializer lists, <code>toDouble</code>, <code>toString</code>, and <code>normalize</code>.</li>
+          <li>Run again and check the output against the comments in <code>main.cpp</code>.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./rational_app</code> prints the five expected values.</div>
+      </div>
+
+      <div class="card solution" id="p2-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">10 min</span></div>
+        <p>The <code>discards qualifiers</code> error and const-correctness; garbage from uninitialized members (no warning from the compiler); one complete <code>normalize</code>, including the sign and <code>0/7</code>.</p>
+      </div>
+
+      <div class="review" id="p2-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li><code>void report(const Box &amp;b) { cout &lt;&lt; b.width(); }</code> fails with <code>passing 'const Box' as 'this' argument discards qualifiers</code>. What is the fix, and where?
+            <details><summary>Show answer</summary><p>Make <code>width()</code> a const member function: <code>int width() const;</code> in the class, and <code>int Box::width() const { ... }</code> in the <code>.cpp</code>. The error message names the problem: <code>report</code> has a const object, and <code>width()</code> doesn't promise to leave it unchanged.</p></details>
+          </li>
+          <li>Does this compile? <code>int Rational::numerator() const { num_ = 0; return num_; }</code>
+            <details><summary>Show answer</summary><p>No: inside a const member function, the data members are read-only (<code>assignment of member 'Rational::num_' in read-only object</code>).</p></details>
+          </li>
+          <li>What is wrong with this constructor?
+<pre><code>Rational::Rational(int n, int d) {
+    int num_ = n;
+    int den_ = d;
+}</code></pre>
+            <details><summary>Show answer</summary><p>It declares two new <i>local</i> variables that happen to have the members' names. The members are never set and hold garbage. Use the initializer list: <code>: num_(n), den_(d)</code>.</p></details>
+          </li>
+          <li>Name two kinds of members that must be initialized in the initializer list.
+            <details><summary>Show answer</summary><p>Any two of: <code>const</code> members, reference members, members whose type has no default constructor, and base classes (when you learn inheritance). They can't be assigned to after they're created.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p2-quiz" data-quiz="Lab 2 Exercise 2 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 2 available on Canvas as the quiz <b>Lab 2 Exercise 2 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PART 3 ============================== -->
+    <section id="part3">
+      <div class="part-head">
+        <div class="part-num">3</div>
+        <div><h2>Object lifetime</h2><div class="sub">scope, destructors, copies, member order, returning references</div></div>
+      </div>
+
+      <div class="card lecture" id="p3-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Birth and death of objects</h3><span class="mins">15 min</span></div>
+        <p class="why">In Java an object lives until the garbage collector decides it's unreachable, and you never know exactly when. In C++ an object dies at a precise moment, usually a closing <code>}</code>, and its destructor runs right then. That is what lets a C++ class release memory and other resources on time, and it means you need to know exactly when your objects are created, copied, and destroyed.</p>
+        <ul>
+          <li><b>Local objects</b> are created at their definition and destroyed at the end of their scope (the closing <code>}</code>), in <b>reverse</b> order. Globals are created before <code>main</code> and destroyed after it. Example: <a href="examples/3.1.scope_and_destructor/scope.cpp">3.1.scope_and_destructor/scope.cpp</a> creates objects in <code>main</code> and in a <code>{ }</code> sub-block inside it, and every constructor and destructor prints; predict the order, then check its <a href="examples/3.1.scope_and_destructor/README.txt">README.txt</a>.</li>
+          <li><b>The destructor</b> <code>~Tracer()</code> runs automatically when an object dies. It's where a class releases what it owns (memory it allocated, for example). There's no garbage collector.</li>
+          <li><b>The copy constructor</b> <code>Tracer(const Tracer &amp;other)</code> runs whenever a new object is made as a copy of another: <code>Tracer t1(t2);</code>, <code>Tracer t1 = t2;</code>, pass by value, and sometimes return by value. Passing by <code>const&amp;</code> makes no copy.
+            <br><b><code>Tracer t1 = t2;</code> is copy construction, not assignment</b>, even though it has an <code>=</code>: the line declares <code>t1</code>, so a new object is being created, and that is always a constructor's job. It means exactly the same as <code>Tracer t1(t2);</code>. Only <code>t1 = t2;</code> on an object that <i>already exists</i> is assignment. Example: <a href="examples/3.2.copy_construction/copy.cpp">3.2.copy_construction/copy.cpp</a> prints which one runs for each form; see its <a href="examples/3.2.copy_construction/README.txt">README.txt</a>.</li>
+          <li><b>Copy elision:</b> when returning a local by value, the compiler usually builds it directly in the caller's variable, so no copy happens. Example: <a href="examples/3.3.copy_elision/elision.cpp">3.3.copy_elision/elision.cpp</a> returns a local <code>Tracer</code> and shows only one object being made; built again with <code>-fno-elide-constructors</code>, the copy it saved reappears. See its <a href="examples/3.3.copy_elision/README.txt">README.txt</a>.</li>
+          <li><b>Members</b> are constructed in the order they are <i>declared</i> in the class, whatever order the initializer list uses, and destroyed in reverse.</li>
+          <li><b>Returning references from members:</b> provide two versions, a non-const one that returns <code>T&amp;</code> (can be assigned) and a const one that returns <code>T</code> or <code>const T&amp;</code> (read-only). The compiler picks by the object's constness: a non-const object calls the non-const version, a const object (or a <code>const&amp;</code> parameter) calls the const version. Whether you read or write doesn't matter.
+<pre><code>class Counter {
+public:
+    int &amp;value()       { return count_; }   // version 1: non-const
+    int  value() const { return count_; }   // version 2: const
+private:
+    int count_ = 0;
+};
+
+void show(const Counter &amp;k) {
+    cout &lt;&lt; k.value();            // k is const here      -&gt; version 2
+}
+
+Counter c;                       // c is NOT const
+c.value() = 4;                   // -&gt; version 1: returns c's count_ itself, so it becomes 4
+int n = c.value();               // -&gt; version 1 too: c is not const (n is 4)
+show(c);                         // inside show, k is const -&gt; version 2
+
+const Counter fixed;             // fixed IS const
+int m = fixed.value();           // -&gt; version 2 (m is 0)
+fixed.value() = 9;               // error: version 2 returns a copy of the int:
+                                 //        lvalue required as left operand of assignment</code></pre></li>
+        </ul>
+        <div class="callout java"><span class="title">Coming from Java</span>Java objects live until the garbage collector decides; <code>finalize</code> may never run. A C++ destructor runs at a known moment, every time, which is what makes C++'s style of memory management possible.</div>
+      </div>
+
+      <div class="card handson" id="ex3">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 3: Tracer and Counter</h3><span class="mins">30 min</span></div>
+        <p>Folder: <span class="path">Lab2/exercises/ex3-lifetime/</span>. <code>Tracer</code> prints a line whenever one of its objects is constructed, copied, or destroyed.</p>
+        <h4>Part A: predict, then run (Tracer)</h4>
+        <ol class="steps">
+          <li>Read <code>lifetime.cpp</code> (<a href="exercises/ex3-lifetime/lifetime.cpp">view it here</a>). <b>Before running it</b>, write the lines you expect each scenario to print in <code>Lab2/exercises/ex3-lifetime/predictions.txt</code>, the file in your extracted starter code (<a href="exercises/ex3-lifetime/predictions.txt">view the blank form here</a>). It has a heading for each scenario, plus "Before main starts" and "After main ends"; under each, list the lines you expect, in order, like <code>+ a</code> or <code>- a</code>. Keep it as you wrote it: you'll compare it with the real output in the next step, and it is part of your submission.</li>
+          <li>Build with <code>make lifetime</code> and read the warning. Run <code>./lifetime</code> and mark every line where your prediction was wrong.</li>
+          <li><b>Watch a destructor run, in the debugger.</b> <code>lifetime</code> is built from two <code>.cpp</code> files, so use gdb: <code>gdb ./lifetime</code>, then <code>break Tracer::~Tracer</code>, <code>run</code>, <code>bt</code>, and <code>print name_</code>. Type <code>continue</code> to stop at the next destructor, and <code>bt</code> again. <code>quit</code> when done.</li>
+        </ol>
+        <h4>Part B: returning references (Counter)</h4>
+        <ol class="steps">
+          <li>Complete the two TODOs in <code>counter.h</code>. <code>counter_test.cpp</code> won't compile until you do.</li>
+          <li>Build with <code>make counter_test</code> and run it: it should print <code>count = 5</code> and <code>count = 0</code>.</li>
+          <li>Uncomment the line marked Q6 in <code>counter_test.cpp</code>, try to build, then comment it out again.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Compare your predictions with the real output, and confirm that <code>./counter_test</code> prints <code>count = 5</code> and <code>count = 0</code>.</div>
+      </div>
+
+      <div class="card solution" id="p3-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 3</h3><span class="mins">10 min</span></div>
+        <p>The full trace, scenario by scenario; why the global appears before <code>main starts</code>; the <code>-Wreorder</code> warning; how const and non-const overloads of the same function work, which is how <code>operator[]</code> works on containers.</p>
+        <p>Have these open side by side: <a href="exercises/ex3-lifetime/predictions.txt">predictions.txt</a> (the blank form; compare it, scenario by scenario, with what you predicted) and <a href="exercises/ex3-lifetime/lifetime.cpp">lifetime.cpp</a> (the code that produced the output).</p>
+      </div>
+
+      <div class="review" id="p3-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li>What does this print, including what happens at the end of <code>main</code>?
+<pre><code>int main() {
+    Tracer x("x");
+    { Tracer y("y"); }
+    Tracer z("z");
+}</code></pre>
+            <details><summary>Show answer</summary><p><code>+ x</code>, <code>+ y</code>, <code>- y</code>, <code>+ z</code>, then at the end of <code>main</code>: <code>- z</code>, <code>- x</code>.</p></details>
+          </li>
+          <li>How many Tracer constructor and destructor calls does <code>void f(Tracer t) {}</code> cause when called as <code>f(x)</code>? And for <code>void g(const Tracer &amp;t) {}</code>?
+            <details><summary>Show answer</summary><p><code>f(x)</code>: one copy constructor call (for <code>t</code>) and one destructor call (when <code>f</code> returns). <code>g(x)</code>: none.</p></details>
+          </li>
+          <li>A class declares <code>Tracer b_;</code> then <code>Tracer a_;</code>, and its constructor is <code>: a_("a"), b_("b")</code>. In what order are they built and destroyed?
+            <details><summary>Show answer</summary><p>Built in declaration order: <code>b_</code>, then <code>a_</code>. Destroyed in reverse: <code>a_</code>, then <code>b_</code>. g++ warns with <code>-Wreorder</code>.</p></details>
+          </li>
+          <li><code>const string &amp;name() const</code> returns a reference to a data member. When is using that reference safe, and when isn't it?
+            <details><summary>Show answer</summary><p>Safe as long as the object is alive. Unsafe if you keep the reference longer than the object, for example <code>const string &amp;n = make("t").name();</code>: the temporary returned by <code>make</code> is destroyed at the end of that statement, and <code>n</code> dangles.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p3-quiz" data-quiz="Lab 2 Exercise 3 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 3 available on Canvas as the quiz <b>Lab 2 Exercise 3 Quiz</b> (8 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PART 4 ============================== -->
+    <section id="part4">
+      <div class="part-head">
+        <div class="part-num">4</div>
+        <div><h2>Operator overloading</h2><div class="sub">member vs. non-member, return types, &lt;&lt;, friend</div></div>
+      </div>
+
+      <div class="card lecture" id="p4-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Operators are functions</h3><span class="mins">15 min</span></div>
+        <p class="why">A class for fractions, money, or dates is easier to use when <code>a + b</code>, <code>a &lt; b</code>, and <code>cout &lt;&lt; a</code> work just as they do for <code>int</code>. C++ lets you define what operators mean for your own types, and the standard library counts on it: sorting and <code>map</code> use <code>&lt;</code>, and printing uses <code>&lt;&lt;</code>. CSS 342 assignments regularly ask for <code>==</code>, <code>&lt;</code>, and <code>&lt;&lt;</code> on your classes.</p>
+        <ul>
+          <li><code>a + b</code> calls <code>operator+(a, b)</code> (non-member) or <code>a.operator+(b)</code> (member). You choose which to write; the same <code>operator+</code> can be declared either way:
+<pre><code>class Money {
+public:
+    Money operator+(const Money &amp;rhs) const;              // member: inside the class,
+};                                                        //   ONE parameter (the right operand)
+
+Money operator+(const Money &amp;lhs, const Money &amp;rhs);    // non-member: a GLOBAL function,
+                                                        //   outside any class, TWO parameters</code></pre>
+            Write one or the other, not both. A non-member operator is an ordinary global function, the same kind as <code>celsiusToFahrenheit</code> in Lab 1; it belongs to no class, so it can only use the class's public members (unless the class makes it a <code>friend</code>). Either way, <code>a + b</code> is just a shorter way to call that function. <code>-</code>, <code>*</code>, and <code>/</code> work the same way. Example: <a href="examples/4.1.member_vs_nonmember_operator/operators.cpp">4.1.member_vs_nonmember_operator/operators.cpp</a> calls <code>operator+</code> both ways and prints which function ran, with the non-member version ready to swap in; see its <a href="examples/4.1.member_vs_nonmember_operator/README.txt">README.txt</a>.</li>
+          <li><b>Signatures to copy:</b>
+            <div class="tbl tbl-scroll" style="margin-top:8px">
+              <table>
+                <thead><tr><th>Operator</th><th>Write it as</th><th>Returns</th></tr></thead>
+                <tbody>
+                  <tr><td><code>+=</code>, <code>*=</code>, <code>=</code></td><td>member</td><td><code>T&amp;</code> (<code>return *this;</code>)</td></tr>
+                  <tr><td><code>+</code>, <code>-</code>, <code>*</code></td><td>non-member, <code>const T&amp;</code> parameters</td><td><code>T</code> by value (a new object)</td></tr>
+                  <tr><td><code>==</code>, <code>!=</code>, <code>&lt;</code></td><td>non-member</td><td><code>bool</code></td></tr>
+                  <tr><td><code>&lt;&lt;</code></td><td>non-member: the left operand is the stream</td><td><code>ostream&amp;</code> (the same stream)</td></tr>
+                  <tr><td><code>[]</code></td><td>member, const and non-const versions</td><td><code>T&amp;</code> / <code>const T&amp;</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+          <li><b><code>return *this;</code></b> Inside a member function, <code>*this</code> means "the current object": the one the function was called on (<code>t</code> in <code>t += a</code>). Returning it by reference is what lets <code>(t += a) += b</code> and <code>a = b = c</code> work. For now, read <code>*this</code> as one phrase; the <code>*</code> is explained when you learn pointers. Example: <a href="examples/4.2.return_this/return_this.cpp">4.2.return_this/return_this.cpp</a> runs <code>(total += a) += b</code> and gets 123; with <code>+=</code> returning by value instead, the second <code>+=</code> changes a copy and <code>total</code> ends up 120. See its <a href="examples/4.2.return_this/README.txt">README.txt</a>.</li>
+          <li><b>Build operators from each other:</b> <code>+</code> from <code>+=</code>, <code>!=</code> from <code>==</code>, <code>&gt;</code> from <code>&lt;</code>. Then the logic lives in one place. Example: <a href="examples/4.3.operators_from_each_other/build_from.cpp">4.3.operators_from_each_other/build_from.cpp</a> builds <code>+</code> from <code>+=</code> and <code>!=</code> from <code>==</code>; see its <a href="examples/4.3.operators_from_each_other/README.txt">README.txt</a>.</li>
+          <li><b>Why non-member <code>+</code>?</b> A constructor that takes one <code>int</code> converts <code>2</code> into a <code>Rational</code> automatically, but only for function arguments, not for the object a member is called on. As a non-member, both <code>half + 2</code> and <code>2 + half</code> work.
+<pre><code>// + as a MEMBER                             // + as a NON-MEMBER
+m + 2    // m.operator+(2): works           n + 2    // operator+(n, 2): works
+2 + m    // 2.operator+(m): ERROR, an int   2 + n    // operator+(2, n): works too,
+         //   has no member functions                //   2 is just an argument</code></pre>
+            Example: <a href="examples/4.4.why_nonmember/why_nonmember.cpp">4.4.why_nonmember/why_nonmember.cpp</a> has two otherwise identical classes, one with each kind of <code>+</code>, and a line to uncomment that shows the real error: <code>no match for 'operator+' (operand types are 'int' and 'MemberMoney')</code>. See its <a href="examples/4.4.why_nonmember/README.txt">README.txt</a>.</li>
+          <li><b>friend</b>, and <code>operator&lt;&lt;</code>. <code>operator&lt;&lt;</code> is always a non-member (its left operand is the stream), so like any outsider it can only use the class's public members. Two cases:
+<pre><code>// 1. The class has public accessors: no friend needed.
+class Point {
+public:
+    int x() const { return x_; }
+    int y() const { return y_; }
+private:
+    int x_, y_;
+};
+ostream &amp;operator&lt;&lt;(ostream &amp;out, const Point &amp;p) {     // a global function
+    return out &lt;&lt; "(" &lt;&lt; p.x() &lt;&lt; ", " &lt;&lt; p.y() &lt;&lt; ")";
+}
+
+// 2. No accessors: the class grants friendship to that ONE function.
+class Secret {
+public:
+    friend ostream &amp;operator&lt;&lt;(ostream &amp;out, const Secret &amp;s);   // declaration only
+private:
+    int code_;
+};
+ostream &amp;operator&lt;&lt;(ostream &amp;out, const Secret &amp;s) {    // still a global function:
+    return out &lt;&lt; "Secret #" &lt;&lt; s.code_;                // no "friend", no "Secret::"
+}</code></pre>
+            The <code>friend</code> line inside the class only says "this global function may use my private members". It does <b>not</b> make it a member: the definition is an ordinary global function, written without <code>friend</code> and without <code>Secret::</code>. Use <code>friend</code> only when public accessors aren't enough. Example: <a href="examples/4.5.friend_operator_output/friend_output.cpp">4.5.friend_operator_output/friend_output.cpp</a> has both classes with one driver; its <a href="examples/4.5.friend_operator_output/README.txt">README.txt</a> shows the output and the real errors for the three usual mistakes: leaving out the <code>friend</code> line, writing <code>friend</code> on the definition, and writing <code>Secret::</code> on it.</li>
+        </ul>
+<pre><code>Rational &amp;Rational::operator+=(const Rational &amp;rhs) { ...; return *this; }
+Rational operator+(const Rational &amp;a, const Rational &amp;b) { Rational r = a; r += b; return r; }
+ostream &amp;operator&lt;&lt;(ostream &amp;out, const Rational &amp;r) { return out &lt;&lt; r.toString(); }</code></pre>
+      </div>
+
+      <div class="card handson" id="ex4">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 4: Rational operators</h3><span class="mins">30 min</span></div>
+        <p>Folder: <span class="path">Lab2/exercises/ex4-operators/</span>. <code>Rational</code> is complete (it's Exercise 2's solution). Now give it operators.</p>
+        <ol class="steps">
+          <li>Implement the declared operators in <code>rational.cpp</code>: <code>+=</code>, <code>+</code>, <code>==</code>, <code>&lt;</code>, and <code>&lt;&lt;</code>. Run <code>make</code> and <code>./test_operators</code> until those tests pass.</li>
+          <li>Declare (in <code>rational.h</code>) and define <code>-</code>, <code>*</code>, <code>!=</code>, and <code>*=</code> yourself.</li>
+          <li>Uncomment the remaining tests in <code>test_operators.cpp</code> and get all of them to pass.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./test_operators</code> reports 0 failures with every test uncommented.</div>
+      </div>
+
+      <div class="card solution" id="p4-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 4</h3><span class="mins">5 min</span></div>
+        <p><code>+=</code> then <code>+</code> in terms of <code>+=</code>; how <code>2 + half</code> finds the non-member <code>operator+</code>; chaining <code>(t += a) += b</code> and <code>cout &lt;&lt; a &lt;&lt; b</code>.</p>
+      </div>
+
+      <div class="review" id="p4-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li><code>Card</code> has private <code>rank_</code> and <code>suit_</code> and no accessors. How do you declare a non-member <code>operator==</code> that can read them?
+            <details><summary>Show answer</summary><p>Declare it as a friend inside the class: <code>friend bool operator==(const Card &amp;a, const Card &amp;b);</code>, then define it outside as a normal function (without the word <code>friend</code>).</p></details>
+          </li>
+          <li>You write <code>+</code> as a member: <code>Rational operator+(const Rational &amp;rhs) const;</code>. Which of <code>half + 2</code> and <code>2 + half</code> compile?
+            <details><summary>Show answer</summary><p>Only <code>half + 2</code> (it's <code>half.operator+(Rational(2))</code>). For <code>2 + half</code> there's no member function to call on an <code>int</code>, and the left operand of a member call is never converted.</p></details>
+          </li>
+          <li>What is wrong with this?
+<pre><code>Rational &amp;operator+(const Rational &amp;a, const Rational &amp;b) {
+    Rational r = a;
+    r += b;
+    return r;
+}</code></pre>
+            <details><summary>Show answer</summary><p>It returns a reference to the local <code>r</code>, which is destroyed when the function returns. <code>+</code> must return by value: <code>Rational operator+(...)</code>.</p></details>
+          </li>
+          <li>Why does <code>cout &lt;&lt; a &lt;&lt; b;</code> only work if <code>operator&lt;&lt;</code> returns the stream?
+            <details><summary>Show answer</summary><p>It's evaluated as <code>(cout &lt;&lt; a) &lt;&lt; b</code>: the result of the first call is the left operand of the second, so it must be the stream itself (by reference; streams can't be copied).</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p4-quiz" data-quiz="Lab 2 Exercise 4 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 4 available on Canvas as the quiz <b>Lab 2 Exercise 4 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== SUBMIT ============================== -->
+    <section id="submit">
+      <h2>What to submit</h2>
+      <div class="card">
+        <p>You submit <b>once</b>, after all four exercises are done.</p>
+        <ol class="steps">
+          <li>Your work is in <code>CSSSKL342/Lab2/exercises</code>, with one subfolder per exercise, named exactly like the starter folders. Keep each subfolder's layout the same as the starter code.</li>
+          <li>In each subfolder, run <code>make clean</code>. Delete any other <code>.o</code> files, executables, and <code>out.txt</code>.</li>
+          <li>Delete the <code>examples</code> folder (<code>Lab2/examples/</code>): it holds the lecture examples, and you didn't change anything in it. Your zip should contain only <code>exercises/</code>.</li>
+          <li>Check that everything compiles with <code>g++ -std=c++17 -Wall -Wextra</code> on Linux. The only warning allowed is the <code>-Wreorder</code> warning in <code>lifetime.cpp</code>, which is there on purpose.</li>
+          <li>Create <b>one zip file of the whole <code>Lab2</code> folder</b>, named <code>Lab2-&lt;your UW NetID&gt;.zip</code> (from the folder above it: <code>zip -r Lab2-netid.zip Lab2</code>).</li>
+          <li>Upload that one zip file to the Lab 2 assignment on Canvas.</li>
+        </ol>
+      </div>
+<pre><code>Lab2/
+└── exercises/
+    ├── ex1-debug/        grades.cpp  Makefile
+    ├── ex2-classes/      rational.h  rational.cpp  main.cpp  Makefile
+    ├── ex3-lifetime/     tracer.h  tracer.cpp  lifetime.cpp  predictions.txt
+    │                     counter.h  counter_test.cpp  Makefile
+    └── ex4-operators/    rational.h  rational.cpp  test_operators.cpp  Makefile</code></pre>
+      <div class="tbl tbl-scroll">
+        <table>
+          <thead><tr><th style="width:190px">Subfolder</th><th>What must be in it</th></tr></thead>
+          <tbody>
+            <tr><td><code>exercises/ex1-debug/</code></td><td>Your fixed <code>grades.cpp</code> (with <code>main</code> unchanged), the <code>Makefile</code></td></tr>
+            <tr><td><code>exercises/ex2-classes/</code></td><td>Your completed <code>rational.h</code> and <code>rational.cpp</code>, the unchanged <code>main.cpp</code> and <code>Makefile</code></td></tr>
+            <tr><td><code>exercises/ex3-lifetime/</code></td><td><code>predictions.txt</code> (your predictions, as written before running), your completed <code>counter.h</code>, the other given files</td></tr>
+            <tr><td><code>exercises/ex4-operators/</code></td><td>Your <code>rational.h</code> and <code>rational.cpp</code> with all operators, <code>test_operators.cpp</code> with every test uncommented</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">Self-test questions are for your own practice and are not submitted.</div>
+    </section>
+
+    <!-- ============================== TAKEAWAYS ============================== -->
+    <section id="takeaways">
+      <h2>Takeaways</h2>
+      <div class="callout learned">
+        <span class="title">Learned</span>
+        <ul style="margin:4px 0 0">
+          <li>Debug messages go to <code>cerr</code>, real output to <code>cout</code>. After a crash, run it in the debugger and read <code>bt</code>; for wrong output, set a breakpoint and step.</li>
+          <li>Declare the class in the header, define members in the <code>.cpp</code>, initialize every member in the initializer list, and mark every function that doesn't change the object <code>const</code>.</li>
+          <li>Objects die at the end of their scope, in reverse order, and their destructor runs every time. Pass by value makes a copy; <code>const&amp;</code> doesn't.</li>
+          <li>Compound operators are members returning <code>*this</code> (the current object) by reference; arithmetic and comparison operators are non-members; <code>&lt;&lt;</code> returns the stream.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      CSS SKL 342 · Lab 2 of 5. Previous: <a href="../Lab1/index.html">Lab 1, Toolchain and C++ basics</a>.
+    </footer>
+  </main>
+</div>
+<script src="../assets/vscode.js"></script>
+<script src="../assets/lab.js"></script>
+</body>
+</html>

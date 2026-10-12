@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" role="img" aria-labelledby="t d">
+  <title id="t">How your computer, Docker, the container, and hello.cpp fit together</title>
+  <desc id="d">Your computer contains your hard drive and Docker Desktop. Docker Desktop holds the read-only course image and your running container, cssskl342, created from it. The folder CSSSKL342 on your hard drive is shared with the container, where it appears as /home/cssuwbstudent/CSSSKL342, so hello.cpp is one file with two names. The VS Code window on your computer is attached to a VS Code Server inside the container, so editing, the terminal, and g++ all run in Linux. Files elsewhere in the container, such as notes.txt, exist only inside the container.</desc>
+  <defs>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d4ed8"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker>
+    <marker id="ag2" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker>
+    <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4f46e5"/></marker>
+  </defs>
+  <style>
+    text { font-family: "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif; fill: #0f172a; }
+    .h1 { font-size: 19px; font-weight: 700; }
+    .h2 { font-size: 16px; font-weight: 700; }
+    .sub { font-size: 13px; fill: #475569; }
+    .small { font-size: 12px; fill: #475569; }
+    .mono { font-family: Consolas, Menlo, "DejaVu Sans Mono", monospace; font-size: 14px; }
+    .tm { font-family: Consolas, Menlo, "DejaVu Sans Mono", monospace; font-size: 12.5px; fill: #e5e7eb; }
+    .grey { fill: #94a3b8; }
+    .green { fill: #15803d; font-weight: 700; }
+    .blue { fill: #1d4ed8; font-weight: 600; }
+  </style>
+
+  <!-- YOUR COMPUTER -->
+  <rect x="10" y="10" width="1180" height="740" rx="18" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+  <text x="30" y="42" class="h1">Your computer</text>
+  <text x="178" y="42" class="sub">(Windows or macOS)</text>
+
+  <!-- VS Code window -->
+  <rect x="34" y="62" width="390" height="176" rx="10" fill="#1e1e1e"/>
+  <rect x="34" y="62" width="390" height="26" rx="10" fill="#2d2d2d"/><rect x="34" y="78" width="390" height="10" fill="#2d2d2d"/>
+  <circle cx="50" cy="75" r="5" fill="#3b82f6"/>
+  <text x="62" y="80" style="font-size:12px;fill:#cbd5e1">Visual Studio Code</text>
+  <text x="48" y="105" style="font-size:12.5px;fill:#f1f5f9">hello.cpp</text>
+  <line x1="34" y1="112" x2="424" y2="112" stroke="#333"/>
+  <text x="50" y="134" class="tm"><tspan style="fill:#c586c0">#include</tspan> <tspan style="fill:#ce9178">&lt;iostream&gt;</tspan></text>
+  <text x="50" y="152" class="tm"><tspan style="fill:#c586c0">using namespace</tspan> std;</text>
+  <text x="50" y="170" class="tm"><tspan style="fill:#569cd6">int</tspan> <tspan style="fill:#dcdcaa">main</tspan>() {</text>
+  <text x="80" y="188" class="tm">cout &lt;&lt; <tspan style="fill:#ce9178">"Hello from Linux!"</tspan> &lt;&lt; endl;</text>
+  <text x="80" y="206" class="tm">...</text>
+  <rect x="34" y="216" width="200" height="22" fill="#2563eb"/>
+  <text x="44" y="232" style="font-size:12px;fill:#fff">⇄ Container (cssskl342)</text>
+  <text x="34" y="258" class="small">The window, keyboard, and screen are on your computer.</text>
+  <text x="34" y="275" class="small">The bottom-left label says what it is connected to.</text>
+
+  <!-- HARD DRIVE -->
+  <rect x="34" y="296" width="400" height="430" rx="12" fill="#ffffff" stroke="#64748b" stroke-width="1.5"/>
+  <rect x="52" y="312" width="26" height="18" rx="3" fill="#cbd5e1"/><circle cx="72" cy="321" r="2.5" fill="#475569"/>
+  <text x="88" y="327" class="h2">Your hard drive</text>
+  <text x="54" y="362" class="mono">C:\Users\you\</text>
+  <text x="180" y="362" class="small">= $HOME   (Mac: /Users/you/)</text>
+  <text x="76" y="392" class="mono grey">├─ Desktop\  Documents\  …</text>
+  <rect x="68" y="404" width="354" height="150" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="76" y="428" class="mono green">└─ CSSSKL342\</text>
+  <text x="98" y="458" class="mono">└─ hello\</text>
+  <rect x="142" y="471" width="78" height="24" rx="4" fill="#fef08a" stroke="#ca8a04"/>
+  <text x="120" y="488" class="mono">├─ hello.cpp</text>
+  <text x="120" y="518" class="mono">└─ hello</text>
+  <text x="200" y="518" class="small">(a Linux program)</text>
+  <text x="80" y="545" class="small" style="fill:#15803d">Real files on your disk: safe even if the container is deleted.</text>
+
+  <!-- legend -->
+  <text x="54" y="600" class="small" style="font-weight:700;fill:#0f172a">Legend</text>
+  <rect x="54" y="612" width="22" height="16" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="84" y="625" class="small">Stored on your hard drive (shared with Linux)</text>
+  <rect x="54" y="638" width="22" height="16" rx="3" fill="#f1f5f9" stroke="#94a3b8" stroke-dasharray="3 2"/>
+  <text x="84" y="651" class="small">Only inside the container: lost if it is removed</text>
+  <rect x="54" y="664" width="22" height="16" rx="3" fill="#fef08a" stroke="#ca8a04"/>
+  <text x="84" y="677" class="small">hello.cpp: ONE file, seen under two names</text>
+  <line x1="56" y1="700" x2="76" y2="700" stroke="#15803d" stroke-width="3" marker-start="url(#ag2)" marker-end="url(#ag2)"/>
+  <text x="84" y="704" class="small">Shared folder (the -v option in Pre-Lab step 6)</text>
+
+  <!-- DOCKER DESKTOP -->
+  <rect x="470" y="56" width="704" height="676" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="490" y="86" class="h2" style="fill:#1e3a8a">Docker Desktop</text>
+  <text x="622" y="86" class="sub">runs Linux on your computer</text>
+
+  <!-- image -->
+  <rect x="502" y="108" width="270" height="70" rx="9" fill="#c7d2fe" stroke="#4f46e5"/>
+  <rect x="498" y="104" width="270" height="70" rx="9" fill="#e0e7ff" stroke="#4f46e5"/>
+  <text x="514" y="132" style="font-size:14.5px;font-weight:700">Image: cssimages/linuxlab</text>
+  <text x="514" y="153" class="small">read-only template (Pre-Lab step 4)</text>
+  <text x="514" y="168" class="small">like an installer disk: never changes</text>
+  <line x1="634" y1="178" x2="634" y2="224" stroke="#4f46e5" stroke-width="2.5" marker-end="url(#ak)"/>
+  <text x="646" y="216" class="small" style="fill:#4f46e5;font-weight:600">docker run <tspan style="font-weight:400">creates it (Pre-Lab step 6, once)</tspan></text>
+
+  <!-- CONTAINER -->
+  <rect x="494" y="226" width="652" height="484" rx="12" fill="#ffffff" stroke="#1d4ed8" stroke-width="2.5"/>
+  <text x="512" y="254" class="h2">Container cssskl342</text>
+  <text x="680" y="254" class="sub">your own running Linux machine (Rocky Linux)</text>
+
+  <text x="514" y="292" class="mono">/</text>
+  <text x="530" y="318" class="mono">└─ home/cssuwbstudent/</text>
+  <text x="712" y="318" class="small">(~, your Linux home)</text>
+  <text x="552" y="344" class="mono grey">├─ .vscode-server/</text>
+  <rect x="571" y="356" width="168" height="22" rx="4" fill="#f1f5f9" stroke="#94a3b8" stroke-dasharray="3 2"/>
+  <text x="552" y="372" class="mono" style="fill:#64748b">├─ notes.txt</text>
+  <text x="668" y="371" class="small" style="font-size:11px">only in here</text>
+  <rect x="544" y="384" width="324" height="148" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <text x="552" y="408" class="mono green">└─ CSSSKL342/</text>
+  <text x="574" y="438" class="mono">└─ hello/</text>
+  <rect x="618" y="451" width="78" height="24" rx="4" fill="#fef08a" stroke="#ca8a04"/>
+  <text x="596" y="468" class="mono">├─ hello.cpp</text>
+  <text x="596" y="498" class="mono">└─ hello</text>
+  <text x="560" y="524" class="small" style="fill:#15803d">= C:\Users\you\CSSSKL342 on your hard drive</text>
+
+  <!-- tools + server -->
+  <rect x="890" y="276" width="236" height="96" rx="9" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="906" y="300" style="font-size:14px;font-weight:700">Linux tools</text>
+  <text x="906" y="324" class="mono" style="font-size:13px">g++  make  gdb</text>
+  <text x="906" y="346" class="mono" style="font-size:13px">valgrind  cppcheck</text>
+  <text x="906" y="364" class="small" style="font-size:11px">came with the image</text>
+
+  <rect x="890" y="392" width="236" height="110" rx="9" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="906" y="416" style="font-size:14px;font-weight:700">VS Code Server</text>
+  <text x="906" y="438" class="small">installed on the first Attach</text>
+  <text x="906" y="456" class="small">opens and saves files,</text>
+  <text x="906" y="474" class="small">runs the terminal and the</text>
+  <text x="906" y="492" class="small">C/C++ extension, in Linux</text>
+
+  <!-- terminal -->
+  <text x="514" y="560" class="small" style="font-weight:600;fill:#0f172a">VS Code's terminal: a bash shell in Linux</text>
+  <rect x="514" y="568" width="612" height="122" rx="8" fill="#1e1e1e"/>
+  <text x="528" y="594" class="tm">[cssuwbstudent@cssskl342 hello]$ g++ -std=c++17 -Wall -Wextra hello.cpp -o hello</text>
+  <text x="528" y="620" class="tm">[cssuwbstudent@cssskl342 hello]$ ./hello</text>
+  <text x="528" y="646" class="tm" style="fill:#86efac">Hello from Linux!</text>
+  <text x="528" y="672" class="tm">[cssuwbstudent@cssskl342 hello]$ <tspan style="fill:#94a3b8">▌</tspan></text>
+
+  <!-- SHARED FOLDER bridge -->
+  <path d="M428,478 C476,478 488,458 538,458" fill="none" stroke="#15803d" stroke-width="6" marker-start="url(#ag)" marker-end="url(#ag)"/>
+  <rect x="436" y="428" width="80" height="20" rx="10" fill="#15803d"/>
+  <text x="476" y="442" text-anchor="middle" style="font-size:12px;font-weight:700;fill:#fff">shared (-v)</text>
+
+  <!-- ATTACH arrow -->
+  <path d="M424,192 L1158,192 L1158,447 L1132,447" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-dasharray="7 4" marker-end="url(#ab)"/>
+  <text x="790" y="186" class="blue" style="font-size:12.5px">Attach Visual Studio Code (Pre-Lab step 7)</text>
+</svg>

@@ -31,3 +31,21 @@
 *.out
 *.app
 *.zip
+# ...except the starter code that the lab pages link to
+!Lab[1-5]/Lab[1-5]-starter.zip
+
+# Python caches (the _build scripts)
+__pycache__/
+*.pyc
+
+# Claude Code: instructions, settings, and working notes -- never committed
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+STATUS.md
+
+# OS / editor clutter
+Thumbs.db
+desktop.ini
+.DS_Store
+~$*

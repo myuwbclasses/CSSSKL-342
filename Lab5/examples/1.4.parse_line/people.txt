@@ -1,0 +1,4 @@
+Ada 36 1.65
+Linus   54   1.80
+Grace sixty 1.60
+Alan 41 1.75

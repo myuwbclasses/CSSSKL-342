@@ -1,0 +1,4 @@
+A stack is a list where you add and remove at the top.
+A queue is a list where you add at the back and remove at the front.
+Stack, queue, list: each one is an ADT, and each ADT
+can be built from an array or from linked nodes.

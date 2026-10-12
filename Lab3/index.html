@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 3 · Pointers, Arrays, and Dynamic Memory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lab.css">
+</head>
+<body>
+<div class="layout">
+
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Lab 3</div>
+    <a href="#before">Before lab</a>
+    <a href="#schedule">Schedule</a>
+    <details>
+      <summary title="Show or hide the sections of Part 1"><a href="#part1">1. Pointers</a></summary>
+      <a href="#p1-lecture" class="sub">Lecture: addresses</a>
+      <a href="#p1-symbols" class="sub">&amp; and * at a glance</a>
+      <a href="#p1-amp" class="sub">Context of &amp;</a>
+      <a href="#p1-star" class="sub">Context of *</a>
+      <a href="#ex1" class="sub">Exercise 1: pointers</a>
+      <a href="#p1-solution" class="sub">Walkthrough 1</a>
+      <a href="#p1-selftest" class="sub">Self-test</a>
+      <a href="#p1-quiz" class="sub">Section quiz</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of Part 2"><a href="#part2">2. Arrays</a></summary>
+      <a href="#p2-lecture" class="sub">Lecture: arrays are memory</a>
+      <a href="#ex2" class="sub">Exercise 2: arrays</a>
+      <a href="#p2-solution" class="sub">Walkthrough 2</a>
+      <a href="#p2-selftest" class="sub">Self-test</a>
+      <a href="#p2-quiz" class="sub">Section quiz</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of Part 3"><a href="#part3">3. Dynamic memory</a></summary>
+      <a href="#p3-lecture" class="sub">Lecture: new and delete</a>
+      <a href="#ex3" class="sub">Exercise 3: new[], valgrind</a>
+      <a href="#p3-solution" class="sub">Walkthrough 3</a>
+      <a href="#p3-selftest" class="sub">Self-test</a>
+      <a href="#p3-quiz" class="sub">Section quiz</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of Part 4"><a href="#part4">4. Linked nodes</a></summary>
+      <a href="#p4-lecture" class="sub">Lecture: chains of nodes</a>
+      <a href="#ex4" class="sub">Exercise 4: node functions</a>
+      <a href="#p4-solution" class="sub">Walkthrough 4</a>
+      <a href="#p4-selftest" class="sub">Self-test</a>
+      <a href="#p4-quiz" class="sub">Section quiz</a>
+    </details>
+    <a href="#submit">What to submit</a>
+    <a href="#takeaways">Takeaways</a>
+    <div class="label" style="margin-top:24px">Reference</div>
+    <a href="../reference/linux.html">Linux commands</a>
+    <a href="../reference/gdb.html">gdb commands</a>
+    <div class="label" style="margin-top:24px">Files</div>
+    <a href="Lab3-starter.zip">⬇ Starter code (.zip)</a>
+    <a href="Lab3-Slides.pptx">⬇ Lecture slides (.pptx)</a>
+    <div class="label" style="margin-top:24px">Labs</div>
+    <a href="../Pre-Lab/index.html">Pre-Lab: set up your computer</a>
+    <a href="../Lab1/index.html">Lab 1</a>
+    <a href="../Lab2/index.html">Lab 2</a>
+    <a href="index.html" aria-current="page" style="color:var(--text);font-weight:600">Lab 3 (this page)</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">CSS SKL 342 · Lab 3</div>
+      <h1>Pointers, Arrays, and Dynamic Memory</h1>
+      <p>Work directly with addresses, see what a C++ array really is (a block of memory, with no length and no bounds checking), allocate and release memory yourself, and build a chain of linked nodes. The array-based and linked bags, stacks, and lists you'll write in CSS 342, the course this lab supports, are built from exactly these pieces.</p>
+      <div class="hero-links">
+        <a class="btn" href="#schedule">Schedule</a>
+        <a class="btn" href="#p1-symbols">&amp; and * at a glance</a>
+        <a class="btn" href="#submit">What to submit</a>
+        <a class="btn" href="Lab3-starter.zip">⬇ Starter code</a>
+        <a class="btn" href="Lab3-Slides.pptx">⬇ Slides</a>
+      </div>
+    </header>
+
+    <section id="before">
+      <h2>Before lab</h2>
+      <div class="card">
+        <ol class="steps">
+          <li>Finish Lab 2. This lab uses structs and classes, constructors, destructors, and <code>const</code>.</li>
+          <li>Check that <code>valgrind --version</code> runs in your Linux environment. You'll use it in every exercise from now on.</li>
+          <li>Download the starter code, <a href="Lab3-starter.zip">Lab3-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder, so you have <span class="path">CSSSKL342/Lab3/exercises/</span>, with one folder per exercise, and <span class="path">CSSSKL342/Lab3/examples/</span> (the lecture examples) (the same way as in Lab 1). That <span class="path">Lab3</span> folder is what you zip and submit.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="schedule">
+      <h2>Schedule</h2>
+      <div class="tbl tbl-scroll">
+        <table class="schedule">
+          <thead>
+            <tr><th>Topic</th><th>Block</th><th>Time</th><th>Length</th><th>Activity</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part1"><span class="num">1</span>Pointers</a><small><code>&amp;</code>, <code>*</code>, <code>nullptr</code>, <code>-&gt;</code>, the many jobs of <code>&amp;</code> and <code>*</code></small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">1:15</td><td class="time">25 min</td><td><a href="#p1-lecture">Addresses and pointers</a>; <a href="#p1-symbols">&amp; and * at a glance</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:40</td><td class="time">20 min</td><td><a href="#ex1">Exercise 1: pointer basics</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:00</td><td class="time">10 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part2"><span class="num">2</span>Arrays</a><small>contiguous memory, pointer arithmetic, no bounds checking</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">2:10</td><td class="time">15 min</td><td><a href="#p2-lecture">Arrays are memory</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:25</td><td class="time">30 min</td><td><a href="#ex2">Exercise 2: arrays and pointers</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:55</td><td class="time">10 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
+          </tbody>
+          <tbody class="break">
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">3:05</td><td class="time">10 min</td><td></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part3"><span class="num">3</span>Dynamic memory</a><small><code>new</code>/<code>delete</code>, <code>new[]</code>/<code>delete[]</code>, valgrind</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:15</td><td class="time">15 min</td><td><a href="#p3-lecture">The heap: new and delete</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:30</td><td class="time">25 min</td><td><a href="#ex3">Exercise 3: dynamic arrays and memory bugs</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:55</td><td class="time">10 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part4"><span class="num">4</span>Linked nodes</a><small>building, walking, and freeing a chain</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">4:05</td><td class="time">15 min</td><td><a href="#p4-lecture">Chains of nodes</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:20</td><td class="time">35 min</td><td><a href="#ex4">Exercise 4: node functions</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:55</td><td class="time">10 min</td><td><a href="#p4-solution">Walkthrough 4</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr><td class="topic"><a href="#submit">Catch-up and wrap-up</a><small>finish, package, review</small></td><td><span class="tag solution">Wrap-up</span></td><td class="time">5:05</td><td class="time">10 min</td><td>Finish any exercise, build your <a href="#submit">submission zip</a>, and review the <a href="#takeaways">takeaways</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <span class="title">Self-checks</span>
+        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. Everything is submitted together as one zip at the end (see <a href="#submit">What to submit</a>).
+      </div>
+    </section>
+
+    <!-- ============================== PART 1 ============================== -->
+    <section id="part1">
+      <div class="part-head">
+        <div class="part-num">1</div>
+        <div><h2>Pointers</h2><div class="sub">addresses, dereferencing, nullptr, pointers to structs, the jobs of &amp; and *</div></div>
+      </div>
+
+      <div class="card lecture" id="p1-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Addresses and pointers</h3><span class="mins">25 min</span></div>
+        <p class="why">Java hides addresses: every object variable is a reference the language manages for you. C++ lets you hold an address yourself, in a pointer, and that is how you reach memory you allocate while the program runs and how you build structures that grow and change shape, such as linked lists and trees. Pointers are also the most common cause of C++ crashes, so it pays to be exact about what <code>&amp;</code> and <code>*</code> mean.</p>
+        <ul>
+          <li><b>A pointer holds an address.</b> <code>int *p = &amp;a;</code>: <code>&amp;a</code> is "the address of <code>a</code>", and <code>p</code> stores it.</li>
+          <li><b>Dereference with <code>*</code>:</b> <code>*p</code> is "the int that <code>p</code> points to". <code>*p = 7;</code> changes <code>a</code>.</li>
+          <li><b><code>nullptr</code></b> means "points at nothing". Dereferencing it crashes the program (<code>Segmentation fault</code>); gdb's <code>bt</code> shows the line (<a href="../reference/gdb.html#gdb-crash">After a crash</a>). An uninitialized pointer is worse: it points somewhere random.</li>
+          <li><b>Pointers to structs and objects:</b> <code>p-&gt;x</code> is short for <code>(*p).x</code>.</li>
+          <li><b>Pointer or reference parameter?</b> Both let a function change the caller's variable. Use a reference unless "nothing" (<code>nullptr</code>) is a valid value, or the pointer itself must be moved to point elsewhere, as in linked nodes.</li>
+          <li><b>Spacing doesn't matter:</b> <code>int *p</code>, <code>int* p</code>, and <code>int * p</code> are the same. This page writes <code>int *p</code>, with the <code>*</code> next to the name, as Carrano does; the next bullet shows why.</li>
+          <li><b>In <code>int* p, r;</code>, what type is <code>r</code>?</b> A plain <code>int</code>, not a pointer. The <code>*</code> belongs to the name right after it, not to the type, even though writing <code>int* p</code> makes it look that way, so the line means <code>int *p; int r;</code>. Try <code>r = &amp;a;</code> and g++ says <code>invalid conversion from 'int*' to 'int'</code>. For two pointers write <code>int *p, *r;</code>, or better, declare one pointer per line.</li>
+        </ul>
+<pre><code>int a = 5;
+int *p = &amp;a;          // p holds a's address
+int *q(&amp;a);           // the same, initialized with ( ): q also holds a's address
+*p = 7;               // a is now 7 (so *q is 7 too)
+int *none = nullptr;  // points at nothing
+Point pt = {1, 2};
+Point *pp = &amp;pt;
+pp-&gt;x = 10;           // same as (*pp).x = 10</code></pre>
+        <div class="callout java"><span class="title">Coming from Java</span>Every Java object variable is secretly a pointer: <code>Node n = head;</code> copies an address, and <code>null</code> is <code>nullptr</code>. C++ makes that explicit, lets you point at any variable (including <code>int</code>s), and lets you get it wrong.</div>
+
+        <h4 id="p1-symbols">&amp; and * at a glance: one symbol, several jobs</h4>
+        <p>The rule that sorts most of it out: <b>in a declaration</b> (where a name is introduced: a variable, a parameter, a return type), <code>&amp;</code> means <i>reference</i> and <code>*</code> means <i>pointer</i>. <b>In a statement</b> (code that runs), <code>&amp;</code> means <i>the address of</i> and <code>*</code> means <i>follow the pointer</i>. The two tables below line them up. Both assume:</p>
+<pre><code>DataType aVar(proper_value);   // properly initialized
+DataType *aPtr(&amp;aVar);         // properly initialized: aPtr points to aVar</code></pre>
+
+        <div class="tbl-caption">Declarations: reference <code>&amp;</code> vs. pointer <code>*</code> <span>(both appear in variable and function declarations)</span></div>
+        <div class="tbl tbl-scroll">
+          <table class="pairs">
+            <thead><tr><th>Reference: <code>&amp;</code></th><th>Pointer: <code>*</code></th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>DataType &amp;r(aVar);</code><span class="why">A variable: <code>r</code> is another name for <code>aVar</code>. Always initialized, and can't be changed to refer to anything else afterwards.</span></td>
+                <td><code>DataType *bPtr(aPtr);</code><span class="why">A variable: <code>bPtr</code> is a pointer to <code>DataType</code>, starting with <code>aPtr</code>'s address. It can be changed to point elsewhere later.</span></td>
+              </tr>
+              <tr>
+                <td><code>DataType &amp;MyFunc();</code><span class="why">Return type: the function returns a reference (never to one of its own locals).</span></td>
+                <td><code>DataType* MyFunc();</code><span class="why">Return type: the function returns a pointer (never to one of its own locals).</span></td>
+              </tr>
+              <tr>
+                <td><code>void YourFunc(DataType &amp;v);</code><span class="why">Parameter: pass by reference, typically so the function can change the caller's variable.</span></td>
+                <td><code>void YourFunc(DataType *v);</code><span class="why">Parameter: pass a pointer; the function can change <code>*v</code>. The caller passes an address: <code>YourFunc(&amp;aVar)</code>.</span></td>
+              </tr>
+              <tr>
+                <td><code>void HerFunc(const DataType &amp;v);</code><span class="why">Parameter: for reading but not changing, without the cost of a copy.</span></td>
+                <td><code>void HerFunc(const DataType *v);</code><span class="why">Parameter: for reading <code>*v</code> but not changing it.</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tbl-caption">Statements: address <code>&amp;</code> vs. dereferencing <code>*</code> <span>(both appear in code that runs)</span></div>
+        <div class="tbl tbl-scroll">
+          <table class="pairs">
+            <thead><tr><th>Address: <code>&amp;</code></th><th>Dereferencing: <code>*</code></th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>DataType *aPtr = &amp;aVar;</code><span class="why">A pointer initialized with the address of <code>aVar</code>. (The <code>*</code> here is a declaration: the table above.)</span></td>
+                <td><code>DataType bVar = *aPtr;</code><span class="why"><code>bVar</code> is initialized with the value <code>aPtr</code> points to.</span></td>
+              </tr>
+              <tr>
+                <td><code>aPtr = &amp;aVar;</code><span class="why">Assigns the address of <code>aVar</code> to <code>aPtr</code>.</span></td>
+                <td><code>bVar = *aPtr;</code><span class="why">Assigns the value <code>aPtr</code> points to to <code>bVar</code>.</span></td>
+              </tr>
+              <tr>
+                <td><code>&amp;aVar = ...;</code><span class="why bad">Not legal: the address of a variable can't be changed (<code>error: lvalue required as left operand of assignment</code>).</span><span class="why">An address can go anywhere a value can, <code>f(&amp;aVar)</code> or <code>aPtr == &amp;aVar</code>, just never on the left of <code>=</code>.</span></td>
+                <td><code>*aPtr = aVar;</code><span class="why">Legal: the variable <code>aPtr</code> points to receives <code>aVar</code>'s value. A dereference <i>can</i> be on the left of <code>=</code>.</span></td>
+              </tr>
+              <tr>
+                <td><code>return &amp;aVar;</code><span class="why">Returns the address of <code>aVar</code>.</span><span class="why bad">If <code>aVar</code> is a local of that function, the address dangles: it's gone when the function returns.</span></td>
+                <td><code>return *aPtr;</code><span class="why">Returns the value <code>aPtr</code> points to.</span><span class="why bad"><code>aPtr</code> must point at something that is still alive.</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Example: <a href="examples/1.1.amp_and_star/amp_star.cpp">1.1.amp_and_star/amp_star.cpp</a> uses every row of both tables in one small program; its <a href="examples/1.1.amp_and_star/README.txt">README.txt</a> shows the output and the error from <code>&amp;aVar = ...</code>.</p>
+
+        <h4 id="p1-amp">Context and meaning of <code>&amp;</code></h4>
+        <p>The tables above pair <code>&amp;</code> with <code>*</code>. When you're reading code and meet a <code>&amp;</code>, ask where it is: <b>after a type</b> (a declaration), <b>in front of a single value</b>, or <b>between two values</b>.</p>
+        <div class="tbl tbl-scroll">
+          <table>
+            <thead><tr><th style="width:200px">Where you see it</th><th style="width:230px">Example</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td>After a type, in a declaration (variable, parameter, return type)</td><td><code>DataType &amp;t = aVar;</code><br><code>void f(DataType &amp;v);</code><br><code>DataType &amp;f();</code></td><td><b>Reference</b>: another name for an existing variable.</td></tr>
+              <tr><td>In front of one variable, in a statement</td><td><code>aPtr = &amp;t;</code><br><code>f(&amp;aVar);</code></td><td><b>Address of</b> that variable.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details class="os">
+          <summary>More places you'll see <code>&amp;</code> (for information)</summary>
+          <div class="tbl tbl-scroll" style="margin:0;border:none;border-radius:0">
+            <table>
+              <colgroup><col style="width:200px"><col style="width:230px"><col></colgroup>
+              <tbody>
+                  <tr><td>Between two integer values</td><td><code>a &amp; b</code><br><code>a &amp;= b;</code></td><td><b>Bitwise AND</b>: <code>6 &amp; 3</code> is <code>2</code>. Rare in CSS 342.</td></tr>
+                  <tr><td>Doubled, between two conditions</td><td><code>a &amp;&amp; b</code></td><td><b>Logical AND</b>.</td></tr>
+                  <tr><td>Doubled, after a type, in a declaration</td><td><code>void f(DataType &amp;&amp;v);</code></td><td><b>Rvalue reference</b>, used for "moving" objects. Recognize it; you won't need to write one for CSS 342.</td></tr>
+                  <tr><td>In square brackets, starting a lambda</td><td><code>[&amp;](int k) { ... }</code></td><td>The lambda uses the surrounding variables <b>by reference</b>. You'll meet lambdas later.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <h4 id="p1-star">Context and meaning of <code>*</code></h4>
+        <p>The same three questions sort out <code>*</code>.</p>
+        <div class="tbl tbl-scroll">
+          <table>
+            <thead><tr><th style="width:200px">Where you see it</th><th style="width:230px">Example</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td>After a type, in a declaration (variable, parameter, return type)</td><td><code>DataType *p = &amp;aVar;</code><br><code>void f(DataType *v);</code><br><code>DataType* f();</code><br><code>int **pp;</code></td><td><b>Pointer</b>: holds an address. Two stars, a pointer to a pointer.</td></tr>
+              <tr><td>In front of one pointer, in a statement</td><td><code>x = *p;</code><br><code>*p = 7;</code><br><code>return *this;</code></td><td><b>Dereference</b>: the variable the pointer points to, on either side of <code>=</code>. (An iterator <code>it</code> is dereferenced the same way, <code>*it</code>; you'll meet iterators later.)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <details class="os">
+          <summary>More places you'll see <code>*</code> (for information)</summary>
+          <div class="tbl tbl-scroll" style="margin:0;border:none;border-radius:0">
+            <table>
+              <colgroup><col style="width:200px"><col style="width:230px"><col></colgroup>
+              <tbody>
+                  <tr><td>Between two values</td><td><code>a * b</code><br><code>a *= b;</code></td><td><b>Multiplication</b>. <code>*p * 2</code> is "the value <code>p</code> points to, times 2": the first <code>*</code> dereferences, the second multiplies.</td></tr>
+                  <tr><td>Between <code>/</code>s</td><td><code>/* comment */</code></td><td>Not an operator at all: a comment.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+        <div class="callout warn"><span class="title">Watch the precedence: <code>*p++</code></span><code>*p++</code> means <code>*(p++)</code>: it gives the value <code>p</code> points to, then moves <code>p</code> to the next element. To add one to the value instead, write <code>(*p)++</code>. When in doubt, add parentheses.</div>
+
+        <div class="tbl-caption">More pointer details <span>(and two other symbols with two jobs)</span></div>
+        <div class="tbl tbl-scroll">
+          <table>
+            <thead><tr><th style="width:150px">You see</th><th>It means</th></tr></thead>
+            <tbody>
+              <tr><td><code>p-&gt;m</code></td><td>The member <code>m</code> of the object <code>p</code> points to: exactly <code>(*p).m</code>.</td></tr>
+              <tr><td><code>*this</code></td><td>Inside a member function, <code>this</code> is a pointer to the current object, so <code>*this</code> <i>is</i> the object. That's Lab 2's <code>return *this;</code>: with a reference return type (<code>Rational&amp;</code>), it hands back the object itself, not a copy.</td></tr>
+              <tr><td><code>int **pp</code></td><td>A pointer to a pointer. <code>*pp</code> is the pointer it points to; <code>**pp</code> follows both.</td></tr>
+              <tr><td><code>const int *p</code><br><code>int *const p</code></td><td>Read right to left. <code>const int *p</code>: a pointer to a const int; you can't change the int through <code>p</code>, but <code>p</code> can move. <code>int *const p</code>: a const pointer; the int can change, <code>p</code> can't move. Example: <a href="examples/1.2.const_and_pointers/const_ptr.cpp">1.2.const_and_pointers/const_ptr.cpp</a>, with both compiler errors in its <a href="examples/1.2.const_and_pointers/README.txt">README.txt</a>.</td></tr>
+              <tr><td><code>int a[5];</code><br><code>a[i]</code></td><td><code>[]</code> has two jobs too: in a declaration it gives the size; in a statement it indexes, and <code>a[i]</code> is defined as <code>*(a + i)</code> (Part 2).</td></tr>
+              <tr><td><code>cout &lt;&lt; x</code><br><code>1 &lt;&lt; 3</code></td><td><code>&lt;&lt;</code> and <code>&gt;&gt;</code>: stream output and input when the left side is a stream (you overloaded <code>&lt;&lt;</code> in Lab 2); bit shifts between integers (<code>1 &lt;&lt; 3</code> is <code>8</code>).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card handson" id="ex1">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 1: Pointer basics</h3><span class="mins">20 min</span></div>
+        <p>Folder: <span class="path">Lab3/exercises/ex1-pointers/</span>.</p>
+        <ol class="steps">
+          <li>Run <code>make</code>. <code>pointers.cpp</code> doesn't compile. Fix the <i>call</i> that's wrong, not the function.</li>
+          <li>Complete TODO 5: print <code>a</code>, <code>&amp;a</code>, <code>p</code>, <code>*p</code>, and <code>&amp;p</code>.</li>
+          <li>Complete TODOs 1–4: <code>setThroughPointer</code>, <code>swapThroughPointers</code>, <code>largerOf</code> (returns a pointer to whichever of two ints is larger), and <code>movePoint</code> (use <code>-&gt;</code>).</li>
+          <li>TODO 6: call <code>showThroughPointer(nothing)</code> and run. Then run it in gdb (<code>gdb ./pointers</code>, <code>run</code>, <code>bt</code>) to see which line crashed. Remove the call again.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that the output, including the five address/value lines, is what you expect, and that you can explain each line.</div>
+      </div>
+
+      <div class="card solution" id="p1-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">10 min</span></div>
+        <p>A memory diagram of <code>a</code>, <code>p</code>, and their addresses; <code>largerOf</code> returning a pointer to one of the caller's variables; the segmentation fault from <code>nullptr</code> (exit code 139) and gdb's <code>bt</code>; Q6 against the <a href="#p1-symbols">&amp; and * tables</a>.</p>
+      </div>
+
+      <div class="review" id="p1-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li>After <code>int x = 3; int *p = &amp;x; int **pp = &amp;p; **pp = 9;</code>, what is <code>x</code>?
+            <details><summary>Show answer</summary><p>9. <code>pp</code> points to <code>p</code>, so <code>*pp</code> is <code>p</code>, and <code>**pp</code> is <code>*p</code>, which is <code>x</code>.</p></details>
+          </li>
+          <li>What is wrong with <code>int *p; *p = 5;</code>?
+            <details><summary>Show answer</summary><p><code>p</code> is uninitialized, so it holds a random address, and <code>*p = 5</code> writes 5 there: undefined behavior that may crash now, later, or never. Always initialize a pointer, to a real address or to <code>nullptr</code>.</p></details>
+          </li>
+          <li>In <code>int* a, b;</code>, what are the types of <code>a</code> and <code>b</code>?
+            <details><summary>Show answer</summary><p><code>a</code> is <code>int*</code> but <code>b</code> is a plain <code>int</code>: the <code>*</code> belongs to each name, not to the type. Declare one pointer per line.</p></details>
+          </li>
+          <li>With <code>Point *pp = &amp;pt;</code>, write two expressions for <code>pt</code>'s <code>x</code> that use <code>pp</code>.
+            <details><summary>Show answer</summary><p><code>pp-&gt;x</code> and <code>(*pp).x</code>. The parentheses matter: <code>*pp.x</code> means <code>*(pp.x)</code>, which doesn't compile.</p></details>
+          </li>
+          <li>In <code>int n = 4; int &amp;r = n; int *p = &amp;r; *p = *p * 2;</code>, name the job of each <code>&amp;</code> and <code>*</code>. What is <code>n</code> at the end?
+            <details><summary>Show answer</summary><p><code>int &amp;r</code>: reference (declaration). <code>&amp;r</code>: address of (statement); since <code>r</code> is another name for <code>n</code>, it's <code>n</code>'s address. <code>int *p</code>: pointer (declaration). In <code>*p = *p * 2</code>, both <code>*p</code> are dereferences and the middle <code>*</code> is multiplication. <code>n</code> is 8.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p1-quiz" data-quiz="Lab 3 Exercise 1 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 1 available on Canvas as the quiz <b>Lab 3 Exercise 1 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PART 2 ============================== -->
+    <section id="part2">
+      <div class="part-head">
+        <div class="part-num">2</div>
+        <div><h2>Arrays</h2><div class="sub">one contiguous block of memory: no length, no bounds checking, pointer arithmetic</div></div>
+      </div>
+
+      <div class="card lecture" id="p2-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Arrays are memory</h3><span class="mins">15 min</span></div>
+        <p class="why">An array is the simplest and fastest container: elements side by side in memory, each reached by its index in one step. Underneath <code>vector</code>, <code>string</code>, and the array-based containers you'll write for CSS 342 is a plain C++ array. Unlike a Java array, it carries no length and checks no index, so knowing what it is in memory is how you avoid writing past its end.</p>
+        <ul>
+          <li><b>An array is one contiguous block of elements, side by side.</b> <code>int a[8];</code> sets aside 8 &times; 4 = 32 bytes, and that's all it is: no length stored anywhere, and no check on the index you use. The size must be a constant; a size known only at run time needs <code>new[]</code> (Part 3).</li>
+          <li><b>The array's name is the address of its first element.</b> Used in an expression, <code>a</code> becomes <code>&amp;a[0]</code>, so <code>int *p = a;</code> works. (One difference: <code>sizeof(a)</code> is the whole block, 32, while <code>sizeof(p)</code> is the size of an address, 8.)</li>
+          <li><b>Indexing is pointer arithmetic:</b> <code>a[i]</code> is defined as <code>*(a + i)</code>, and <code>p + 1</code> moves one <i>element</i> (4 bytes for an <code>int</code>), not one byte. You can walk an array with a pointer: <code>for (int *q = a; q &lt; a + 8; q++)</code>.</li>
+          <li><b>An index can be negative.</b> <code>p[i]</code> means <code>*(p + i)</code> for any pointer, so from <code>int *p = &amp;(a[5]);</code>, <code>p[-2]</code> is <code>a[3]</code>. Negative indexes only make sense from a pointer into the middle; <code>a[-1]</code> is outside the array. Example: <a href="examples/2.1.index_is_pointer_arithmetic/index.cpp">2.1.index_is_pointer_arithmetic/index.cpp</a> shows both, with its output and a picture in <a href="examples/2.1.index_is_pointer_arithmetic/README.txt">README.txt</a>.</li>
+          <li><b>Bounds are not checked or protected.</b> <code>a[8]</code> and <code>a[-1]</code> compile and run: reading gives whatever happens to be there, and writing silently overwrites a neighbor. No exception, no message, and for a local array like this one, not even valgrind notices.</li>
+          <li><b>Passing an array passes only its address.</b> <code>void f(int values[])</code> means exactly <code>void f(int *values)</code>: the function can't know the length, so always pass a count too.</li>
+          <li><b>Arrays of objects:</b> <code>Point pts[3];</code> creates three real <code>Point</code> objects, side by side, the moment the array is created; elements without an initializer get the default constructor. <code>pts[1] = Point(7, 8);</code> sets an element. Example: <a href="examples/2.2.array_of_objects/objects.cpp">2.2.array_of_objects/objects.cpp</a> prints every constructor call; see its <a href="examples/2.2.array_of_objects/README.txt">README.txt</a>.</li>
+          <li><b>2D arrays:</b> <code>int a[2][3];</code> is 2 rows of 3 ints, stored as <i>one</i> block of 6 ints, row after row. Set them with <code>int a[2][3] = {{1, 2, 3}, {4, 5, 6}};</code> or one at a time, <code>a[1][2] = 60;</code> (row 1, column 2), and walk them with nested loops. A <b>pointer to pointer</b>, <code>int **p</code>, is a different layout: <code>p</code> points to a pointer, which points to the actual ints. So <code>int **p(a);</code> does <i>not</i> compile (<code>a</code> holds ints, not pointers), but with an array of row pointers in the middle, it does:
+<pre><code>int *rows[2] = {a[0], a[1]};   // one pointer to the start of each row
+int **p(rows);                 // legal: p points to rows[0]
+
+     p                rows                 the ints (a: one block)
+  +-----+          +-----+            +----+----+----+
+  |  o--+--------&gt; |  o--+----------&gt; |  1 |  2 |  3 |   a[0]
+  +-----+          +-----+            +----+----+----+
+                   |  o--+----------&gt; |  4 |  5 | 60 |   a[1]
+                   +-----+            +----+----+----+
+   int **          int *[2]                 int
+
+p[1][2]:  p -&gt; rows[1] -&gt; 60</code></pre>
+            Example: <a href="examples/2.3.array_2d/array2d.cpp">2.3.array_2d/array2d.cpp</a>, with the compiler error for <code>int **p(a);</code> in its <a href="examples/2.3.array_2d/README.txt">README.txt</a>.</li>
+        </ul>
+<pre><code>int a[8] = {10, 11, 12, 13, 14, 15, 16, 17};
+int *p = &amp;(a[5]);     // p points into the middle: *p is 15
+p[1];                 // 16: same as *(p + 1), a[6]
+p[-2];                // 13: same as *(p - 2), a[3]
+a[8] = 0;             // compiles and runs: writes past the end, and no one reports it</code></pre>
+        <div class="callout danger"><span class="title">&#9888; Warning: C++ does not check array bounds</span>With <code>int b[4];</code>, the valid indexes are 0 to 3. Yet <code>b[4] = 10;</code> and <code>b[-1] = 5;</code> compile without a warning and run without a crash: they silently overwrite whatever memory is next to <code>b</code>. The damage may show up much later, somewhere else, or never in your tests and then in the grader's. Keeping every index between 0 and size&nbsp;&minus;&nbsp;1 is <b>your</b> job. Example <a href="examples/2.1.index_is_pointer_arithmetic/index.cpp">2.1</a> does exactly this; see its <a href="examples/2.1.index_is_pointer_arithmetic/README.txt">README.txt</a>.</div>
+        <div class="callout java"><span class="title">Coming from Java</span>A Java array is an object that knows its <code>length</code> and checks every index (<code>ArrayIndexOutOfBoundsException</code>). A C++ array is just the elements: you carry the length yourself, and a bad index is your bug to find. And Java's <code>new Point[3]</code> makes three <code>null</code> references, while C++'s <code>Point pts[3];</code> makes three <code>Point</code> objects.</div>
+        <div class="callout info"><span class="title">In your CSS 342 course</span>Carrano's <code>ArrayBag</code> keeps its items in an array plus an <code>itemCount</code>: the count it has to carry because the array can't.</div>
+      </div>
+
+      <div class="card handson" id="ex2">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: Arrays and pointers</h3><span class="mins">30 min</span></div>
+        <p>Folder: <span class="path">Lab3/exercises/ex2-arrays/</span>.</p>
+        <ol class="steps">
+          <li>Run <code>make</code> and read the warning about <code>sizeof</code>: it's there on purpose. (The <code>unused parameter</code> warnings are the empty TODO functions; they go away as you complete them.) Run <code>./arrays</code> and answer Q1. Then delete <code>sizeInside</code> and its call.</li>
+          <li>Complete TODO 1 (count the elements with <code>sizeof</code>; print <code>a</code>, <code>&amp;a[0]</code>, <code>&amp;a[1]</code>, <code>&amp;a[2]</code>) and TODO 2 (<code>int *p = &amp;(a[5]);</code>, then print <code>*p</code>, <code>p[1]</code>, <code>p[-1]</code>, <code>p[-2]</code>, <code>*(p - 2)</code>).</li>
+          <li>Complete TODOs 3–6: <code>sumArray</code>, <code>reverseArray</code>, and <code>findMax</code> (returns a pointer to the largest element) using pointers and no <code>[]</code>, and <code>movePoints</code> on an array of <code>Point</code> objects, using <code>-&gt;</code>.</li>
+          <li>TODO 7: uncomment the loop that runs one step too far, run, and look at <code>r.id</code>. Run it under valgrind too. Then comment the loop out again.</li>
+          <li>Run <code>make check</code> (valgrind): no errors, no leaks.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that the sum is 108, the reversed array is <code>17 16 15 14 13 12 11 10</code>, then <code>0 16 15 14 13 12 11 10</code> after <code>findMax</code>, the points are <code>(11, 12) (13, 14) (10, 10)</code>, <code>r.id</code> is back to 1234, and <code>make check</code> is clean.</div>
+      </div>
+
+      <div class="card solution" id="p2-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">10 min</span></div>
+        <p><code>a</code> drawn as a row of boxes with their addresses, 4 bytes apart; <code>p</code> pointing at <code>a[5]</code>, and <code>p[-2]</code> counted back from it; the two-pointer <code>reverseArray</code>; <code>findMax</code> returning a pointer into the array; TODO 7's off-by-one overwriting <code>r.id</code> with no error from anyone.</p>
+      </div>
+
+      <div class="review" id="p2-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li>After <code>int a[4] = {1, 2, 3, 4}; int *p = a + 1;</code>, what are <code>p[2]</code> and <code>p[-1]</code>?
+            <details><summary>Show answer</summary><p><code>p</code> points to <code>a[1]</code>, so <code>p[2]</code> is <code>a[3]</code>, which is 4, and <code>p[-1]</code> is <code>a[0]</code>, which is 1.</p></details>
+          </li>
+          <li>What does <code>int b[5] = {7};</code> contain?
+            <details><summary>Show answer</summary><p><code>7 0 0 0 0</code>. With an initializer list, elements you leave out are set to zero. Without any initializer (<code>int b[5];</code>), a local array holds garbage.</p></details>
+          </li>
+          <li>In <code>void f(int values[10])</code>, what is <code>sizeof(values)</code>?
+            <details><summary>Show answer</summary><p>8, the size of a pointer. The 10 is ignored: an array parameter is always just a pointer (g++ warns if you take its <code>sizeof</code>).</p></details>
+          </li>
+          <li>Why can't a function tell how long an array it was passed is?
+            <details><summary>Show answer</summary><p>It receives only the address of the first element, and the array stores no length. Pass the length as another parameter.</p></details>
+          </li>
+          <li><code>int scores[3]; scores[3] = 100;</code> What happens?
+            <details><summary>Show answer</summary><p>It compiles and usually runs without complaint, writing 100 into whatever is just past the array: undefined behavior. The valid indexes are 0, 1, and 2.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p2-quiz" data-quiz="Lab 3 Exercise 2 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 2 available on Canvas as the quiz <b>Lab 3 Exercise 2 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PART 3 ============================== -->
+    <section id="part3">
+      <div class="part-head">
+        <div class="part-num">3</div>
+        <div><h2>Dynamic memory</h2><div class="sub">the heap, new/delete, arrays sized at run time, valgrind</div></div>
+      </div>
+
+      <div class="card lecture" id="p3-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>The heap: new and delete</h3><span class="mins">15 min</span></div>
+        <p class="why">A local variable dies at the end of its scope, and a local array's size must be known when you compile. Many programs need memory whose size is only known at run time (room for every line of a file) or that must outlive the function that made it (a node added to a list). The heap provides that memory, but in C++ you, not a garbage collector, decide when it's released, and <code>valgrind</code> checks that you got it right.</p>
+        <ul>
+          <li><b>Locals live on the stack</b> and die at the end of their scope. <b><code>new</code> allocates on the heap</b>, and the memory lives until <i>you</i> <code>delete</code> it, whatever scope you're in.</li>
+          <li><b>Pairs must match:</b> <code>new</code> with <code>delete</code>, <code>new[]</code> with <code>delete[]</code>. Exactly once each.</li>
+          <li><b>Two examples:</b> <a href="examples/3.1.new_and_delete/new_delete.cpp">3.1.new_and_delete/new_delete.cpp</a> puts an array on the stack, an <code>int</code> and a <code>Point</code> on the heap, and arrays on the heap, initialized three ways (<code>new int[4]{10, 20, 30, 40}</code>, <code>new int[n]()</code> for zeros, and <code>new int[n]</code>, garbage until set); passes them to functions; and releases them in <code>main</code> or inside a function. <a href="examples/3.2.dangling_and_leak/mistakes.cpp">3.2.dangling_and_leak/mistakes.cpp</a> creates a dangling pointer and two leaks. Each <a href="examples/3.1.new_and_delete/README.txt">README.txt</a> (and <a href="examples/3.2.dangling_and_leak/README.txt">this one</a>) has the output and what valgrind says.</li>
+          <li><b>Arrays sized at run time:</b> <code>int *a = new int[n];</code> with any <code>n</code>, even one the user typed. <code>a</code> points to the first element, and <code>a[i]</code> works exactly as in Part 2. A function can return such an array: it stays alive until someone <code>delete[]</code>s it, so the caller must know it now owns it.</li>
+          <li><b>Growing an array</b> (an array can't change its size; Carrano's resizable bag does this): allocate a bigger array, copy, <code>delete[]</code> the old one, and re-point.</li>
+          <li><b>After <code>delete</code></b>, set the pointer to <code>nullptr</code>. Deleting <code>nullptr</code> is harmless; deleting twice is not.</li>
+          <li><b>The classic bugs:</b> leak (no <code>delete</code>), double delete, use after <code>delete</code>, <code>delete</code> vs. <code>delete[]</code> mismatch, reading past the end. Most of them look fine when you run the program. <b>valgrind</b> finds them in heap memory (unlike the overrun inside a local variable in Exercise 2, TODO 6):
+<pre><code>valgrind --leak-check=full ./program</code></pre></li>
+        </ul>
+        <div class="callout java"><span class="title">Coming from Java</span>Java's garbage collector frees objects once nothing refers to them. In C++, every <code>new</code> needs a matching <code>delete</code> that you write, or the memory is lost until the program ends.</div>
+      </div>
+
+      <div class="card handson" id="ex3">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 3: Dynamic arrays and memory bugs</h3><span class="mins">25 min</span></div>
+        <p>Folder: <span class="path">Lab3/exercises/ex3-dynamic/</span>.</p>
+        <h4>Part A: arrays on the heap (<code>growing.cpp</code>)</h4>
+        <ol class="steps">
+          <li>Complete <code>makeSquares</code> (TODO 1) and <code>grow</code> (TODO 2) <i>before</i> running: until then, the program follows a <code>nullptr</code> and writes past the end of an array.</li>
+          <li>Release both arrays (TODOs 3 and 4). Run <code>valgrind --leak-check=full ./growing</code> until it reports no errors and no leaks.</li>
+        </ol>
+        <h4>Part B: find the bugs (<code>leaky.cpp</code>)</h4>
+        <ol class="steps">
+          <li>Run <code>./leaky</code>. The output looks right.</li>
+          <li>Run <code>valgrind --leak-check=full ./leaky</code>. Find all three bugs, fix them, and run valgrind again until it's clean.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that valgrind reports <code>ERROR SUMMARY: 0 errors</code> and no leaks for both programs.</div>
+      </div>
+
+      <div class="card solution" id="p3-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 3</h3><span class="mins">10 min</span></div>
+        <p>Reading valgrind output: <code>Invalid read</code>, <code>Mismatched free() / delete / delete []</code>, and <code>definitely lost</code>, each with the line it points to. <code>makeSquares</code> handing its array to the caller; <code>grow</code> drawn as a memory diagram, and why it takes <code>int*&amp;</code>.</p>
+      </div>
+
+      <div class="review" id="p3-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li>What is wrong with <code>int *p = new int[10]; p++; delete[] p;</code>?
+            <details><summary>Show answer</summary><p><code>delete[]</code> must get exactly the pointer that <code>new[]</code> returned. After <code>p++</code>, it points to the second element: undefined behavior. Keep the original pointer; walk with a second one.</p></details>
+          </li>
+          <li>When does this function leak?
+<pre><code>void process() {
+    int *buffer = new int[100];
+    if (!loadData(buffer)) {
+        return;
+    }
+    use(buffer);
+    delete[] buffer;
+}</code></pre>
+            <details><summary>Show answer</summary><p>Whenever <code>loadData</code> fails: the early <code>return</code> skips the <code>delete[]</code>. Every path out of the function must release the memory.</p></details>
+          </li>
+          <li>After <code>delete p;</code>, what does <code>p</code> contain? Is a second <code>delete p;</code> OK?
+            <details><summary>Show answer</summary><p><code>p</code> still holds the old address (it dangles). A second <code>delete p;</code> is a double delete: undefined behavior. If you set <code>p = nullptr;</code> after the first delete, a second delete is harmless.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p3-quiz" data-quiz="Lab 3 Exercise 3 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 3 available on Canvas as the quiz <b>Lab 3 Exercise 3 Quiz</b> (4 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PART 4 ============================== -->
+    <section id="part4">
+      <div class="part-head">
+        <div class="part-num">4</div>
+        <div><h2>Linked nodes</h2><div class="sub">building, walking, changing, and freeing a chain</div></div>
+      </div>
+
+      <div class="card lecture" id="p4-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Chains of nodes</h3><span class="mins">15 min</span></div>
+        <p class="why">An array is one fixed block, so growing it or inserting in the middle means moving or copying everything. A chain of nodes linked by pointers grows one node at a time, and inserting anywhere means changing just a couple of pointers. The linked stacks, queues, lists, and trees in CSS 342 are all built from such nodes, so these pointer patterns come back in almost every assignment.</p>
+        <ul>
+          <li><b>A node</b> holds an item and a pointer to the next node. The last node's <code>next</code> is <code>nullptr</code>. A chain is reached through one pointer, <code>head</code>; an empty chain has <code>head == nullptr</code>.</li>
+          <li><b>Walking a chain:</b> <code>for (const Node *cur = head; cur != nullptr; cur = cur-&gt;next)</code>. Every linked-structure traversal you'll write for CSS 342 is this loop.</li>
+          <li><b>Changing the chain means changing pointers.</b> A function that can change which node is first takes <code>Node *&amp;head</code>.</li>
+          <li><b>Removing a node:</b> find the node <i>before</i> it, re-link around it, then <code>delete</code> it. Removing the first node is a special case: it changes <code>head</code>.</li>
+          <li><b>Freeing a chain:</b> save <code>next</code> before deleting the current node.</li>
+          <li><b>Always check three cases:</b> empty chain, one node, many nodes. And draw boxes and arrows before writing code.</li>
+        </ul>
+<p>Two short examples, everything in <code>main</code> on a hard-coded chain of three nodes, 10 &rarr; 20 &rarr; 30, with a drawing of each step in their README files:</p>
+        <ul>
+          <li><a href="examples/4.1.build_and_walk/build_walk.cpp">4.1.build_and_walk/build_walk.cpp</a> (<a href="examples/4.1.build_and_walk/README.txt">README.txt</a>): build the three nodes and link them, walk the chain with a <code>while</code> loop, and free it.</li>
+          <li><a href="examples/4.2.change_and_remove/change_remove.cpp">4.2.change_and_remove/change_remove.cpp</a> (<a href="examples/4.2.change_and_remove/README.txt">README.txt</a>): remove the second node, remove the first node (where <code>head</code> has to move), and add a node at the front.</li>
+        </ul>
+        <div class="callout info"><span class="title">In your CSS 342 course</span>Carrano's <code>LinkedBag</code>, <code>LinkedStack</code>, and <code>LinkedList</code> use a <code>Node</code> class template with <code>getItem()</code> and <code>getNext()</code>, but the pointer work is exactly what you do here.</div>
+      </div>
+
+      <div class="card handson" id="ex4">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 4: Node functions</h3><span class="mins">35 min</span></div>
+        <p>Folder: <span class="path">Lab3/exercises/ex4-nodes/</span>. <code>pushFront</code> and <code>printChain</code> are done; you write the rest.</p>
+        <ol class="steps">
+          <li>Complete <code>length</code>, <code>contains</code>, <code>pushBack</code>, <code>removeFirst</code>, and <code>deleteChain</code> in <code>nodes.cpp</code>. Draw each one before you write it.</li>
+          <li>Run <code>make</code> and <code>./chain_test</code>, and compare against the comments in <code>chain_test.cpp</code>.</li>
+          <li>Run <code>make check</code> (valgrind). It must report no errors and no leaks.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./chain_test</code>'s output matches the comments, and that <code>make check</code> is clean.</div>
+      </div>
+
+      <div class="card solution" id="p4-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 4</h3><span class="mins">10 min</span></div>
+        <p><code>pushBack</code> and the empty-chain case; <code>removeFirst</code> drawn step by step for the head, a middle node, and the tail; <code>deleteChain</code>'s save-then-delete loop, and what valgrind says without it.</p>
+      </div>
+
+      <div class="review" id="p4-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li>Starting from an empty chain: <code>pushFront(h, 1); pushFront(h, 2); pushBack(h, 3);</code>. What does the chain look like?
+            <details><summary>Show answer</summary><p><code>[2 -&gt; 1 -&gt; 3]</code>.</p></details>
+          </li>
+          <li>What is wrong with this version?
+<pre><code>void pushFront(Node *head, int value) {
+    Node *n = new Node{value, head};
+    head = n;
+}</code></pre>
+            <details><summary>Show answer</summary><p><code>head</code> is passed by value, so <code>head = n</code> changes only the function's copy. The caller's chain doesn't change, and the new node leaks. Take <code>Node *&amp;head</code>.</p></details>
+          </li>
+          <li>What happens if <code>pushBack</code> starts with <code>Node *last = head; while (last-&gt;next != nullptr) ...</code> and the chain is empty?
+            <details><summary>Show answer</summary><p><code>last</code> is <code>nullptr</code>, so <code>last-&gt;next</code> dereferences <code>nullptr</code>: a segmentation fault. Handle the empty chain first.</p></details>
+          </li>
+          <li>How many <code>new</code> and <code>delete</code> calls does it take to build a 5-node chain and free it?
+            <details><summary>Show answer</summary><p>Five of each: one <code>new</code> per node, and <code>deleteChain</code> deletes each node once.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p4-quiz" data-quiz="Lab 3 Exercise 4 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 4 available on Canvas as the quiz <b>Lab 3 Exercise 4 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== SUBMIT ============================== -->
+    <section id="submit">
+      <h2>What to submit</h2>
+      <div class="card">
+        <p>You submit <b>once</b>, after all four exercises are done.</p>
+        <ol class="steps">
+          <li>Keep the starter zip's layout: one folder named <code>Lab3</code>, with your work in <code>Lab3/exercises/</code>, one subfolder per exercise named exactly like the starter folders you were given. Keep each subfolder's layout the same as the starter code.</li>
+          <li>In each subfolder, run <code>make clean</code>. Delete any other <code>.o</code> files, executables, and core dumps.</li>
+          <li>Delete the <code>examples</code> folder (<code>Lab3/examples/</code>): it holds the lecture examples, and you didn't change anything in it. Your zip should contain only <code>exercises/</code>.</li>
+          <li>Check that everything compiles with <code>g++ -std=c++17 -Wall -Wextra</code> on Linux with no warnings, and that valgrind is clean for every program.</li>
+          <li>Create <b>one zip file of the whole <code>Lab3</code> folder</b>, named <code>Lab3-&lt;your UW NetID&gt;.zip</code> (from the folder above it: <code>zip -r Lab3-netid.zip Lab3</code>).</li>
+          <li>Upload that one zip file to the Lab 3 assignment on Canvas.</li>
+        </ol>
+      </div>
+<pre><code>Lab3/
+└── exercises/
+    ├── ex1-pointers/    pointers.cpp  Makefile
+    ├── ex2-arrays/      arrays.cpp  Makefile
+    ├── ex3-dynamic/     growing.cpp  leaky.cpp  Makefile
+    └── ex4-nodes/       nodes.h  nodes.cpp  chain_test.cpp  Makefile</code></pre>
+      <div class="tbl tbl-scroll">
+        <table>
+          <thead><tr><th style="width:190px">Subfolder</th><th>What must be in it</th></tr></thead>
+          <tbody>
+            <tr><td><code>exercises/ex1-pointers/</code></td><td>Your completed <code>pointers.cpp</code> (without the <code>nullptr</code> call), <code>Makefile</code></td></tr>
+            <tr><td><code>exercises/ex2-arrays/</code></td><td>Your completed <code>arrays.cpp</code> (without <code>sizeInside</code>, and with the TODO 7 loop commented out), <code>Makefile</code></td></tr>
+            <tr><td><code>exercises/ex3-dynamic/</code></td><td>Your completed <code>growing.cpp</code>, your fixed <code>leaky.cpp</code>, <code>Makefile</code></td></tr>
+            <tr><td><code>exercises/ex4-nodes/</code></td><td><code>nodes.h</code>, your completed <code>nodes.cpp</code>, <code>chain_test.cpp</code>, <code>Makefile</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">Self-test questions are for your own practice and are not submitted.</div>
+    </section>
+
+    <!-- ============================== TAKEAWAYS ============================== -->
+    <section id="takeaways">
+      <h2>Takeaways</h2>
+      <div class="callout learned">
+        <span class="title">Learned</span>
+        <ul style="margin:4px 0 0">
+          <li>A pointer holds an address: <code>&amp;</code> takes one, <code>*</code> follows one, <code>-&gt;</code> reaches a member. Initialize every pointer, and never follow <code>nullptr</code>.</li>
+          <li>In a declaration, <code>&amp;</code> is a reference and <code>*</code> a pointer; in a statement, <code>&amp;</code> is "address of" and <code>*</code> "follow the pointer". Between two values they are bitwise AND and multiplication, and <code>&amp;&amp;</code> is logical AND (<a href="#p1-symbols">tables</a>).</li>
+          <li>An array is one contiguous block with no length and no bounds checking: <code>a[i]</code> is <code>*(a + i)</code>, an index can even be negative from a pointer into the middle, and a bad index fails silently. Pass the count with every array.</li>
+          <li>Every <code>new</code> needs one <code>delete</code>, every <code>new[]</code> one <code>delete[]</code>. Run valgrind on everything: memory bugs usually look fine until they don't.</li>
+          <li>Linked structures are pointer rewiring: draw it, handle the empty and first-node cases, and save <code>next</code> before you delete.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      CSS SKL 342 · Lab 3 of 5. Previous: <a href="../Lab2/index.html">Lab 2, Debugging, classes, and operators</a>.
+    </footer>
+  </main>
+</div>
+<script src="../assets/vscode.js"></script>
+<script src="../assets/lab.js"></script>
+</body>
+</html>

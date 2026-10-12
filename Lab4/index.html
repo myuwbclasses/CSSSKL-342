@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 4 · Templates and Classes That Own Memory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lab.css">
+</head>
+<body>
+<div class="layout">
+
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Lab 4</div>
+    <a href="#before">Before lab</a>
+    <a href="#schedule">Schedule</a>
+    <details>
+      <summary title="Show or hide the sections of Part 1"><a href="#part1">1. Templates</a></summary>
+      <a href="#p1-lecture" class="sub">Lecture: generic code</a>
+      <a href="#ex1" class="sub">Exercise 1: sort, Entry&lt;T&gt;</a>
+      <a href="#p1-solution" class="sub">Walkthrough 1</a>
+      <a href="#p1-selftest" class="sub">Self-test</a>
+      <a href="#p1-quiz" class="sub">Section quiz</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of Part 2"><a href="#part2">2. The rule of three</a></summary>
+      <a href="#p2-lecture" class="sub">Lecture: copies that own memory</a>
+      <a href="#ex2" class="sub">Exercise 2: IntArray copies</a>
+      <a href="#p2-solution" class="sub">Walkthrough 2</a>
+      <a href="#p2-selftest" class="sub">Self-test</a>
+      <a href="#p2-quiz" class="sub">Section quiz</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of Part 3"><a href="#part3">3. Copying a linked chain</a></summary>
+      <a href="#p3-lecture" class="sub">Lecture: deep-copying a chain</a>
+      <a href="#ex3" class="sub">Exercise 3: LinkedStack</a>
+      <a href="#p3-solution" class="sub">Walkthrough 3</a>
+      <a href="#p3-selftest" class="sub">Self-test</a>
+      <a href="#p3-quiz" class="sub">Section quiz</a>
+    </details>
+    <details>
+      <summary title="Show or hide the sections of Part 4"><a href="#part4">4. Exceptions and RAII</a></summary>
+      <a href="#p4-lecture" class="sub">Lecture: throw, catch, RAII</a>
+      <a href="#ex4" class="sub">Exercise 4: exceptions</a>
+      <a href="#p4-solution" class="sub">Walkthrough 4</a>
+      <a href="#p4-selftest" class="sub">Self-test</a>
+      <a href="#p4-quiz" class="sub">Section quiz</a>
+    </details>
+    <a href="#submit">What to submit</a>
+    <a href="#takeaways">Takeaways</a>
+    <div class="label" style="margin-top:24px">Reference</div>
+    <a href="../reference/linux.html">Linux commands</a>
+    <a href="../reference/gdb.html">gdb commands</a>
+    <div class="label" style="margin-top:24px">Files</div>
+    <a href="Lab4-starter.zip">⬇ Starter code (.zip)</a>
+    <a href="Lab4-Slides.pptx">⬇ Lecture slides (.pptx)</a>
+    <div class="label" style="margin-top:24px">Labs</div>
+    <a href="../Pre-Lab/index.html">Pre-Lab: set up your computer</a>
+    <a href="../Lab1/index.html">Lab 1</a>
+    <a href="../Lab2/index.html">Lab 2</a>
+    <a href="../Lab3/index.html">Lab 3</a>
+    <a href="index.html" aria-current="page" style="color:var(--text);font-weight:600">Lab 4 (this page)</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">CSS SKL 342 · Lab 4</div>
+      <h1>Templates and Classes That Own Memory</h1>
+      <p>Write code once for any type with function and class templates. Then the classes that own memory: what must happen when they're copied, assigned, and destroyed (the rule of three), for an array and for a chain of nodes, and how exceptions and RAII keep that memory safe. Every array-based and linked container you'll write in CSS 342, the course this lab supports, is a class template that needs all of this.</p>
+      <div class="hero-links">
+        <a class="btn" href="#schedule">Schedule</a>
+        <a class="btn" href="#submit">What to submit</a>
+        <a class="btn" href="Lab4-starter.zip">⬇ Starter code</a>
+        <a class="btn" href="Lab4-Slides.pptx">⬇ Slides</a>
+      </div>
+    </header>
+
+    <section id="before">
+      <h2>Before lab</h2>
+      <div class="card">
+        <ol class="steps">
+          <li>Finish Lab 3. This lab uses <code>new</code>/<code>delete</code>, arrays, linked nodes, and valgrind constantly, and Lab 2's operators (<code>&lt;</code>, <code>==</code>, <code>&lt;&lt;</code>, <code>+=</code> returning <code>*this</code>).</li>
+          <li>Download the starter code, <a href="Lab4-starter.zip">Lab4-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder, so you have <span class="path">CSSSKL342/Lab4/exercises/</span>, with one folder per exercise, and <span class="path">CSSSKL342/Lab4/examples/</span> (the lecture examples) (the same way as in Lab 1). That <span class="path">Lab4</span> folder is what you zip and submit.</li>
+          <li>Every <code>Makefile</code> has a <code>check</code> target that runs valgrind. Use it.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="schedule">
+      <h2>Schedule</h2>
+      <div class="tbl tbl-scroll">
+        <table class="schedule">
+          <thead>
+            <tr><th>Topic</th><th>Block</th><th>Time</th><th>Length</th><th>Activity</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part1"><span class="num">1</span>Templates</a><small>function and class templates, templates live in headers</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">1:15</td><td class="time">15 min</td><td><a href="#p1-lecture">Generic code</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:30</td><td class="time">35 min</td><td><a href="#ex1">Exercise 1: sort templates and a class template</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:05</td><td class="time">10 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part2"><span class="num">2</span>The rule of three</a><small>destructor, copy constructor, <code>operator=</code></small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">2:15</td><td class="time">20 min</td><td><a href="#p2-lecture">Copies of a class that owns memory</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:35</td><td class="time">35 min</td><td><a href="#ex2">Exercise 2: copying and assigning an IntArray</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:10</td><td class="time">10 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
+          </tbody>
+          <tbody class="break">
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">3:20</td><td class="time">10 min</td><td></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part3"><span class="num">3</span>Copying a linked chain</a><small>the rule of three for a chain of nodes</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:30</td><td class="time">10 min</td><td><a href="#p3-lecture">Deep-copying a chain</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:40</td><td class="time">30 min</td><td><a href="#ex3">Exercise 3: LinkedStack</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:10</td><td class="time">5 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part4"><span class="num">4</span>Exceptions and RAII</a><small>throw, try/catch, <code>unique_ptr</code></small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">4:15</td><td class="time">15 min</td><td><a href="#p4-lecture">Throw, catch, and clean up</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:30</td><td class="time">25 min</td><td><a href="#ex4">Exercise 4: exceptions</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:55</td><td class="time">10 min</td><td><a href="#p4-solution">Walkthrough 4</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr><td class="topic"><a href="#submit">Catch-up and wrap-up</a><small>finish, package, review</small></td><td><span class="tag solution">Wrap-up</span></td><td class="time">5:05</td><td class="time">10 min</td><td>Finish any exercise, build your <a href="#submit">submission zip</a>, and review the <a href="#takeaways">takeaways</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <span class="title">Self-checks</span>
+        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. Everything is submitted together as one zip at the end (see <a href="#submit">What to submit</a>).
+      </div>
+    </section>
+
+    <!-- ============================== PART 1 ============================== -->
+    <section id="part1">
+      <div class="part-head">
+        <div class="part-num">1</div>
+        <div><h2>Templates</h2><div class="sub">generic code, what T must support, templates live in headers</div></div>
+      </div>
+
+      <div class="card lecture" id="p1-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Generic code</h3><span class="mins">15 min</span></div>
+        <p class="why">A stack of <code>int</code> values, a stack of strings, and a stack of <code>Student</code> objects differ only in the type of item they hold, and writing (and fixing) three copies of the same code is wasteful and error-prone. A template lets you write the code once with the type as a parameter; the compiler produces a version for each type you use. That is how the standard library gets <code>vector&lt;int&gt;</code> and <code>vector&lt;string&gt;</code> from one definition, and how the containers in your CSS 342 textbook, like <code>ArrayBag&lt;ItemType&gt;</code>, are written.</p>
+        <ul>
+          <li><b>Function template:</b> write the function once with a type parameter <code>T</code>. For each type you call it with, the compiler <i>instantiates</i> (writes) a real function. <code>T</code> is usually deduced from the arguments; <code>maxOf&lt;double&gt;(3, 4.5)</code> names it explicitly.
+<pre><code>template &lt;typename T&gt;                  // one type parameter
+T maxOf(T a, T b) { return (a &lt; b) ? b : a; }
+
+template &lt;typename A, typename B&gt;      // two type parameters
+void showBoth(A a, B b) { cout &lt;&lt; a &lt;&lt; " | " &lt;&lt; b &lt;&lt; endl; }
+
+template &lt;typename R, typename T&gt;      // R is only the return type: can't be deduced
+R convertTo(T value) { return static_cast&lt;R&gt;(value); }
+
+maxOf(3, 7);                           // deduced: T is int
+maxOf&lt;int&gt;(3, 7);                      // explicit: the same maxOf&lt;int&gt;
+maxOf&lt;double&gt;(3, 4.5);                 // explicit: 3 becomes 3.0 (maxOf(3, 4.5) won't compile)
+showBoth&lt;double, string&gt;(42, "apples"); // both named
+showBoth&lt;char&gt;(65, 2.5);               // A named (char: prints A), B deduced (double)
+convertTo&lt;int&gt;(3.99);                  // R must be named; T deduced: 3</code></pre>
+            Example: <a href="examples/1.1.template_variations/templates.cpp">1.1.template_variations/templates.cpp</a> runs all of these; its <a href="examples/1.1.template_variations/README.txt">README.txt</a> has the output and the errors for <code>maxOf(3, 4.5)</code> and <code>convertTo(3.99)</code>.</li>
+          <li><b>What <code>T</code> must support</b> is whatever the body uses: <code>maxOf</code> and a sort need <code>&lt;</code>, printing needs <code>&lt;&lt;</code>. Your own classes work once they have those operators (Lab 2, Part 4).</li>
+          <li><b>Class template:</b> <code>template &lt;typename T&gt; class Box { ... };</code>, used as <code>Box&lt;int&gt;</code>: you always name <code>T</code>. Each member defined outside the class repeats the template line: <code>template &lt;typename T&gt; T Box&lt;T&gt;::get() const { ... }</code>. A friend <code>operator&lt;&lt;</code> must be a template with its <i>own</i> parameter, <code>template &lt;typename U&gt; friend ostream &amp;operator&lt;&lt;(ostream &amp;, const Box&lt;U&gt; &amp;);</code>, so <code>cout &lt;&lt; a</code> binds <code>U</code> to <code>int</code>; written like a normal class's friend, it compiles with a warning and fails to link. Example: <a href="examples/1.2.class_template/box.cpp">1.2.class_template/box.cpp</a> (<a href="examples/1.2.class_template/README.txt">README.txt</a>).</li>
+          <li><b>The standard library is full of class templates:</b> <code>vector&lt;int&gt;</code> is a growable array of ints that knows its size (<code>push_back</code>, <code>size()</code>, <code>[]</code>), and <code>vector&lt;string&gt;</code> is the same template with a different <code>T</code>. Even <code>string</code> is one underneath: it's short for <code>basic_string&lt;char&gt;</code>. The last four lines of <code>main</code> in example 1.2 use a <code>vector&lt;int&gt;</code>.</li>
+          <li><b>Templates live in headers.</b> The compiler needs the full definition wherever the template is used, so you can't compile it separately in a <code>.cpp</code>: the files compile, but the link fails with <code>undefined reference</code>. Example: <a href="examples/1.3.template_in_cpp/main.cpp">1.3.template_in_cpp</a> splits example 1.2's <code>Box</code> into <code>box.h</code> and <code>box.cpp</code>; its <a href="examples/1.3.template_in_cpp/README.txt">README.txt</a> shows the link error, why, and the fix.</li>
+          <li><b>Reading template errors:</b> the error points inside the template; find the <code>required from here</code> line that points at your code.</li>
+        </ul>
+        <div class="callout java"><span class="title">Coming from Java</span>Java generics only work with objects (<code>ArrayList&lt;Integer&gt;</code>) and are checked once. C++ templates work with any type, including <code>int</code>, and generate separate code for each type you use. <code>vector</code> is C++'s <code>ArrayList</code>.</div>
+        <div class="callout info"><span class="title">In your CSS 342 course</span>Carrano's <code>ArrayBag</code>, <code>LinkedBag</code>, <code>LinkedStack</code>, and <code>Node</code> are all class templates, defined entirely in their headers. Exercise 1 turns a working class into a class template, the same step that gets you from an <code>int</code>-only container to Carrano's.</div>
+      </div>
+
+      <div class="card handson" id="ex1">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 1: Sort templates and a class template</h3><span class="mins">35 min</span></div>
+        <p>Folder: <span class="path">Lab4/exercises/ex1-templates/</span>. One test program, <code>templates_test.cpp</code>, covers both parts: uncomment each block when its step is done, then run <code>make</code> and <code>./templates_test</code>.</p>
+        <h4>Part A: function templates</h4>
+        <ol class="steps">
+          <li>Turn <code>mySwap</code>, <code>sortArray</code>, and <code>printArray</code> in <code>sorting.h</code> into function templates.</li>
+          <li>Uncomment the Part A blocks: sort and print <code>double</code>s and <code>string</code>s.</li>
+          <li>Uncomment the last Part A block. It sorts an array of <code>Entry</code> objects (Part B's class, not a template yet) with your <code>sortArray</code>: <code>Entry</code> already has <code>operator&lt;</code>, so <code>T</code> can be <code>Entry</code>. Try <code>printArray(fruit, 3)</code> too, read the error, and take it out again.</li>
+        </ol>
+        <h4>Part B: turn a working class into a class template</h4>
+        <p><code>Entry</code> (<code>entry.h</code>, <code>entry.cpp</code>) is an ordinary class that works: a label with an <code>int</code> value, like <code>"apples"</code> 12. It has a constructor, <code>getValue</code>, <code>setValue</code>, and <code>operator&lt;</code> (comparing the values).</p>
+        <ol class="steps">
+          <li>TODO 1: make <code>Entry</code> a class template, <code>Entry&lt;T&gt;</code>, where <code>T</code> is the type of the value (the label stays a <code>string</code>). Move the definitions from <code>entry.cpp</code> into <code>entry.h</code> and delete <code>entry.cpp</code>. In <code>templates_test.cpp</code>, change <code>Entry fruit[]</code> and <code>Entry apples</code> to <code>Entry&lt;int&gt;</code>, and uncomment the TODO 1 block, which makes an <code>Entry&lt;double&gt;</code> and an <code>Entry&lt;string&gt;</code>.</li>
+          <li>TODO 2: add a global <code>operator&lt;&lt;</code> that prints an <code>Entry</code> as <code>label=value</code>. <code>Entry</code> has no <code>getLabel()</code>, so make <code>operator&lt;&lt;</code> a friend of <code>Entry</code> (example 1.2 shows how, for a class template). Uncomment the TODO 2 block.</li>
+          <li>Last: uncomment the final block. It makes arrays of <code>Entry&lt;int&gt;</code> and <code>Entry&lt;string&gt;</code> and prints and sorts them with <em>your</em> <code>printArray</code> and <code>sortArray</code> from Part A. Run <code>make check</code>.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./templates_test</code> matches every comment with all blocks uncommented, and that <code>make check</code> is clean.</div>
+      </div>
+
+      <div class="card solution" id="p1-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">10 min</span></div>
+        <p>The templated sort; <code>Entry</code> before and after, line by line: the template line, <code>Entry&lt;T&gt;::</code>, <code>int</code> becoming <code>T</code>, and the friend <code>operator&lt;&lt;</code> with its own template line; the <code>undefined reference</code> error from splitting a template into a <code>.cpp</code>, demonstrated live with <a href="examples/1.3.template_in_cpp/README.txt">example 1.3</a>.</p>
+      </div>
+
+      <div class="review" id="p1-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li>Given <code>template &lt;typename T&gt; T maxOf(T a, T b)</code>, does <code>maxOf(3, 4.5)</code> compile?
+            <details><summary>Show answer</summary><p>No: <code>T</code> is deduced as <code>int</code> from 3 and <code>double</code> from 4.5, which conflict. Write <code>maxOf&lt;double&gt;(3, 4.5)</code>, or pass <code>3.0</code>.</p></details>
+          </li>
+          <li>What must <code>Rational</code> provide so that an array of <code>Entry&lt;Rational&gt;</code> can be sorted with your <code>sortArray</code> and printed with your <code>printArray</code>?
+            <details><summary>Show answer</summary><p><code>operator&lt;</code> (used by <code>Entry</code>'s <code>operator&lt;</code>) and <code>operator&lt;&lt;</code> (used by <code>Entry</code>'s <code>operator&lt;&lt;</code>), plus copying, for <code>mySwap</code>, which the compiler provides automatically. The error for a missing one appears inside <code>entry.h</code>, with a <code>required from here</code> line pointing at your code.</p></details>
+          </li>
+          <li>You put a class template's member definitions in <code>Stack.cpp</code> and get <code>undefined reference to Stack&lt;int&gt;::push(int const&amp;)</code>. Why, and what's the fix?
+            <details><summary>Show answer</summary><p>The file that uses <code>Stack&lt;int&gt;</code> only saw declarations, and <code>Stack.cpp</code> never instantiated <code>Stack&lt;int&gt;</code>, so no object file contains <code>push</code>. Move the definitions into the header.</p></details>
+          </li>
+          <li>What's wrong with <code>vector&lt;int&gt; v; v[0] = 5;</code>?
+            <details><summary>Show answer</summary><p><code>v</code> is empty, so there is no <code>v[0]</code>: undefined behavior, like writing past the end of an array (with g++ it crashes). Use <code>v.push_back(5);</code>.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p1-quiz" data-quiz="Lab 4 Exercise 1 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 1 available on Canvas as the quiz <b>Lab 4 Exercise 1 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PART 2 ============================== -->
+    <section id="part2">
+      <div class="part-head">
+        <div class="part-num">2</div>
+        <div><h2>The rule of three</h2><div class="sub">ownership, shallow vs. deep copy, copy constructor, operator=</div></div>
+      </div>
+
+      <div class="card lecture" id="p2-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Copies of a class that owns memory</h3><span class="mins">20 min</span></div>
+        <p class="why">In C++, copying an object is the default: passing by value, returning, and <code>=</code> all make copies. For most classes the compiler-written copy is right, but for a class that owns memory through a pointer it copies only the address, leaving two objects that share one block of memory and both delete it. Every CSS 342 container that uses <code>new</code> needs its own copy rules, and this part shows how to write them.</p>
+        <ul>
+          <li><b>Shallow vs. deep copy:</b> copying a pointer copies the <i>address</i> it holds, not what it points at. A <b>shallow copy</b> (<code>int *shallow = original;</code>) leaves two pointers to <i>one</i> array: a change through one shows up through the other. A <b>deep copy</b> gets its own memory (<code>new</code>) and copies the <i>values</i> into it: a different address, and changes stay separate. Example: <a href="examples/2.1.shallow_vs_deep/copies.cpp">2.1.shallow_vs_deep/copies.cpp</a> copies a 4-element array both ways, sets <code>original[0] = 99</code>, and prints each pointer's address and values (<a href="examples/2.1.shallow_vs_deep/README.txt">README.txt</a>):
+<pre><code>original points to 0x238efeb0: 99 20 30 40
+shallow  points to 0x238efeb0: 99 20 30 40
+deep     points to 0x238efed0: 10 20 30 40</code></pre>
+            <figure class="memfig"><svg viewBox="0 0 760 152" role="img" aria-labelledby="memfig-title"><title id="memfig-title">Shallow copy: original and shallow hold the same address, 0x238efeb0, and point at one array, 99 20 30 40. Deep copy: original points at its array at 0x238efeb0; deep holds a different address, 0x238efed0, and points at its own array, 10 20 30 40.</title>
+<defs><marker id="memfig-tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="tip" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<text x="0" y="16" class="head">Shallow copy</text>
+<text x="0" y="36" class="addr">int *shallow = original;</text>
+<text x="0" y="75">original</text>
+<rect class="ptr" x="72" y="56" width="96" height="28" rx="4"/>
+<text x="120" y="75" text-anchor="middle">0x238efeb0</text>
+<text x="0" y="135">shallow</text>
+<rect class="ptr" x="72" y="116" width="96" height="28" rx="4"/>
+<text x="120" y="135" text-anchor="middle">0x238efeb0</text>
+<text x="296" y="80" class="addr" text-anchor="middle">0x238efeb0</text>
+<rect class="cell" x="232" y="86" width="32" height="28"/>
+<text x="248" y="105" class="hot" text-anchor="middle">99</text>
+<rect class="cell" x="264" y="86" width="32" height="28"/>
+<text x="280" y="105" text-anchor="middle">20</text>
+<rect class="cell" x="296" y="86" width="32" height="28"/>
+<text x="312" y="105" text-anchor="middle">30</text>
+<rect class="cell" x="328" y="86" width="32" height="28"/>
+<text x="344" y="105" text-anchor="middle">40</text>
+<line class="arrow" x1="168" y1="70" x2="228" y2="94" marker-end="url(#memfig-tip)"/>
+<line class="arrow" x1="168" y1="130" x2="228" y2="108" marker-end="url(#memfig-tip)"/>
+<line class="divider" x1="380" y1="4" x2="380" y2="150"/>
+<text x="396" y="16" class="head">Deep copy</text>
+<text x="396" y="36" class="addr">int *deep = new int[4]; then copy each value</text>
+<text x="396" y="75">original</text>
+<rect class="ptr" x="468" y="56" width="96" height="28" rx="4"/>
+<text x="516" y="75" text-anchor="middle">0x238efeb0</text>
+<text x="396" y="135">deep</text>
+<rect class="ptr" x="468" y="116" width="96" height="28" rx="4"/>
+<text x="516" y="135" text-anchor="middle">0x238efed0</text>
+<text x="692" y="50" class="addr" text-anchor="middle">0x238efeb0</text>
+<rect class="cell" x="628" y="56" width="32" height="28"/>
+<text x="644" y="75" class="hot" text-anchor="middle">99</text>
+<rect class="cell" x="660" y="56" width="32" height="28"/>
+<text x="676" y="75" text-anchor="middle">20</text>
+<rect class="cell" x="692" y="56" width="32" height="28"/>
+<text x="708" y="75" text-anchor="middle">30</text>
+<rect class="cell" x="724" y="56" width="32" height="28"/>
+<text x="740" y="75" text-anchor="middle">40</text>
+<text x="692" y="110" class="addr" text-anchor="middle">0x238efed0</text>
+<rect class="cell" x="628" y="116" width="32" height="28"/>
+<text x="644" y="135" text-anchor="middle">10</text>
+<rect class="cell" x="660" y="116" width="32" height="28"/>
+<text x="676" y="135" text-anchor="middle">20</text>
+<rect class="cell" x="692" y="116" width="32" height="28"/>
+<text x="708" y="135" text-anchor="middle">30</text>
+<rect class="cell" x="724" y="116" width="32" height="28"/>
+<text x="740" y="135" text-anchor="middle">40</text>
+<line class="arrow" x1="564" y1="70" x2="624" y2="70" marker-end="url(#memfig-tip)"/>
+<line class="arrow" x1="564" y1="130" x2="624" y2="130" marker-end="url(#memfig-tip)"/>
+</svg>
+              <figcaption>The same three pointers as a memory diagram. Shallow: one array, two pointers holding the same address, so the 99 shows through both. Deep: two arrays at two addresses. One array means one <code>delete[]</code>: deleting through both <code>original</code> and <code>shallow</code> would free it twice.</figcaption></figure></li>
+          <li><b>Ownership:</b> a class that allocates memory in its constructor owns it and releases it in its destructor. That's half of a correct class.</li>
+          <li><b>The compiler writes a copy constructor and an <code>operator=</code> for you</b> if you don't. They copy each member, so a pointer member is copied as an <i>address</i>: both objects point at the same memory (a <b>shallow copy</b>). A change through one shows up in the other, and both destructors delete the same memory: a double free. Example: <a href="examples/2.2.shallow_copy/shallow.cpp">2.2.shallow_copy/shallow.cpp</a> crashes exactly this way; its <a href="examples/2.2.shallow_copy/README.txt">README.txt</a> has the output and the picture.</li>
+          <li><b>Copy constructor or <code>operator=</code>?</b> The copy constructor makes a <i>new</i> object: <code>IntArray b = a;</code>, <code>IntArray b(a);</code>, passing or returning by value. <code>operator=</code> runs on an object that <i>already exists</i> (and already owns memory): <code>c = a;</code>.</li>
+          <li><b><code>operator=</code> in four steps:</b> do nothing for self-assignment (<code>a = a</code>: check <code>this != &amp;other</code>); copy the other object's data into new memory; release the old memory; and <code>return *this;</code> so <code>c = b = a</code> chains.</li>
+          <li><b>The rule of three:</b> if a class needs a destructor, it needs a copy constructor and a copy assignment operator too. Example: <a href="examples/2.3.rule_of_three/three.cpp">2.3.rule_of_three/three.cpp</a> is example 2.2's <code>Numbers</code>, the same class, done right: it adds a deep-copying copy constructor and <code>operator=</code>, runs the same <code>b = a; b.set(0, 99);</code> (now <code>a</code> keeps 10), and prints which one runs (<a href="examples/2.3.rule_of_three/README.txt">README.txt</a>).</li>
+          <li><b>Or forbid copying:</b> <code>Numbers(const Numbers &amp;) = delete;</code> and <code>Numbers &amp;operator=(const Numbers &amp;) = delete;</code>. Any copy is then a compile error (<code>use of deleted function</code>) instead of a double free at run time; passing by <code>const&amp;</code> still works. Example: <a href="examples/2.4.forbid_copy/nocopy.cpp">2.4.forbid_copy/nocopy.cpp</a> (<a href="examples/2.4.forbid_copy/README.txt">README.txt</a>).</li>
+          <li>A class whose members manage themselves (<code>string</code>, <code>vector</code>, <code>int</code>, other well-written classes) needs none of the three.</li>
+        </ul>
+        <div class="callout java"><span class="title">Coming from Java</span>Java assignment and parameter passing copy references; copying an object takes an explicit <code>clone()</code>. In C++, copying an object is the default, and you decide what a copy means.</div>
+      </div>
+
+      <div class="card handson" id="ex2">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: Copying and assigning an IntArray</h3><span class="mins">35 min</span></div>
+        <p>Folder: <span class="path">Lab4/exercises/ex2-copy/</span>. <code>IntArray</code> is a growable array that owns its memory. It has a destructor, but no copy constructor and no <code>operator=</code>.</p>
+        <ol class="steps">
+          <li>Run <code>make</code> and <code>./copy_test</code>. Compare each line with the expected value in the comments, and note how the program ends. Run <code>make check</code> (valgrind) and look at the kinds of errors it reports.</li>
+          <li>Declare and define a deep-copying copy constructor in <code>intarray.h</code> and <code>intarray.cpp</code>. Run <code>./copy_test</code> again.</li>
+          <li>Declare and define <code>operator=</code>. Uncomment Part B of <code>copy_test.cpp</code>.</li>
+          <li>Run <code>./copy_test</code> and <code>make check</code>: correct output, no errors, no leaks.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that the output matches the comments in <code>copy_test.cpp</code> with Part B uncommented, and that <code>make check</code> is clean.</div>
+      </div>
+
+      <div class="card solution" id="p2-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">10 min</span></div>
+        <p>A memory diagram of the shallow copy: two objects, one array, and why the program aborted at the end. Then the deep-copying copy constructor, and <code>operator=</code> line by line, including why copying before deleting also makes self-assignment safe.</p>
+      </div>
+
+      <div class="review" id="p2-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li><code>Buffer</code> allocates <code>data_</code> in its constructor, deletes it in its destructor, and has no copy constructor. What happens here?
+<pre><code>Buffer a(10);
+{
+    Buffer b = a;
+}
+a.write("hi");</code></pre>
+            <details><summary>Show answer</summary><p><code>b</code> shares <code>a</code>'s memory, and <code>b</code>'s destructor frees it at the <code>}</code>. <code>a.write</code> then writes to freed memory (use after free), and <code>a</code>'s destructor later frees it again (double free).</p></details>
+          </li>
+          <li>Which of these call the copy constructor: <code>IntArray b = a;</code>, <code>IntArray c(a);</code>, <code>IntArray d; d = a;</code>, and <code>f(a)</code> where <code>void f(const IntArray &amp;)</code>?
+            <details><summary>Show answer</summary><p>The first two. <code>d = a;</code> calls <code>operator=</code> (<code>d</code> already exists), and passing by <code>const&amp;</code> makes no copy.</p></details>
+          </li>
+          <li>What does <code>a = a;</code> do with this <code>operator=</code>?
+<pre><code>delete[] data_;
+data_ = new int[other.capacity_];
+for (...) data_[i] = other.data_[i];</code></pre>
+            <details><summary>Show answer</summary><p><code>other</code> is <code>*this</code>, so the loop copies from the array that was just deleted: use after free, and garbage values.</p></details>
+          </li>
+          <li>Does a class whose only members are a <code>string</code> and an <code>int</code> need its own destructor, copy constructor, or <code>operator=</code>?
+            <details><summary>Show answer</summary><p>No. Each member already copies and cleans up correctly, so the compiler-written versions are right.</p></details>
+          </li>
+          <li>Which functions run for <code>IntArray x = y;</code>? For <code>IntArray x; x = y;</code>?
+            <details><summary>Show answer</summary><p>The first: the copy constructor only. The second: the default constructor, then <code>operator=</code>.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p2-quiz" data-quiz="Lab 4 Exercise 2 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 2 available on Canvas as the quiz <b>Lab 4 Exercise 2 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PART 3 ============================== -->
+    <section id="part3">
+      <div class="part-head">
+        <div class="part-num">3</div>
+        <div><h2>Copying a linked chain</h2><div class="sub">destructor, copy constructor, and operator= for a chain of nodes</div></div>
+      </div>
+
+      <div class="card lecture" id="p3-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Deep-copying a chain</h3><span class="mins">10 min</span></div>
+        <p class="why">A linked container owns not one block of memory but a whole chain of nodes, so copying it means rebuilding the chain node by node. It's the rule of three again, applied to the structure you'll use most in CSS 342: linked stacks, queues, and lists all need a destructor, a copy constructor, and an <code>operator=</code> that handle every node. Keeping the order and handling the empty chain are where most of the bugs are.</p>
+        <ul>
+          <li><b>A linked container owns every node.</b> Its destructor must delete all of them, for example by popping until it's empty.</li>
+          <li><b>The copy must keep the order.</b> Walking the original from the front and <i>pushing</i> each item reverses it. Instead, walk the original and <i>append</i>, keeping a pointer to the last node copied. Example: <a href="examples/3.1.copy_chain/copy_chain.cpp">3.1.copy_chain/copy_chain.cpp</a> copies a three-node chain both ways, all in <code>main</code> (<a href="examples/3.1.copy_chain/README.txt">README.txt</a>).</li>
+          <li><b><code>operator=</code></b> = clear the current nodes + copy the other's, guarded against self-assignment. Put the shared work in private helpers (for example <code>clear</code> and <code>copyFrom</code>), used by the destructor, the copy constructor, and <code>operator=</code>.</li>
+          <li><b>Copies cost time and memory:</b> one <code>new</code> per node. Pass containers by <code>const&amp;</code>.</li>
+        </ul>
+        <div class="callout info"><span class="title">In your CSS 342 course</span>Carrano's <code>LinkedBag</code>, <code>LinkedStack</code>, and <code>LinkedList</code> each have exactly this copy constructor and a destructor that clears the chain. Graders test them by copying.</div>
+      </div>
+
+      <div class="card handson" id="ex3">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 3: LinkedStack</h3><span class="mins">30 min</span></div>
+        <p>Folder: <span class="path">Lab4/exercises/ex3-linked/</span>. <code>LinkedStack</code> is a class template (Part 1) with <code>push</code>, <code>pop</code>, <code>peek</code>, and <code>isEmpty</code> done.</p>
+        <ol class="steps">
+          <li>Run <code>make</code>, <code>./stack_test</code>, and <code>make check</code>. Note what valgrind reports.</li>
+          <li>Write the destructor. <code>make check</code> should now be clean.</li>
+          <li>Write the copy constructor (same order!), uncomment Part 2 of <code>stack_test.cpp</code>, and test.</li>
+          <li>Write <code>operator=</code>, uncomment Part 3, and test. Finish with a clean <code>make check</code>.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./stack_test</code> matches the comments with all parts uncommented, and that <code>make check</code> is clean.</div>
+      </div>
+
+      <div class="card solution" id="p3-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 3</h3><span class="mins">5 min</span></div>
+        <p><code>copyFrom</code> drawn step by step, with the <code>last</code> pointer; <code>clear</code> reused by the destructor and <code>operator=</code>.</p>
+      </div>
+
+      <div class="review" id="p3-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li>A copy constructor walks <code>other</code> from the top and calls <code>push</code> for each item. <code>other</code> is (top first) 3, 2, 1. What is the copy?
+            <details><summary>Show answer</summary><p>1, 2, 3 (top first): reversed, because each <code>push</code> puts the item on top of the ones before it.</p></details>
+          </li>
+          <li>A <code>LinkedStack</code> destructor is just <code>delete top_;</code>. What does valgrind report for a 4-item stack?
+            <details><summary>Show answer</summary><p>Leaks: only the top node is freed. The other three are lost (valgrind reports them as definitely or indirectly lost, depending on how they're reachable).</p></details>
+          </li>
+          <li>Why would <code>void printStack(LinkedStack&lt;int&gt; s)</code> damage the original stack if <code>LinkedStack</code> had no copy constructor?
+            <details><summary>Show answer</summary><p>The compiler-written copy would share the nodes. Popping the copy deletes nodes that the original still points to, and the original's destructor deletes them again.</p></details>
+          </li>
+          <li>How many <code>new</code> calls does copying a 1000-item <code>LinkedStack</code> make?
+            <details><summary>Show answer</summary><p>1000, one per node.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p3-quiz" data-quiz="Lab 4 Exercise 3 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 3 available on Canvas as the quiz <b>Lab 4 Exercise 3 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== PART 4 ============================== -->
+    <section id="part4">
+      <div class="part-head">
+        <div class="part-num">4</div>
+        <div><h2>Exceptions and RAII</h2><div class="sub">throw, try/catch, the standard exceptions, unique_ptr</div></div>
+      </div>
+
+      <div class="card lecture" id="p4-lecture">
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Throw, catch, and clean up</h3><span class="mins">15 min</span></div>
+        <p class="why">Some errors can't be handled where they're detected: a stack's <code>pop</code> doesn't know what its caller wants to do when the stack is empty. An exception carries the error up to code that does know, without every function in between checking a return value. Because an exception can cut a function short, C++ also needs a way to make sure memory is still released, and that is RAII: let destructors do the cleanup.</p>
+        <ul>
+          <li><b><code>throw</code></b> an object; the function stops right there, and the nearest enclosing <code>try</code> with a matching <code>catch</code> handles it. That <code>try</code> can be several calls up: the exception leaves <i>every</i> function between the <code>throw</code> and the <code>catch</code> at once, without finishing any of them or returning a value, and jumps straight to the <code>catch</code>. If no <code>catch</code> matches, the program calls <code>terminate</code> and aborts. Throw only for real errors: C++ lets you throw anything (even <code>throw 42;</code>), but using exceptions as an ordinary return or to get out of a loop is an abuse.</li>
+          <li><b>Standard exceptions</b> (<code>&lt;stdexcept&gt;</code>) come in families: <code>logic_error</code> (a bug the caller could have avoided: <code>invalid_argument</code>, <code>out_of_range</code>, <code>length_error</code>) and <code>runtime_error</code> (problems the program couldn't prevent). All of them are kinds of <code>exception</code>, which has <code>what()</code>, the message.</li>
+          <li><b>Catch by <code>const&amp;</code></b>, and list handlers from most to least specific: a handler for a family (<code>logic_error</code>, <code>exception</code>) catches every exception in it. Example: <a href="examples/4.1.throw_catch/throw_catch.cpp">4.1.throw_catch/throw_catch.cpp</a> has <code>main</code> call <code>average</code>, which calls <code>divide</code>: when <code>divide</code> throws, <code>average</code>'s "back from divide" line never prints, and the exception lands in <code>main</code>'s <code>catch</code>. It also catches in order, ends with an exception nobody catches, and has a commented-out <code>throw</code> for a non-error to try (the abuse); see its <a href="examples/4.1.throw_catch/README.txt">README.txt</a>.</li>
+          <li>Carrano's <code>PrecondViolatedExcept</code> is a <code>logic_error</code>; his ADTs throw it, for example from <code>peek()</code> on an empty stack.</li>
+          <li><b>Stack unwinding:</b> as an exception leaves each scope, the destructors of that scope's local objects run. A raw <code>new</code> has no destructor, so it leaks.</li>
+          <li><b>RAII</b> ("resource acquisition is initialization"): tie every resource to an object whose destructor releases it. <code>IntArray</code> and <code>LinkedStack</code> are RAII classes; <code>unique_ptr</code> does it for a single allocation: <code>unique_ptr&lt;int[]&gt; p = make_unique&lt;int[]&gt;(n);</code>. Example: <a href="examples/4.2.raii_unwinding/raii.cpp">4.2.raii_unwinding/raii.cpp</a>: a local object is destroyed on the way out, a raw <code>new</code> leaks, and a <code>unique_ptr</code> doesn't (<a href="examples/4.2.raii_unwinding/README.txt">README.txt</a>, with valgrind's report).</li>
+        </ul>
+        <div class="callout java"><span class="title">Coming from Java</span>C++ has no checked exceptions and no <code>finally</code>. Cleanup happens in destructors (RAII), which run on every exit path, exception or not.</div>
+      </div>
+
+      <div class="card handson" id="ex4">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 4: Exceptions</h3><span class="mins">25 min</span></div>
+        <p>Folder: <span class="path">Lab4/exercises/ex4-exceptions/</span>.</p>
+        <ol class="steps">
+          <li>TODO 1 (<code>rational.cpp</code>): throw <code>invalid_argument</code> for a zero denominator. Run <code>./exceptions_test</code> once as is and note what an uncaught exception does. Then add the <code>try</code>/<code>catch</code> for Part A.</li>
+          <li>TODO 2 (<code>ArrayStack.h</code>): <code>peek</code> and <code>pop</code> throw <code>PrecondViolatedExcept</code> on an empty stack. Uncomment Part B and catch it.</li>
+          <li>TODO 3 (<code>exceptions_test.cpp</code>): call <code>risky(choice)</code> for 0–3 with one <code>try</code> and three <code>catch</code> clauses. Then put <code>exception</code> first, build, read the warning, and put it back.</li>
+          <li>TODO 4 (<code>raii.cpp</code>): run <code>make check</code> and find the leak. Fix <code>total()</code> with <code>unique_ptr&lt;int[]&gt;</code> and run <code>make check</code> again.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./exceptions_test</code> handles all four choices, and that <code>make check</code> is clean for <code>raii</code>.</div>
+      </div>
+
+      <div class="card solution" id="p4-solution">
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 4</h3><span class="mins">10 min</span></div>
+        <p>The exception families behind the catch order; stack unwinding and RAII, using <code>raii.cpp</code>; how the whole lab fits together: a class template that owns memory needs the rule of three, and RAII makes it exception-safe.</p>
+      </div>
+
+      <div class="review" id="p4-selftest">
+        <span class="title">Self-test (after the walkthrough)</span>
+        <ol>
+          <li>Is this exception caught? <code>try { throw out_of_range("x"); } catch (const logic_error &amp;e) { ... }</code>
+            <details><summary>Show answer</summary><p>Yes: <code>out_of_range</code> is a kind of <code>logic_error</code>, and a handler for the family catches every exception in it.</p></details>
+          </li>
+          <li>An exception is thrown three function calls deep and caught in <code>main</code>. What runs on the way?
+            <details><summary>Show answer</summary><p>The destructors of every local object in each scope the exception leaves, innermost first (stack unwinding). Code after the <code>throw</code> in those functions does not run.</p></details>
+          </li>
+          <li>What is lost by writing <code>catch (exception e)</code> (by value)?
+            <details><summary>Show answer</summary><p>The exception is copied into a plain <code>exception</code>, losing the specific part (slicing), and the copy costs time. Catch by <code>const&amp;</code>.</p></details>
+          </li>
+          <li>Should a destructor throw?
+            <details><summary>Show answer</summary><p>No. Destructors run during stack unwinding; if one throws while another exception is in flight, the program calls <code>terminate</code>. Destructors are implicitly <code>noexcept</code> in C++11 and later.</p></details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="card quiz" id="p4-quiz" data-quiz="Lab 4 Exercise 4 Quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
+        <div class="qlabel">Please answer the questions on Canvas</div>
+        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 4 available on Canvas as the quiz <b>Lab 4 Exercise 4 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+      </div>
+    </section>
+
+    <!-- ============================== SUBMIT ============================== -->
+    <section id="submit">
+      <h2>What to submit</h2>
+      <div class="card">
+        <p>You submit <b>once</b>, after all four exercises are done.</p>
+        <ol class="steps">
+          <li>Keep the starter zip's layout: one folder named <code>Lab4</code>, with your work in <code>Lab4/exercises/</code>, one subfolder per exercise named exactly like the starter folders you were given. Keep each subfolder's layout the same as the starter code.</li>
+          <li>In each subfolder, run <code>make clean</code>. Delete any other <code>.o</code> files, executables, and core dumps.</li>
+          <li>Delete the <code>examples</code> folder (<code>Lab4/examples/</code>): it holds the lecture examples, and you didn't change anything in it. Your zip should contain only <code>exercises/</code>.</li>
+          <li>Check that everything compiles with <code>g++ -std=c++17 -Wall -Wextra</code> on Linux with no warnings, and that <code>make check</code> is clean in every folder that has it.</li>
+          <li>Create <b>one zip file of the whole <code>Lab4</code> folder</b>, named <code>Lab4-&lt;your UW NetID&gt;.zip</code> (from the folder above it: <code>zip -r Lab4-netid.zip Lab4</code>).</li>
+          <li>Upload that one zip file to the Lab 4 assignment on Canvas.</li>
+        </ol>
+      </div>
+<pre><code>Lab4/
+└── exercises/
+    ├── ex1-templates/    sorting.h  entry.h  entry.cpp  templates_test.cpp
+    │                     Makefile
+    ├── ex2-copy/         intarray.h  intarray.cpp  copy_test.cpp  Makefile
+    ├── ex3-linked/       LinkedStack.h  stack_test.cpp  Makefile
+    └── ex4-exceptions/   PrecondViolatedExcept.h  ArrayStack.h  rational.h  rational.cpp
+                          exceptions_test.cpp  raii.cpp  Makefile</code></pre>
+      <div class="tbl tbl-scroll">
+        <table>
+          <thead><tr><th style="width:190px">Subfolder</th><th>What must be in it</th></tr></thead>
+          <tbody>
+            <tr><td><code>exercises/ex1-templates/</code></td><td>Your templated <code>sorting.h</code> and <code>entry.h</code> (no <code>entry.cpp</code>), <code>templates_test.cpp</code> with every block uncommented, <code>Makefile</code></td></tr>
+            <tr><td><code>exercises/ex2-copy/</code></td><td><code>intarray.h</code> and <code>intarray.cpp</code> with your copy constructor and <code>operator=</code>, <code>copy_test.cpp</code> with Part B uncommented, <code>Makefile</code></td></tr>
+            <tr><td><code>exercises/ex3-linked/</code></td><td><code>LinkedStack.h</code> with the rule of three, <code>stack_test.cpp</code> fully uncommented, <code>Makefile</code></td></tr>
+            <tr><td><code>exercises/ex4-exceptions/</code></td><td>Your <code>rational.cpp</code>, <code>ArrayStack.h</code>, <code>exceptions_test.cpp</code>, and fixed <code>raii.cpp</code>; the other given files</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">Self-test questions are for your own practice and are not submitted.</div>
+    </section>
+
+    <!-- ============================== TAKEAWAYS ============================== -->
+    <section id="takeaways">
+      <h2>Takeaways</h2>
+      <div class="callout learned">
+        <span class="title">Learned</span>
+        <ul style="margin:4px 0 0">
+          <li>A template is written once and instantiated for each type; the type must support what the body uses, and the whole template lives in its header.</li>
+          <li>A class that owns memory needs the rule of three: destructor, deep-copying copy constructor, and <code>operator=</code> (or <code>= delete</code> copying). The compiler-written versions copy pointers, not what they point to.</li>
+          <li><code>operator=</code> handles self-assignment, copies before it deletes, and returns <code>*this</code>. Deep-copying a chain means appending in order, one <code>new</code> per node. Pass containers by <code>const&amp;</code>.</li>
+          <li>Throw standard exceptions, catch by <code>const&amp;</code> from most to least specific, and rely on destructors (RAII, <code>unique_ptr</code>) for cleanup.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      CSS SKL 342 · Lab 4 of 5. Previous: <a href="../Lab3/index.html">Lab 3, Pointers, arrays, and dynamic memory</a>.
+    </footer>
+  </main>
+</div>
+<script src="../assets/vscode.js"></script>
+<script src="../assets/lab.js"></script>
+</body>
+</html>

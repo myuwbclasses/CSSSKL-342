@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-Lab · Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lab.css">
+</head>
+<body>
+<div class="layout">
+
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Pre-Lab</div>
+    <a href="#overview">Overview</a>
+    <a href="#requirements">What you need</a>
+    <a href="#vscode">1. Install VS Code</a>
+    <a href="#extensions">2. Install the extensions</a>
+    <a href="#docker">3. Install Docker</a>
+    <a href="#image">4. Download the course image</a>
+    <a href="#verify">5. Verify the installation</a>
+    <a href="#container">6. Create your container</a>
+    <a href="#connect">7. Connect VS Code to the container</a>
+    <a href="#hello">8. Final test: Hello, world</a>
+    <a href="#trouble">Troubleshooting</a>
+    <a href="#fallback">Can't install?</a>
+    <a href="#next">Ready for Lab 1</a>
+    <a href="#fyi-vscode">For your info: Open code in VS Code</a>
+    <div class="label" style="margin-top:24px">Reference</div>
+    <a href="../reference/linux.html">Linux commands</a>
+    <a href="../reference/gdb.html">gdb commands</a>
+    <div class="label" style="margin-top:24px">Labs</div>
+    <a href="index.html" aria-current="page" style="color:var(--text);font-weight:600">Pre-Lab (this page)</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">CSS SKL 342 · Pre-Lab</div>
+      <h1>Set up your computer</h1>
+      <p>In CSS SKL 342 you write C++ on your own computer, but compile and run it on Linux with g++, the same setup your CSS 342 assignments are graded on. Docker runs that Linux system (the course <i>image</i>) on your computer, and VS Code is the editor that connects to it. This page installs everything, creates your own Linux container, and ends with you compiling and running a Hello, world program in it. Lab 1 starts from that working setup.</p>
+      <div class="hero-links">
+        <a class="btn" href="#vscode">Start</a>
+        <a class="btn" href="#verify">Self-verification</a>
+        <a class="btn" href="#hello">Final test</a>
+        <a class="btn" href="#trouble">Troubleshooting</a>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section id="overview">
+      <h2>Overview</h2>
+      <div class="callout warn">
+        <span class="title">Do this at least two days before Lab 1, on your home internet</span>
+        Plan on about an hour and a half. Most of it is waiting for downloads: the course image alone is several gigabytes, and installing Docker on Windows usually needs a restart. Thirty people downloading at once on campus Wi-Fi during lab would take most of the lab, and you'd also have no time to fix problems before class.
+      </div>
+      <div class="tbl">
+        <table>
+          <thead><tr><th style="width:40%">Step</th><th style="width:20%">Time</th><th>You'll end up with</th></tr></thead>
+          <tbody>
+            <tr><td><a href="#vscode">1. Install VS Code</a></td><td>5 min</td><td>The editor, with the <code>code</code> command in your terminal</td></tr>
+            <tr><td><a href="#extensions">2. Install the extensions</a></td><td>5 min</td><td>C/C++ support and the tools to connect VS Code to a container</td></tr>
+            <tr><td><a href="#docker">3. Install Docker</a></td><td>15–30 min</td><td>Docker Desktop running (Windows may need a restart)</td></tr>
+            <tr><td><a href="#image">4. Download the course image</a></td><td>5–30 min</td><td>The course Linux system, with <code>g++</code>, <code>make</code>, <code>gdb</code>, <code>valgrind</code>, <code>cppcheck</code></td></tr>
+            <tr><td><a href="#verify">5. Verify the installation</a></td><td>10 min</td><td>Six checks passed, so you know the installation works</td></tr>
+            <tr><td><a href="#container">6. Create your container</a></td><td>10 min</td><td>Your own Linux machine, <code>cssskl342</code>, sharing your <code>CSSSKL342</code> folder, and you know where your files live</td></tr>
+            <tr><td><a href="#connect">7. Connect VS Code to the container</a></td><td>10 min</td><td>VS Code working inside the container, with the C/C++ extension installed there</td></tr>
+            <tr><td><a href="#hello">8. Final test: Hello, world</a></td><td>10 min</td><td>A C++ program compiled and run on Linux, and the C/C++ &#9655; button in place</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Terminal commands are given for <b>Windows</b> (use <b>PowerShell</b>: Start menu → type <i>PowerShell</i>) and for <b>macOS</b> (use <b>Terminal</b>: Spotlight → type <i>Terminal</i>). Linux notes are included where they differ. There is nothing to submit: the <a href="#verify">self-verification</a> checks are for you.</p>
+    </section>
+
+    <!-- REQUIREMENTS -->
+    <section id="requirements">
+      <h2>What you need</h2>
+      <div class="card">
+        <ul>
+          <li><b>A laptop you can install software on</b> (administrator rights). A Chromebook, an iPad, or a locked-down work laptop won't work; see <a href="#fallback">Can't install?</a></li>
+          <li><b>Windows:</b> Windows 11, or Windows 10 version 22H2, 64-bit. Hardware virtualization must be enabled; checking it is part of <a href="#docker">step 3</a>.</li>
+          <li><b>macOS:</b> one of the three most recent macOS versions, on an Apple-chip (M1 or later) or Intel Mac.</li>
+          <li><b>At least 8 GB of memory and 15 GB of free disk space.</b> The course image takes about 4.5 GB once downloaded; Docker itself and your work need the rest.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 1. VS CODE -->
+    <section id="vscode">
+      <div class="part-head">
+        <div class="part-num">1</div>
+        <div><h2>Install VS Code</h2><div class="sub">the editor you'll use in every lab</div></div>
+      </div>
+      <div class="card">
+        <p>Download Visual Studio Code from <a href="https://code.visualstudio.com/Download">code.visualstudio.com/Download</a>. This is <b>VS Code</b>, the free, cross-platform editor; it is not the same program as <i>Visual Studio</i>.</p>
+        <details class="os">
+          <summary>Windows</summary>
+          <div class="os-body">
+            <ol class="steps">
+              <li>Download the <b>User Installer</b> (x64; choose Arm64 only for a Snapdragon/Arm laptop) and run it.</li>
+              <li>On the <i>Select Additional Tasks</i> page, keep <b>Add to PATH</b> checked. It is checked by default, and it is what makes the <code>code</code> command work in PowerShell.</li>
+              <li>Finish the installer. Close any PowerShell windows that were already open: they won't see the new <code>code</code> command until you open a new one.</li>
+            </ol>
+          </div>
+        </details>
+        <details class="os">
+          <summary>macOS</summary>
+          <div class="os-body">
+            <ol class="steps">
+              <li>Download the <b>Universal</b> build, open the downloaded file, and drag <b>Visual Studio Code</b> into your <b>Applications</b> folder. (Running it from Downloads causes update problems.)</li>
+              <li>Open VS Code. Press <code>Cmd+Shift+P</code>, type <b>shell command</b>, and choose <b>Shell Command: Install 'code' command in PATH</b>.</li>
+              <li>Open a new Terminal window, so it sees the new <code>code</code> command.</li>
+            </ol>
+          </div>
+        </details>
+        <details class="os">
+          <summary>Linux</summary>
+          <div class="os-body"><p>Install the <code>.deb</code> or <code>.rpm</code> package from the download page (or your distribution's package for <code>code</code>). The <code>code</code> command is set up automatically.</p></div>
+        </details>
+        <div class="callout info"><span class="title">Self-check</span>In a <b>new</b> terminal, <code>code --version</code> prints a version number such as <code>1.141.0</code> on its first line. If it says the command is not found, see <a href="#trouble">Troubleshooting</a>.</div>
+      </div>
+    </section>
+
+    <!-- 2. EXTENSIONS -->
+    <section id="extensions">
+      <div class="part-head">
+        <div class="part-num">2</div>
+        <div><h2>Install the extensions</h2><div class="sub">C/C++ support, and connecting VS Code to a container</div></div>
+      </div>
+      <div class="card">
+        <p>Install these three extensions, all published by <b>Microsoft</b>. The first two are <i>packs</i>: installing one installs several related extensions.</p>
+        <div class="tbl tbl-scroll">
+          <table>
+            <thead><tr><th style="width:28%">Extension</th><th style="width:34%">ID</th><th>What it gives you</th></tr></thead>
+            <tbody>
+              <tr><td><b>C/C++ Extension Pack</b></td><td><code>ms-vscode.cpptools-extension-pack</code></td><td>The <b>C/C++</b> extension: error squiggles, autocomplete, go-to-definition, and the debugger front end for <code>gdb</code>. Also C/C++ DevTools, C/C++ Themes, and CMake Tools.</td></tr>
+              <tr><td><b>Remote Development</b></td><td><code>ms-vscode-remote.vscode-remote-extensionpack</code></td><td><b>Dev Containers</b> (open a folder inside a container), <b>Remote - SSH</b> (work on the CSS Linux lab machines, the <a href="#fallback">backup plan</a>), WSL, and Remote - Tunnels.</td></tr>
+              <tr><td><b>Container Tools</b></td><td><code>ms-azuretools.vscode-containers</code></td><td>The <b>Containers</b> view in the side bar: see your images and containers, start and stop them, and attach VS Code to one.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><b>Fastest way:</b> paste these three lines into PowerShell (Windows) or Terminal (macOS):</p>
+<pre><code>code --install-extension ms-vscode.cpptools-extension-pack
+code --install-extension ms-vscode-remote.vscode-remote-extensionpack
+code --install-extension ms-azuretools.vscode-containers</code></pre>
+        <p><b>Or, in VS Code:</b> open the Extensions view (<code>Ctrl+Shift+X</code>, or <code>Cmd+Shift+X</code> on a Mac), search for each name above, check that the publisher is Microsoft, and click <b>Install</b>.</p>
+        <ul>
+          <li>You may also see an extension called <b>Docker</b> (<code>ms-azuretools.vscode-docker</code>). It now just installs Container Tools, so you don't need it, but it does no harm.</li>
+          <li><b>Don't install Code Runner</b> (the "Run Code" ▷ button), or don't use it for this course. It compiles with its own settings, hides the warnings we turn on, and runs on your computer rather than on Linux.</li>
+          <li>Extensions run where your code is. In <a href="#connect">step 7</a>, when VS Code is connected to the container, you'll install C/C++ a second time, <i>inside</i> the container; that's expected.</li>
+        </ul>
+        <div class="callout info">
+          <span class="title">Self-check</span>
+          <div class="shot-row">
+            <div>
+              <ol>
+                <li>In VS Code, click the <b>Extensions</b> icon in the Activity Bar on the far left (four squares, one tilted), or press <code>Ctrl+Shift+X</code> (<code>Cmd+Shift+X</code> on a Mac).</li>
+                <li>Type <code>@installed</code> in the search box.</li>
+                <li>Compare with the screenshot. You should see <b>13</b> Microsoft extensions. The three you installed are outlined; the packs brought in the other ten. The small <b>4</b> on a pack's logo is the number of extensions it installed.</li>
+                <li>Two new icons are now in the Activity Bar (outlined at the top left): <b>Remote Explorer</b> (a monitor) and <b>Containers</b> (a box). Check 6 and step 7 use the Containers one.</li>
+              </ol>
+              <p>The list is alphabetical. Newer versions of VS Code may show a slightly different count or extra items; what matters is that the three outlined extensions, plus <b>C/C++</b>, <b>Dev Containers</b>, and <b>Remote - SSH</b>, are there. If you've used VS Code before, your other extensions will be in the list too.</p>
+              <p><a href="#verify">Check 2</a> confirms the same thing from the terminal.</p>
+            </div>
+            <figure>
+              <a href="images/vscode-extensions-installed.png"><img src="images/vscode-extensions-installed.png" alt="VS Code Extensions view filtered with @installed, listing 13 Microsoft extensions: C/C++, C/C++ DevTools, C/C++ Extension Pack, C/C++ Themes, CMake Tools, Container Tools, Dev Containers, Remote - SSH, Remote - SSH: Editing Configuration Files, Remote - Tunnels, Remote Development, Remote Explorer, and WSL. C/C++ Extension Pack, Container Tools, and Remote Development are outlined, as are the Remote Explorer and Containers icons in the Activity Bar."></a>
+              <figcaption>Extensions view with <code>@installed</code> after step 2 (Windows; a Mac looks the same). Click to enlarge.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. DOCKER -->
+    <section id="docker">
+      <div class="part-head">
+        <div class="part-num">3</div>
+        <div><h2>Install Docker</h2><div class="sub">runs the course Linux system on your computer</div></div>
+      </div>
+      <div class="card">
+        <p>Docker Desktop is free for students and personal use. You do <b>not</b> need a Docker account: skip the sign-in screen when it appears.</p>
+        <details class="os">
+          <summary>Windows</summary>
+          <div class="os-body">
+            <ol class="steps">
+              <li><b>Check virtualization.</b> Open Task Manager (<code>Ctrl+Shift+Esc</code>), go to <b>Performance → CPU</b>, and look for <b>Virtualization: Enabled</b> under the graph. If it says <i>Disabled</i>, follow the CSS wiki's <a href="https://csswiki.uwb.edu/enable-virtualization-bios/">Enable Virtualization in BIOS</a> first.</li>
+              <li>Download <b>Docker Desktop for Windows – AMD64</b> from <a href="https://www.docker.com/products/docker-desktop/">docker.com/products/docker-desktop</a> (choose ARM64 only for a Snapdragon/Arm laptop).</li>
+              <li>Run the installer. Keep <b>Use WSL 2 instead of Hyper-V</b> checked (WSL 2 is the Linux support built into Windows). Restart when it asks.</li>
+              <li>Start <b>Docker Desktop</b> from the Start menu. Accept the agreement, choose the recommended settings, and skip the sign-in and survey.</li>
+              <li>Wait until the bottom-left corner of the Docker Desktop window says <b>Engine running</b> (green). The first start can take a minute or two.</li>
+            </ol>
+            <p>If Docker Desktop reports that WSL is missing or out of date, open PowerShell <b>as Administrator</b> (right-click → <i>Run as administrator</i>), run <code>wsl --install</code> (or <code>wsl --update</code> if WSL is already there), and restart. If it says you must be in the <b>docker-users</b> group, see <a href="#trouble">Troubleshooting</a>.</p>
+          </div>
+        </details>
+        <details class="os">
+          <summary>macOS</summary>
+          <div class="os-body">
+            <ol class="steps">
+              <li>Find your chip: Apple menu → <b>About This Mac</b>. <i>Chip: Apple M…</i> means Apple silicon; <i>Processor: …Intel…</i> means Intel.</li>
+              <li>Download the matching <b>Docker Desktop for Mac</b> (Apple Silicon or Intel chip) from <a href="https://www.docker.com/products/docker-desktop/">docker.com/products/docker-desktop</a>.</li>
+              <li>Open the <code>.dmg</code> and drag <b>Docker</b> into <b>Applications</b>. Open Docker from Applications.</li>
+              <li>Accept the agreement and choose <b>Use recommended settings</b> (it asks for your Mac password). Skip the sign-in and survey.</li>
+              <li>Wait until the bottom-left corner of the Docker Desktop window says <b>Engine running</b>, and the whale icon in the menu bar stops animating.</li>
+            </ol>
+          </div>
+        </details>
+        <details class="os">
+          <summary>Linux</summary>
+          <div class="os-body">
+            <p>Install <b>Docker Engine</b> for your distribution by following <a href="https://docs.docker.com/engine/install/">docs.docker.com/engine/install</a> (Docker Desktop for Linux also works). Then let your account run Docker without <code>sudo</code>, and log out and back in:</p>
+<pre><code>sudo usermod -aG docker $USER</code></pre>
+            <p>The course image's user has user ID 1000. If your own ID (<code>id -u</code>) is different, check 5 will fail with <i>Permission denied</i>; see <a href="#trouble">Troubleshooting</a>.</p>
+          </div>
+        </details>
+        <div class="callout warn"><span class="title">Docker Desktop must be running</span>Docker commands only work while Docker Desktop is running (<i>Engine running</i>). If you restart your computer, start Docker Desktop again before using the course container.</div>
+      </div>
+    </section>
+
+    <!-- 4. IMAGE -->
+    <section id="image">
+      <div class="part-head">
+        <div class="part-num">4</div>
+        <div><h2>Download the course image</h2><div class="sub">the Linux system your code is built and tested on</div></div>
+      </div>
+      <div class="card">
+        <p>The CSS department publishes an image of the CSS Linux lab, <code>cssimages/linuxlab</code>: Rocky Linux with <code>g++</code> 11, <code>make</code>, <code>gdb</code>, <code>valgrind</code>, <code>cppcheck</code>, <code>clang-format</code>, and <code>git</code>. It works on Intel/AMD and Apple-chip computers. With Docker Desktop running, download it with:</p>
+<pre><code>docker pull cssimages/linuxlab</code></pre>
+        <p>This shows progress bars for each layer and takes from a few minutes to half an hour, depending on your connection. It ends with a line like <code>Status: Downloaded newer image for cssimages/linuxlab:latest</code>. If the download is interrupted, run the same command again: it picks up where it stopped.</p>
+        <p>An <i>image</i> is like an installer disk: it doesn't change. In <a href="#container">step 6</a> you'll create a <i>container</i> from it, which is your own copy of that Linux system, with a folder shared with your computer. The CSS wiki's <a href="https://csswiki.uwb.edu/docker/">Docker pages</a> describe the image and the container in more detail.</p>
+      </div>
+    </section>
+
+    <!-- 5. VERIFY -->
+    <section id="verify">
+      <div class="part-head">
+        <div class="part-num">5</div>
+        <div><h2>Verify the installation</h2><div class="sub">six checks; when all pass, go on to step 6</div></div>
+      </div>
+      <div class="card">
+        <p>Run each check in a <b>new</b> PowerShell (Windows) or Terminal (macOS) window, with Docker Desktop running, and compare with the expected output. Only the parts shown matter: version numbers may be newer.</p>
+
+        <h4>Check 1: VS Code is installed and on your PATH</h4>
+<pre><code>code --version</code></pre>
+        <div class="expect">Expected</div>
+<pre><code>1.141.0          &lt;- any version number
+...              (two more lines: a long ID and x64 or arm64)</code></pre>
+
+        <h4>Check 2: the extensions are installed</h4>
+        <p>Windows:</p>
+<pre><code>code --list-extensions | Select-String "cpptools|remote-containers|remote-ssh|vscode-containers"</code></pre>
+        <p>macOS and Linux:</p>
+<pre><code>code --list-extensions | grep -E "cpptools|remote-containers|remote-ssh|vscode-containers"</code></pre>
+        <div class="expect">Expected: these five lines, in any order (extra lines such as ms-vscode.cpptools-themes are fine)</div>
+<pre><code>ms-azuretools.vscode-containers
+ms-vscode-remote.remote-containers
+ms-vscode-remote.remote-ssh
+ms-vscode.cpptools
+ms-vscode.cpptools-extension-pack</code></pre>
+
+        <h4>Check 3: Docker can run a container</h4>
+<pre><code>docker run --rm hello-world</code></pre>
+        <div class="expect">Expected (after a short download the first time)</div>
+<pre><code>Hello from Docker!
+This message shows that your installation appears to be working correctly.
+...</code></pre>
+        <p>This runs a tiny test container, and <code>--rm</code> deletes it when it finishes.</p>
+
+        <h4>Check 4: the course image has the C++ tools</h4>
+        <p>The same command works in PowerShell and in the macOS Terminal:</p>
+<pre><code>docker run --rm cssimages/linuxlab bash -c 'for t in g++ make gdb valgrind cppcheck; do $t --version | head -1; done'</code></pre>
+        <div class="expect">Expected</div>
+<pre><code>g++ (GCC) 11.5.0 20240719 (Red Hat 11.5.0-2)
+GNU Make 4.3
+GNU gdb (Rocky Linux) 14.2-3.el9
+valgrind-3.23.0
+Cppcheck 2.9</code></pre>
+        <p>If it starts downloading instead, step 4 didn't finish: let it complete.</p>
+
+        <h4>Check 5: the container can share a folder with your computer</h4>
+        <p>This creates the folder you'll keep all your CSS SKL 342 work in, <code>CSSSKL342</code> in your home folder, and has a short-lived Linux container write a file into it. Step 6 shares this same folder with your own container.</p>
+        <div class="callout info">
+          <span class="title">What is <code>$HOME</code> (or <code>${HOME}</code>)?</span>
+          <p style="margin:4px 0">It's a variable that holds the path of your <b>home folder</b>, the folder that belongs to your user account and contains your Desktop, Documents, and Downloads folders. The terminal replaces <code>$HOME</code> with that path before running the command. <code>${HOME}</code> is the same variable; the braces just mark clearly where the name ends when it's followed by other text, as in <code>"${HOME}\CSSSKL342:/work"</code>. To see your own home folder, run:</p>
+<pre><code>echo $HOME</code></pre>
+          <div class="tbl tbl-scroll" style="margin:8px 0">
+            <table>
+              <thead><tr><th style="width:16%"></th><th style="width:34%"><code>echo $HOME</code> prints, for example</th><th>Finding it in File Explorer / Finder</th></tr></thead>
+              <tbody>
+                <tr><td><b>Windows</b></td><td><code>C:\Users\jsmith</code></td><td>Click in File Explorer's address bar, type <code>%USERPROFILE%</code>, and press Enter. Or go to <b>This PC → Local Disk (C:) → Users → <i>your-name</i></b>. Your <code>CSSSKL342</code> folder is there, next to Desktop, Documents, and Downloads. (Tip: right-click it and choose <b>Pin to Quick access</b>, so it's always in File Explorer's side bar.)</td></tr>
+                <tr><td><b>macOS</b></td><td><code>/Users/jsmith</code></td><td>In Finder, choose <b>Go → Home</b> (<code>Shift+Cmd+H</code>). Your <code>CSSSKL342</code> folder is there. (Tip: drag it into Finder's side bar under Favorites.)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin:4px 0 0">So <code>$HOME\CSSSKL342</code> means <code>C:\Users\<i>your-name</i>\CSSSKL342</code> on Windows, and <code>$HOME/CSSSKL342</code> (or <code>~/CSSSKL342</code>; <code>~</code> is shorthand for home) means <code>/Users/<i>your-name</i>/CSSSKL342</code> on a Mac. Note that the home folder is <i>not</i> your Desktop or Documents folder: <code>CSSSKL342</code> sits beside them.</p>
+        </div>
+        <p>Windows (PowerShell):</p>
+<pre><code>mkdir $HOME\CSSSKL342
+docker run --rm -v "${HOME}\CSSSKL342:/work" cssimages/linuxlab `
+  bash -c "echo Docker can write here > /work/docker-test.txt"
+Get-Content $HOME\CSSSKL342\docker-test.txt</code></pre>
+        <p>macOS and Linux:</p>
+<pre><code>mkdir -p ~/CSSSKL342
+docker run --rm -v "$HOME/CSSSKL342:/work" cssimages/linuxlab \
+  bash -c "echo Docker can write here > /work/docker-test.txt"
+cat ~/CSSSKL342/docker-test.txt</code></pre>
+        <div class="expect">Expected</div>
+<pre><code>Docker can write here</code></pre>
+        <p>On Windows, an error from <code>mkdir</code> saying the folder already exists is fine. On a Mac, if Docker asks for permission to access the folder, allow it. You can also open the <code>CSSSKL342</code> folder in File Explorer or Finder and see <code>docker-test.txt</code> there. (Keep the folder in your home folder, not on a OneDrive- or iCloud-synced Desktop or Documents folder: syncing and Docker sharing don't mix well.)</p>
+
+        <h4>Check 6: VS Code can see Docker</h4>
+        <p>Open VS Code and click the <b>Containers</b> icon in the Activity Bar on the left (a box; it comes from Container Tools). Expand <b>Images</b>: you should see <b>cssimages/linuxlab</b>. If the view says it can't connect to Docker, start Docker Desktop and click the view's refresh button.</p>
+
+        <div class="callout info">
+          <span class="title">All six match?</span>
+          The installation works: go on to <a href="#container">step 6</a>. If a check still fails after <a href="#trouble">Troubleshooting</a>, send your instructor the exact error message before Lab 1, and read <a href="#fallback">Can't install?</a> so you can still work in class.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CONTAINER -->
+    <section id="container">
+      <div class="part-head">
+        <div class="part-num">6</div>
+        <div><h2>Create your container</h2><div class="sub">your own Linux machine, and where its files live</div></div>
+      </div>
+      <div class="card">
+        <p>The checks above used throwaway containers (<code>--rm</code> deletes them when they finish). Now you create the one you'll use all quarter: a container named <code>cssskl342</code>, made from the course image, that keeps running in the background whenever Docker Desktop is running. You create it <b>once</b>.</p>
+        <p>Windows (PowerShell). The <code>`</code> (backquote) at the end of a line continues the command on the next line:</p>
+<pre><code>docker run -dit --name cssskl342 -h cssskl342 --restart unless-stopped `
+  -v "${HOME}\CSSSKL342:/home/cssuwbstudent/CSSSKL342" `
+  -w /home/cssuwbstudent/CSSSKL342 cssimages/linuxlab:latest /bin/bash</code></pre>
+        <p>macOS and Linux. The <code>\</code> at the end of a line continues the command on the next line:</p>
+<pre><code>docker run -dit --name cssskl342 -h cssskl342 --restart unless-stopped \
+  -v "$HOME/CSSSKL342:/home/cssuwbstudent/CSSSKL342" \
+  -w /home/cssuwbstudent/CSSSKL342 cssimages/linuxlab:latest /bin/bash</code></pre>
+        <div class="expect">Expected: one long line of letters and digits (the new container's ID)</div>
+<pre><code>5ecba266ef5d7411aec0bf0e4274a3fb807e2b680ccc94670d335e243d3f56d2</code></pre>
+        <details class="os">
+          <summary>What each part of the command means</summary>
+          <div class="os-body">
+            <div class="tbl tbl-scroll">
+              <table>
+                <tbody>
+                  <tr><td style="width:36%"><code>-dit</code></td><td>Run in the background (<code>-d</code>) with a terminal kept open (<code>-it</code>), so the container keeps running after the command returns.</td></tr>
+                  <tr><td><code>--name cssskl342</code></td><td>The container's name. You'll use it in every Docker command.</td></tr>
+                  <tr><td><code>-h cssskl342</code></td><td>The Linux machine's host name; it appears in the prompt.</td></tr>
+                  <tr><td><code>--restart unless-stopped</code></td><td>Start the container again whenever Docker Desktop starts, e.g. after you restart your computer.</td></tr>
+                  <tr><td><code>-v <i>your-folder</i>:/home/cssuwbstudent/CSSSKL342</code></td><td><b>Share</b> your <code>CSSSKL342</code> folder with Linux, at <code>/home/cssuwbstudent/CSSSKL342</code>. The part before the colon is on your computer; the part after is inside Linux.</td></tr>
+                  <tr><td><code>-w /home/cssuwbstudent/CSSSKL342</code></td><td>Start in that folder.</td></tr>
+                  <tr><td><code>cssimages/linuxlab:latest /bin/bash</code></td><td>The image to create it from, and the program it runs (the bash shell).</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+        <p>Check that it's running:</p>
+<pre><code>docker ps</code></pre>
+        <p>Look for a line with <code>cssimages/linuxlab:latest</code> and the name <code>cssskl342</code> whose STATUS starts with <b>Up</b>. If you get <i>The container name "/cssskl342" is already in use</i>, you've already created it; see self-test question 4 below.</p>
+
+        <div class="callout warn">
+          <span class="title">Where your files live: one folder, two names</span>
+          <div class="tbl tbl-scroll" style="margin:8px 0">
+            <table>
+              <tbody>
+                <tr><td style="width:30%"><b>Inside Linux</b> (VS Code, the terminal, <code>g++</code>)</td><td><code>/home/cssuwbstudent/CSSSKL342</code></td></tr>
+                <tr><td><b>On Windows</b></td><td><code>C:\Users\<i>your-name</i>\CSSSKL342</code>. In File Explorer, type <code>%USERPROFILE%\CSSSKL342</code> in the address bar.</td></tr>
+                <tr><td><b>On macOS</b></td><td><code>/Users/<i>your-name</i>/CSSSKL342</code>. In Finder, choose <b>Go → Home</b>, then open <code>CSSSKL342</code>.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          These are the <b>same folder</b>. Anything saved in it is really on your computer: it is in your backups, you can open it with any program, and it survives even if the container is deleted. Anything saved <b>anywhere else</b> in Linux (for example directly in <code>/home/cssuwbstudent</code>) exists only inside the container and is lost if the container is removed. <b>Keep all your course work inside <code>CSSSKL342</code>.</b>
+        </div>
+
+        <h4>Self-check: find your files from both sides</h4>
+        <ol class="steps">
+          <li>Open a Linux shell in your container:
+<pre><code>docker exec -it cssskl342 bash</code></pre>
+            The prompt changes to <code>[cssuwbstudent@cssskl342 CSSSKL342]$</code>: you are now typing Linux commands. Run <code>pwd</code> (prints <code>/home/cssuwbstudent/CSSSKL342</code>) and <code>ls</code> (lists <code>docker-test.txt</code>, the file from check 5, because it's the same folder).</li>
+          <li>Still in Linux, create a file, then leave the shell:
+<pre><code>echo "made in Linux" &gt; from-linux.txt
+exit</code></pre></li>
+          <li>On your computer, open your <code>CSSSKL342</code> folder in File Explorer or Finder (see the table above). <code>from-linux.txt</code> is there.</li>
+          <li>Now the other way: create a file on your computer, in a PowerShell or Terminal window (not the Linux shell). Windows:
+<pre><code>Set-Content $HOME\CSSSKL342\from-my-computer.txt "made on my computer"</code></pre>
+            macOS:
+<pre><code>echo "made on my computer" &gt; ~/CSSSKL342/from-my-computer.txt</code></pre>
+            Then ask Linux what it sees:
+<pre><code>docker exec cssskl342 ls</code></pre>
+            <div class="expect">Expected</div>
+<pre><code>docker-test.txt
+from-linux.txt
+from-my-computer.txt</code></pre></li>
+        </ol>
+        <p>Keep these three test files for now: step 7 uses them to show that VS Code opened the right folder. You can delete them after step 7, from either side.</p>
+
+        <div class="review">
+          <span class="title">Self-test</span>
+          <ol>
+            <li>In VS Code, connected to your container, you save <code>/home/cssuwbstudent/CSSSKL342/Lab1/main.cpp</code>. Where is that file on your computer?
+              <details><summary>Show answer</summary><p>In the <code>Lab1</code> folder inside your <code>CSSSKL342</code> folder: <code>C:\Users\<i>your-name</i>\CSSSKL342\Lab1\main.cpp</code> on Windows, <code>/Users/<i>your-name</i>/CSSSKL342/Lab1/main.cpp</code> on a Mac. Everything under <code>/home/cssuwbstudent/CSSSKL342</code> maps to your <code>CSSSKL342</code> folder.</p></details></li>
+            <li>You save <code>notes.txt</code> in <code>/home/cssuwbstudent</code>, one level <i>above</i> <code>CSSSKL342</code>. Later the container is removed and created again. Is <code>notes.txt</code> still there?
+              <details><summary>Show answer</summary><p>No. Only <code>CSSSKL342</code> is shared with your computer; everything else in Linux lives only inside that container and disappears with it. Keep your work in <code>CSSSKL342</code>.</p></details></li>
+            <li>You restart your computer. What do you need to do before you can use the container again?
+              <details><summary>Show answer</summary><p>Start Docker Desktop and wait for <b>Engine running</b>. Because of <code>--restart unless-stopped</code>, the container starts by itself; <code>docker ps</code> shows it as <b>Up</b>. If it ever isn't, run <code>docker start cssskl342</code>.</p></details></li>
+            <li>You run the <code>docker run</code> command again and get <i>The container name "/cssskl342" is already in use</i>. What does that mean, and what do you do?
+              <details><summary>Show answer</summary><p>Your container already exists; you only create it once, so there's nothing to do (use <code>docker start cssskl342</code> if it's stopped). If you really want a fresh one, remove the old one with <code>docker rm -f cssskl342</code> and run the <code>docker run</code> command again. Your files in <code>CSSSKL342</code> are safe either way, because they live on your computer.</p></details></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. CONNECT VS CODE -->
+    <section id="connect">
+      <div class="part-head">
+        <div class="part-num">7</div>
+        <div><h2>Connect VS Code to your container</h2><div class="sub">attach, open your folder, and install C/C++ inside the container</div></div>
+      </div>
+      <div class="card">
+        <p>This is how you'll work in every lab: VS Code on your computer, connected to the Linux container, editing files in your <code>CSSSKL342</code> folder. Do this once now; next time it takes two clicks (see the end of this step).</p>
+        <ol class="steps">
+          <li><b>Attach VS Code to the container.</b> In VS Code, click the <b>Containers</b> icon in the Activity Bar. Under <b>Containers → Individual Containers</b>, right-click <b>cssimages/linuxlab:latest cssskl342</b> and choose <b>Attach Visual Studio Code</b>. (The green ▷ means it's running. If it shows a stopped square instead, right-click → <b>Start</b> first.)
+            <figure class="shot"><a href="images/attach-vscode.png"><img src="images/attach-vscode.png" alt="VS Code Containers view. Under Containers, Individual Containers, the row cssimages/linuxlab:latest cssskl342 is outlined and its right-click menu is open, with Attach Visual Studio Code outlined. The Containers icon in the Activity Bar is outlined." style="max-width:460px"></a></figure>
+          </li>
+          <li><b>A new VS Code window opens.</b> The first time, a warning says <i>Attaching to a container may execute arbitrary code</i>: click <b>Got It</b> (this is the course image). The first attach takes a minute while VS Code installs its helper inside the container. When it's done, the bottom-left corner says <b>Container cssimages/linuxlab:latest (cssskl342)</b>. That label is how you know a window is working in Linux.</li>
+          <li><b>Open your folder.</b> In the Explorer, click <b>Open Folder</b> (or <b>File → Open Folder</b>). Type <code>/home/cssuwbstudent/CSSSKL342</code> and click <b>OK</b>. If the list then shows the folder's contents instead of opening it, click <b>OK</b> again. The window reloads, and the Explorer shows <b>CSSSKL342 [Container …]</b> with your test files.
+            <figure class="shot"><a href="images/open-folder.png"><img src="images/open-folder.png" alt="VS Code Open Folder box with /home/cssuwbstudent/CSSSKL342 typed in the path field; the path field and the OK button are outlined. The list below shows .cache, .vscode-server, and CSSSKL342."></a></figure>
+          </li>
+          <li><b>Install C/C++ in the container.</b> Extensions run where your code is, so the container needs its own copy. Open the Extensions view (<code>Ctrl+Shift+X</code>, <code>Cmd+Shift+X</code> on a Mac) and search for <b>C/C++ Extension Pack</b>. On the one published by <b>Microsoft</b> (blue check mark), click <b>Install in Container cssimages/linuxlab:latest (cssskl342)</b>. Several other packs have the same name; don't install those. You only do this once per container.
+            <figure class="shot"><a href="images/install-in-container.png"><img src="images/install-in-container.png" alt="VS Code Extensions view connected to the container, searching C/C++ Extension Pack. Microsoft's pack is outlined, with its Install in Container cssimages/linuxlab button outlined; below it are lookalike packs from other publishers with plain Install buttons. The Container indicator at the bottom left is outlined." style="max-width:460px"></a></figure>
+          </li>
+        </ol>
+        <div class="callout warn"><span class="title">Why install C/C++ a second time?</span>Extensions run where your code is. The copy you installed in step 2 works for files on your own computer; this copy runs inside the container, next to <code>g++</code> and <code>gdb</code>. Without it, VS Code inside the container has no C++ support at all: no error squiggles, no &#9655; button, and no debugger (Lab 2).</div>
+        <div class="callout info">
+          <span class="title">Self-check: C/C++ is installed in the container</span>
+          In a PowerShell or Terminal window on your computer (not inside the container), ask the container which VS Code extensions it has:
+<pre><code>docker exec cssskl342 ls /home/cssuwbstudent/.vscode-server/extensions</code></pre>
+          <div class="expect">Expected: these lines, among others (version numbers may differ)</div>
+<pre><code>ms-vscode.cpptools-1.34.4-linux-x64
+ms-vscode.cpptools-extension-pack-1.5.1</code></pre>
+          If the list is empty or has no <code>ms-vscode.cpptools</code>, go back to the install step above: make sure the window's bottom-left corner says <b>Container &hellip; (cssskl342)</b>, and click <b>Install in Container</b>, not plain <b>Install</b>.
+        </div>
+        <p><b>Next time:</b> start Docker Desktop, then open VS Code. Use <b>File → Open Recent → CSSSKL342 [Container …]</b>, or attach from the Containers view as at the start of this step. Closing the VS Code window does not stop the container.</p>
+      </div>
+    </section>
+
+    <!-- 8. HELLO WORLD -->
+    <section id="hello">
+      <div class="part-head">
+        <div class="part-num">8</div>
+        <div><h2>Final test: Hello, world</h2><div class="sub">edit, compile, and run C++ on Linux, in VS Code attached to the container</div></div>
+      </div>
+      <div class="card">
+        <p>In the VS Code window attached to your container (from step 7), with your <code>CSSSKL342</code> folder open:</p>
+        <ol class="steps">
+          <li><b>Create the program.</b> In the Explorer, hover over <b>CSSSKL342</b> and click the <b>New Folder</b> icon; name it <code>hello</code>. Select <code>hello</code>, click the <b>New File</b> icon, and name it <code>hello.cpp</code>. Type this program in yourself (don't paste it: typing it is part of the test), and save with <code>Ctrl+S</code> (<code>Cmd+S</code>):
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "Hello from Linux!" &lt;&lt; endl;
+    return 0;
+}</code></pre></li>
+          <li><b>Compile and run it in Linux.</b> Open a terminal with <b>Terminal → New Terminal</b> (<code>Ctrl+`</code>). Its prompt, <code>[cssuwbstudent@cssskl342 CSSSKL342]$</code>, shows it's a Linux shell inside your container. Type:
+<pre><code>cd hello
+g++ -std=c++17 -Wall -Wextra hello.cpp -o hello
+./hello</code></pre>
+            <div class="expect">Expected: no messages from g++, then</div>
+<pre><code>Hello from Linux!</code></pre>
+            <figure class="shot"><a href="images/hello-in-container.png"><img src="images/hello-in-container.png" alt="VS Code attached to the container with hello/hello.cpp open in the editor. The terminal (outlined) shows cd hello, the g++ command, ./hello, and the output Hello from Linux!. The bottom-left Container cssimages/linuxlab:latest indicator is outlined."></a><figcaption>The final test passed: hello.cpp compiled by Linux's <code>g++</code> and run in the container. Click any screenshot to enlarge it.</figcaption></figure>
+          </li>
+          <li><b>Find it on your computer.</b> Open your <code>CSSSKL342</code> folder in File Explorer or Finder: the <code>hello</code> folder is there, with <code>hello.cpp</code> and the compiled program <code>hello</code>. (Your computer can't run <code>hello</code> itself: it's a Linux program.)</li>
+        </ol>
+        <div class="callout info">
+          <span class="title">Self-check: the C/C++ buttons are there</span>
+          <div class="shot-row">
+            <div>
+              <p style="margin:4px 0">With <code>hello.cpp</code> open in the editor, look at the top right of the editor (not of the window). You should see a <b>&#9655;</b> button with a small &#8964; arrow next to it. Click the arrow: the menu has <b>Run C/C++ File</b> and <b>Debug C/C++ File</b>. You don't need to click them now; Lab 2 uses <b>Debug C/C++ File</b>.</p>
+              <p style="margin:4px 0">No &#9655; button, or no such menu? The C/C++ extension isn't installed <i>in the container</i>: go back to step 7, install it, and check again with the step 7 self-check. (The &#9655; button also only appears while a <code>.cpp</code> file is open and selected.)</p>
+            </div>
+            <figure>
+              <a href="images/vscode-debug-menu.png"><img src="images/vscode-debug-menu.png" alt="VS Code attached to the container with a .cpp file open. At the top right of the editor, the run button with its dropdown arrow is outlined, and its menu shows Debug C/C++ File (outlined) and Run C/C++ File."></a>
+              <figcaption>The &#9655; menu (shown here with another <code>.cpp</code> file open; yours will show <code>hello.cpp</code>). Click to enlarge.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section id="trouble">
+      <h2>Troubleshooting</h2>
+      <div class="tbl tbl-scroll">
+        <table>
+          <thead><tr><th style="width:38%">What you see</th><th>What to do</th></tr></thead>
+          <tbody>
+            <tr><td><code>code</code>: <i>not recognized</i> / <i>command not found</i></td><td>Open a <b>new</b> terminal window. Windows: if it still fails, run the VS Code installer again and check <b>Add to PATH</b>. macOS: run <b>Shell Command: Install 'code' command in PATH</b> from the Command Palette (<code>Cmd+Shift+P</code>).</td></tr>
+            <tr><td><code>docker</code>: <i>not recognized</i> / <i>command not found</i></td><td>Open a new terminal window. If it still fails, Docker Desktop didn't finish installing: run the installer again.</td></tr>
+            <tr><td><i>Cannot connect to the Docker daemon</i>, or <i>error during connect … dockerDesktopLinuxEngine</i></td><td>Docker Desktop isn't running. Start it and wait for <b>Engine running</b>, then try again.</td></tr>
+            <tr><td>Windows: <i>Virtualization support not detected</i>, or Docker Desktop stuck on <i>Starting the Docker Engine…</i></td><td>Check Task Manager → Performance → CPU → <b>Virtualization</b>. If disabled, see <a href="https://csswiki.uwb.edu/enable-virtualization-bios/">Enable Virtualization in BIOS</a>. Then, in PowerShell as Administrator, run <code>wsl --update</code> and restart.</td></tr>
+            <tr><td>Windows: <i>WSL 2 installation is incomplete</i>, or WSL errors</td><td>In PowerShell as Administrator: <code>wsl --install</code> (or <code>wsl --update</code>), then restart.</td></tr>
+            <tr><td>Windows: <i>You are not allowed to use Docker, you must be in the "docker-users" group</i></td><td>Search the Start menu for <b>Computer Management</b> and run it as administrator. Go to <b>Local Users and Groups → Groups → docker-users</b>, add your account, then sign out of Windows and back in. (From the <a href="https://csswiki.uwb.edu/css-linux-lab-docker-image/">CSS wiki's image page</a>.)</td></tr>
+            <tr><td>Linux: <i>permission denied … docker.sock</i></td><td>You haven't logged out and back in since <code>sudo usermod -aG docker $USER</code>.</td></tr>
+            <tr><td><code>docker pull</code> fails with <i>no space left on device</i></td><td>Free up disk space (you need about 15 GB), then run the pull again.</td></tr>
+            <tr><td>Check 5: <i>No such file or directory</i>, or nothing appears in the folder</td><td>Check the folder path for typos, and that you ran the <code>mkdir</code> line. Mac: in Docker Desktop, <b>Settings → Resources → File sharing</b> must include your home folder (<code>/Users</code> is included by default).</td></tr>
+            <tr><td>Check 5 or step 6 on Linux: <i>Permission denied</i></td><td>Your user ID isn't 1000. Run <code>chmod 777 ~/CSSSKL342</code> so the container's user can write there.</td></tr>
+            <tr><td>Step 6: <i>The container name "/cssskl342" is already in use</i></td><td>You already created it. Use <code>docker start cssskl342</code> if it isn't running. To start over: <code>docker rm -f cssskl342</code>, then the <code>docker run</code> command again (your <code>CSSSKL342</code> files are safe).</td></tr>
+            <tr><td>Step 6: <code>docker ps</code> doesn't list <code>cssskl342</code></td><td>It's stopped. <code>docker ps -a</code> lists stopped containers too. Run <code>docker start cssskl342</code>.</td></tr>
+            <tr><td>Step 7: no <b>Attach Visual Studio Code</b> in the menu, or the container isn't listed</td><td>Check that Container Tools is installed (step 2) and Docker Desktop is running, then click the Containers view's refresh button. In the Command Palette (<code>Ctrl+Shift+P</code>), <b>Dev Containers: Attach to Running Container…</b> does the same thing.</td></tr>
+            <tr><td>Step 7: the Explorer doesn't show your test files</td><td>You opened a different folder. Use <b>File → Open Folder</b> and type <code>/home/cssuwbstudent/CSSSKL342</code> exactly (capital letters matter in Linux).</td></tr>
+            <tr><td>Step 8: the terminal prompt looks like <code>PS C:\…&gt;</code> or <code>you@your-mac ~ %</code></td><td>That terminal is on your computer, not in Linux: you're in the wrong VS Code window. Use the window whose bottom-left corner says <b>Container … (cssskl342)</b>.</td></tr>
+            <tr><td>Step 8: <code>g++: command not found</code></td><td>Same cause as the row above: that terminal isn't in the container.</td></tr>
+            <tr><td>Step 8: no &#9655; button, or no <b>Run/Debug C/C++ File</b> in its menu</td><td>C/C++ isn't installed in the container. In the attached window, open Extensions, search <b>C/C++ Extension Pack</b> (Microsoft), and click <b>Install in Container</b>; then check with the step 7 self-check. The button only shows while a <code>.cpp</code> file is open.</td></tr>
+            <tr><td>Mac: Docker says it can't run on this computer, or is very slow</td><td>You probably downloaded the build for the other chip. Delete Docker from Applications and install the one that matches <b>About This Mac</b>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FALLBACK -->
+    <section id="fallback">
+      <h2>Can't install?</h2>
+      <div class="card">
+        <p>If your computer can't run Docker (a Chromebook, a computer without virtualization, a work laptop you can't install on) or you run out of time, use the <b>CSS remote Linux lab</b> instead. It has the same tools, and VS Code connects to it with the <b>Remote - SSH</b> extension from step 2 instead of Docker. Follow the CSS wiki's <a href="https://csswiki.uwb.edu/how-to-connect-to-linux-lab-machines/">How to access the Linux lab</a> and <a href="https://csswiki.uwb.edu/quick-ssh-setup-for-linux-lab/">SSH key setup</a>, and check that <code>g++ --version</code> works there.</p>
+        <p>You still need VS Code (step 1) and the Remote Development pack (step 2) on the computer you bring. Skip steps 3–6. In a VS Code window connected to the Linux lab over SSH, install C/C++ as in <a href="#connect">step 7</a> (over SSH, the button says <b>Install in SSH</b> instead of <b>Install in Container</b>), then do the <a href="#hello">final test</a> (step 8) in a <code>CSSSKL342</code> folder in your Linux lab home directory.</p>
+      </div>
+    </section>
+
+    <!-- NEXT -->
+    <section id="next">
+      <h2>Ready for Lab 1</h2>
+      <div class="callout submit">
+        <span class="title">Done when all of these are true</span>
+        <ul style="margin:4px 0 0">
+          <li>All six checks in step 5 matched.</li>
+          <li>Your container <code>cssskl342</code> shows as <b>Up</b> in <code>docker ps</code>, and you can say where <code>/home/cssuwbstudent/CSSSKL342</code> is on your own computer.</li>
+          <li>The C/C++ extension is installed in the container (step 7 self-check).</li>
+          <li>In VS Code attached to the container, <code>hello.cpp</code> compiled with no messages and printed <code>Hello from Linux!</code>, and the &#9655; button offers <b>Run C/C++ File</b> and <b>Debug C/C++ File</b>.</li>
+        </ul>
+        <p style="margin:8px 0 0">Lab 1 begins in your running container, with VS Code attached (it starts with a Linux command warm-up), so bring your laptop (and charger) with all of this working. Stuck? Send your instructor the exact error message before Lab 1.</p>
+      </div>
+    </section>
+
+    <!-- FYI: the open-in-VS-Code links on the lab pages (assets/vscode.js) -->
+    <section id="fyi-vscode">
+      <h2>For your info: Open code in VS Code</h2>
+      <div class="card">
+        <p>Nothing to do now. From Lab 1 on, every link to a <code>.cpp</code> or <code>.h</code> file on a lab page has a small <b>open in VS Code</b> link next to it, and the very last item in each lab page's left menu, <b>Open code in VS Code</b>, holds its settings. The link opens that file in VS Code, attached to your container, so you can read or run an example without hunting for it. For it to work:</p>
+        <ol class="steps">
+          <li><b>Start Docker Desktop and your container.</b> Docker Desktop shows <b>Engine running</b>, and <code>docker start cssskl342</code> (in PowerShell or the Mac Terminal) starts your container; <code>docker ps</code> lists it as <b>Up</b>.</li>
+          <li><b>Extract that lab's starter zip into your <code>CSSSKL342</code> folder</b>, as each lab's <i>Before lab</i> says, so you have <code>CSSSKL342/Lab1/exercises/</code> and <code>CSSSKL342/Lab1/examples/</code> (and so on for each lab). The link opens the file at that place inside the container: <code>/home/cssuwbstudent/CSSSKL342/Lab1/...</code>. A file you haven't extracted can't open.</li>
+          <li><b>Click an open in VS Code link.</b> The browser asks whether to open Visual Studio Code: allow it (you can tick the box to always allow it for this site). VS Code opens a window attached to <code>cssskl342</code> and asks whether to open the file: click <b>Yes</b>.</li>
+          <li><b>Used other names in step 6?</b> If your shared folder or your container has a different name, open <b>Open code in VS Code</b> at the bottom of a lab page's left menu and type the folder that holds your <code>LabN</code> folders (as Linux sees it) and your container's name. The browser remembers them; <b>Reset to the Pre-Lab setup</b> puts back <code>/home/cssuwbstudent/CSSSKL342</code> and <code>cssskl342</code>.</li>
+        </ol>
+        <div class="callout info"><span class="title">If a link does nothing</span>Check the three usual causes: Docker Desktop or the container isn't running (step 1), the lab's starter zip isn't extracted into <code>CSSSKL342</code> (step 2), or VS Code's <b>Dev Containers</b> extension is missing (<a href="#extensions">Pre-Lab step 2, Install the extensions</a>). The links are only a shortcut: you can always open the same files in VS Code, attached to the container, with <b>File &rarr; Open Folder&hellip;</b> and <code>/home/cssuwbstudent/CSSSKL342/LabN</code>.</div>
+      </div>
+    </section>
+
+    <footer>
+      CSS SKL 342 · Pre-Lab.
+    </footer>
+  </main>
+</div>
+
+<script src="../assets/lab.js"></script>
+</body>
+</html>

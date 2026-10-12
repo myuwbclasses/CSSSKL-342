@@ -1,0 +1,16 @@
+Exercise 3 -- predictions. Fill this in BEFORE running ./lifetime.
+For each scenario, list the lines you expect, in order (e.g. "+ a").
+
+Before "main starts":
+
+1: a block
+
+2: pass by value, then by const reference
+
+3: return by value
+
+4: a temporary (an object with no name)
+
+5: an object with object members
+
+After "main ends":

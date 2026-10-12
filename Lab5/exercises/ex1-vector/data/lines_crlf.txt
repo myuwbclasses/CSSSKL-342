@@ -1,0 +1,4 @@
+data structures in C++
+  extra   spaces   are   fine
+
+stacks queues lists
