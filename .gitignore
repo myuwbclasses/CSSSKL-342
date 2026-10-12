@@ -43,6 +43,7 @@ CLAUDE.md
 CLAUDE.local.md
 .claude/
 STATUS.md
+_build/
 
 # OS / editor clutter
 Thumbs.db
