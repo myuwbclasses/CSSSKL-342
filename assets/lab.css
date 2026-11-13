@@ -90,6 +90,7 @@
   .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
   header.hero h1 { font-size: 36px; line-height: 1.2; margin: 6px 0 10px; letter-spacing: -.02em; }
   header.hero p { margin: 0 0 16px; opacity: .92; max-width: 640px; position: relative; z-index: 1; }
+  header.hero p.topics { margin-top: -6px; font-size: 14px; opacity: .85; }
   .hero-links { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
   .btn {
     display: inline-flex; align-items: center; gap: 6px;
@@ -115,6 +116,16 @@
   .card.handson  { border-top: 4px solid var(--green); }
   .card.solution { border-top: 4px solid var(--amber); }
   .card.quiz     { border-top: 4px solid var(--accent); }
+
+  /* Optional blocks: closed by default (<details class="card optional">), so they don't distract */
+  details.card.optional { border-top: 4px dashed var(--border); padding-top: 16px; padding-bottom: 16px; }
+  details.card.optional > summary { cursor: pointer; list-style: none; margin-bottom: 0; }
+  details.card.optional > summary::-webkit-details-marker { display: none; }
+  details.card.optional > summary::before { content: "›"; color: var(--muted); font-size: 22px; line-height: 1; width: 14px; transition: transform .15s; }
+  details.card.optional[open] > summary { margin-bottom: 12px; }
+  details.card.optional[open] > summary::before { transform: rotate(90deg); }
+  details.card.optional[open] .opt-hint { display: none; }
+  details.card.optional > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
 
   /* Block headers inside each part */
   .block-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }

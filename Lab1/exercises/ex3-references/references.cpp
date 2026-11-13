@@ -1,7 +1,7 @@
 // references.cpp -- reference variables, pass by value vs. by reference,
 // const reference, and returning a reference.
 // Part A is given: run it and read it. Then implement each TODO function and
-// uncomment the matching lines in main().
+// uncomment the matching lines in main(). Part D: predict, run, fix.
 
 #include <iostream>
 #include <string>
@@ -28,7 +28,7 @@ void divide(int dividend, int divisor, int &quotient, int &remainder);
 // word.size() is the number of characters, and word[k] is the character at
 // position k (like Java's charAt). Make k a size_t: comparing an int with
 // word.size() gives a -Wsign-compare warning (Part 2).
-// Why is the parameter const string & rather than string? (Q5)
+// Why is the parameter const string & rather than string?
 int countVowels(const string &word);
 
 // ---------- Part C: returning a reference ----------
@@ -38,10 +38,24 @@ int countVowels(const string &word);
 //   larger(p, q) = 0;   // sets the larger of p and q to 0
 int &larger(int &a, int &b);
 
-// Given: a classic mistake. Compile with -Wall and read the warning (Q7).
+// Given: a classic mistake. Compile with -Wall and read the warning.
 int &badReference() {
     int local = 42;
     return local;
+}
+
+// ---------- Part D: predict, run, fix ----------
+
+// D1. Meant to add "!" to the end of the CALLER's string.
+// FIX (after you've run it): change one character in the parameter list.
+void addExclaim(string s) {
+    s += "!";
+}
+
+// D3. Meant to print a greeting without changing name.
+void greet(const string &name) {
+    // name[0] = 'J';   // D3: uncomment, compile, read the error, comment it out again
+    cout << "Hello, " << name << endl;
 }
 
 int main() {
@@ -51,14 +65,14 @@ int main() {
     int x = r;      // x is a new, separate int, initialized with a COPY of i's value
     cout << "start:      i = " << i << ", r = " << r << ", x = " << x << endl;
 
-    r = 2;          // changes... which variables? (Q1)
+    r = 2;          // changes... which variables?
     cout << "after r = 2: i = " << i << ", r = " << r << ", x = " << x << endl;
 
     // In an expression, &i means "the address of i": where i lives in memory.
     // (This & is different from the & in a declaration; pointers come later.)
     cout << "addresses:  &i = " << &i << ", &r = " << &r << ", &x = " << &x << endl;
 
-    // Q2: uncomment the next line, compile, read the error, then comment it out again.
+    // Uncomment the next line, compile, read the error, then comment it out again.
     // int &xr;
 
     // ---------- Part B: passing arguments ----------
@@ -87,6 +101,33 @@ int main() {
     cout << "p = " << p << ", q = " << q << endl;
     // larger(p, q)++;
     // cout << "p = " << p << ", q = " << q << endl;
+
+    // ---------- Part D: predict, run, fix ----------
+    // For each case: read the code, write your prediction after "Prediction:",
+    // THEN uncomment its lines, compile, run, and compare.
+
+    // D1. Prediction:
+    // string msg = "Done";
+    // addExclaim(msg);
+    // cout << "D1: " << msg << endl;
+
+    // D2. What are m, n, and ref at the end? Prediction:
+    // int m = 1, n = 7;
+    // int &ref = m;
+    // ref = n;
+    // ref++;
+    // cout << "D2: m = " << m << ", n = " << n << ", ref = " << ref << endl;
+
+    // D3. See greet() above. Prediction (does it compile?):
+    // greet("Sam");
+
+    // D4. Which of these three calls compile? Prediction:
+    // int y = 3;
+    // addOneByReference(y + 1);
+    // addOneByReference(5);
+    // addOneByReference(y);
+    // cout << "D4: y = " << y << endl;
+    // Then comment out the calls that don't compile, so the program builds again.
 
     return 0;
 }

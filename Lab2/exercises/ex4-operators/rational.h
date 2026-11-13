@@ -18,7 +18,7 @@ public:
 
     // Compound assignment: changes *this, returns *this by reference.
     Rational &operator+=(const Rational &rhs);
-    // TODO: declare operator*=
+    // Done early: declare operator*=
 
 private:
     int num_;
@@ -29,7 +29,7 @@ private:
 
 // Non-member operators, so that  2 + r  works as well as  r + 2.
 Rational operator+(const Rational &a, const Rational &b);
-// TODO: declare operator- and operator*
+// TODO: declare operator-     (Done early: operator*)
 
 bool operator==(const Rational &a, const Rational &b);
 // TODO: declare operator!=

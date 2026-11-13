@@ -1,5 +1,5 @@
 // limits.cpp -- explore the ranges of the built-in numeric types.
-// Complete each TODO, run the program, and answer the questions in answers.txt.
+// Complete each TODO and run the program.
 
 #include <iostream>
 #include <limits>
@@ -45,9 +45,6 @@ int main() {
     cout << "int:      " << numeric_limits<int>::min() << " to "
          << numeric_limits<int>::max() << endl;
     // TODO: print the same line for unsigned int, long, and long long.
-    // TODO: for float and double, print lowest(), max(), and epsilon().
-    //       (For floating-point types, min() means something different from
-    //       int's min() -- print it too and find out what.)
 
     // Part B: what happens at the edges?
     unsigned int u = 0;

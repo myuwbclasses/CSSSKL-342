@@ -24,6 +24,7 @@
     <a href="#container">6. Create your container</a>
     <a href="#connect">7. Connect VS Code to the container</a>
     <a href="#hello">8. Final test: Hello, world</a>
+    <a href="#linux-practice">9. Linux command practice</a>
     <a href="#trouble">Troubleshooting</a>
     <a href="#fallback">Can't install?</a>
     <a href="#next">Ready for Lab 1</a>
@@ -67,6 +68,7 @@
             <tr><td><a href="#container">6. Create your container</a></td><td>10 min</td><td>Your own Linux machine, <code>cssskl342</code>, sharing your <code>CSSSKL342</code> folder, and you know where your files live</td></tr>
             <tr><td><a href="#connect">7. Connect VS Code to the container</a></td><td>10 min</td><td>VS Code working inside the container, with the C/C++ extension installed there</td></tr>
             <tr><td><a href="#hello">8. Final test: Hello, world</a></td><td>10 min</td><td>A C++ program compiled and run on Linux, and the C/C++ &#9655; button in place</td></tr>
+            <tr><td><a href="#linux-practice">9. Linux command practice</a></td><td>35 min</td><td>The everyday terminal commands: moving around, files and folders, compiling, cleaning up</td></tr>
           </tbody>
         </table>
       </div>
@@ -465,9 +467,14 @@ int main() {
 <pre><code>cd hello
 g++ -std=c++17 -Wall -Wextra hello.cpp -o hello
 ./hello</code></pre>
-            <div class="expect">Expected: no messages from g++, then</div>
+            <details><summary>Show the expected output (open it after you've run the commands)</summary>
+            <figure class="shot"><a href="images/prelab-8-hello.png"><img src="images/prelab-8-hello.png" alt="VS Code terminal attached to the container: cd hello; g++ -std=c++17 -Wall -Wextra hello.cpp -o hello prints nothing; ./hello prints Hello from Linux!."></a><figcaption>In VS Code's terminal: <code>g++</code> prints nothing (no errors, no warnings), and the program prints <code>Hello from Linux!</code>. Click the picture to enlarge it.</figcaption></figure>
+            <details><summary>Show the output as text</summary>
 <pre><code>Hello from Linux!</code></pre>
+            <p>No messages from <code>g++</code>, then this one line from <code>./hello</code>.</p>
+            </details>
             <figure class="shot"><a href="images/hello-in-container.png"><img src="images/hello-in-container.png" alt="VS Code attached to the container with hello/hello.cpp open in the editor. The terminal (outlined) shows cd hello, the g++ command, ./hello, and the output Hello from Linux!. The bottom-left Container cssimages/linuxlab:latest indicator is outlined."></a><figcaption>The final test passed: hello.cpp compiled by Linux's <code>g++</code> and run in the container. Click any screenshot to enlarge it.</figcaption></figure>
+            </details>
           </li>
           <li><b>Find it on your computer.</b> Open your <code>CSSSKL342</code> folder in File Explorer or Finder: the <code>hello</code> folder is there, with <code>hello.cpp</code> and the compiled program <code>hello</code>. (Your computer can't run <code>hello</code> itself: it's a Linux program.)</li>
         </ol>
@@ -484,6 +491,216 @@ g++ -std=c++17 -Wall -Wextra hello.cpp -o hello
             </figure>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- 9. LINUX PRACTICE -->
+    <section id="linux-practice">
+      <div class="part-head">
+        <div class="part-num">9</div>
+        <div><h2>Linux command practice</h2><div class="sub">the terminal commands you'll use in every lab</div></div>
+      </div>
+      <div class="card">
+        <p>Every lab is done in a Linux terminal: VS Code's terminal, attached to your container. Lab 1 assumes you can already move around and manage files there, so practice now: about 35 minutes, in three parts. Work in the VS Code window attached to your container (bottom-left corner: <b>Container &hellip; (cssskl342)</b>), in a practice folder, <code>~/CSSSKL342/prelab</code>, that you delete at the end. Type each command yourself; don't paste.</p>
+      </div>
+
+      <div class="card handson" id="linux-warmup">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>9a. Warm-up: the everyday commands</h3><span class="mins">10 min</span></div>
+        <p>About fourteen commands do almost all of your work in a Linux terminal. Here they are; the full list, with their options and examples, is in the <a href="../reference/linux.html">Linux command reference</a>, a separate page linked from every lab page's left menu (<b>Reference</b>).</p>
+        <div class="tbl tbl-scroll">
+          <table>
+            <thead><tr><th style="width:22%">Command</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Where am I?</td></tr>
+              <tr><td><code>pwd</code></td><td>Print the current folder's full path.</td></tr>
+              <tr><td><code>ls</code></td><td>List the current folder: <code>-l</code> details, <code>-a</code> hidden names, <code>-R</code> everything inside.</td></tr>
+              <tr><td><code>cd</code></td><td>Change folder: <code>cd prelab</code>, <code>cd ..</code> (up one), <code>cd ~</code> (home).</td></tr>
+              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Files and folders</td></tr>
+              <tr><td><code>mkdir</code></td><td>Make a folder; <code>-p</code> also makes missing parents.</td></tr>
+              <tr><td><code>touch</code></td><td>Make an empty file.</td></tr>
+              <tr><td><code>cp</code></td><td>Copy a file; <code>-r</code> copies a folder.</td></tr>
+              <tr><td><code>mv</code></td><td>Move into a folder, or rename: the same command.</td></tr>
+              <tr><td><code>rm</code></td><td>Delete a file; <code>-r</code> a folder and everything in it. No Recycle Bin: it is gone.</td></tr>
+              <tr><td><code>rmdir</code></td><td>Delete an <i>empty</i> folder (the safe choice).</td></tr>
+              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Text</td></tr>
+              <tr><td><code>cat</code></td><td>Print a whole file.</td></tr>
+              <tr><td><code>less</code></td><td>Page through a long file: Space for more, <code>q</code> to quit.</td></tr>
+              <tr><td><code>echo</code></td><td>Print text; <code>&gt;</code> writes it into a file, <code>&gt;&gt;</code> adds it to the end.</td></tr>
+              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Help and the screen</td></tr>
+              <tr><td><code>--help</code></td><td>After any command, shows its options: <code>ls --help</code>.</td></tr>
+              <tr><td><code>clear</code></td><td>Clear the screen (or <code>Ctrl+L</code>).</td></tr>
+              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Keys</td></tr>
+              <tr><td><code>Tab</code></td><td>Finish a file or folder name.</td></tr>
+              <tr><td><code>&uarr; / &darr;</code></td><td>Bring back earlier commands.</td></tr>
+              <tr><td><code>Ctrl+C</code></td><td>Stop a running program.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>In VS Code's terminal (attached to your container), type each line yourself; don't paste. Everything after <code>#</code> is a comment for you: leave it out. Use <code>Tab</code> to finish names and <code>&uarr;</code> to repeat a command.</p>
+        <ol class="steps">
+          <li><b>Make a folder and some files.</b>
+<pre><code>cd ~/CSSSKL342                      # go to your course folder
+pwd                                 # where am I?
+mkdir -p prelab/warmup              # makes prelab, and warmup inside it
+cd prelab/warmup
+pwd
+touch empty.txt                     # an empty file
+echo "first line" &gt; notes.txt       # &gt;  writes into a file
+echo "second line" &gt;&gt; notes.txt     # &gt;&gt; adds to the end
+cat notes.txt
+ls</code></pre>
+            <details><summary>Show the expected output (open it after you've run the commands)</summary>
+            <figure class="shot"><a href="images/prelab-9a-step1.png"><img src="images/prelab-9a-step1.png" alt="VS Code terminal attached to the container. The prompt [cssuwbstudent@cssskl342 CSSSKL342]$ changes to warmup after cd. pwd prints /home/cssuwbstudent/CSSSKL342, then /home/cssuwbstudent/CSSSKL342/prelab/warmup; cat notes.txt prints first line and second line; ls prints empty.txt and notes.txt."></a><figcaption>Step 1 in VS Code's terminal: each command after the <code>$</code> prompt, and its output under it. Click the picture to enlarge it.</figcaption></figure>
+            <details><summary>Show the output as text</summary>
+<pre><code>/home/cssuwbstudent/CSSSKL342
+/home/cssuwbstudent/CSSSKL342/prelab/warmup
+first line
+second line
+empty.txt  notes.txt</code></pre>
+            </details>
+            </details></li>
+          <li><b>Copy, move, and rename.</b>
+<pre><code>cp notes.txt copy.txt               # copy
+mkdir backup
+mv copy.txt backup/                 # move into a folder
+mv empty.txt blank.txt              # rename: same command
+ls -R                               # checkpoint 1</code></pre>
+            <details><summary>Show the expected output (open it after you've run the commands)</summary>
+            <figure class="shot"><a href="images/prelab-9a-step2.png"><img src="images/prelab-9a-step2.png" alt="VS Code terminal: after cp, mkdir backup, and two mv commands, ls -R prints .: with backup, blank.txt, notes.txt, then ./backup: with copy.txt."></a><figcaption>Step 2: the <code>ls -R</code> output is checkpoint 1. Click the picture to enlarge it.</figcaption></figure>
+            <details><summary>Show the output as text</summary>
+<pre><code>.:
+backup  blank.txt  notes.txt
+
+./backup:
+copy.txt</code></pre>
+            </details>
+            </details></li>
+          <li><b>Delete, carefully.</b>
+<pre><code>rm blank.txt
+rmdir backup                        # fails -- read the message
+rm backup/copy.txt
+rmdir backup                        # now it works
+ls                                  # checkpoint 2: only notes.txt
+cd ..                               # up to prelab
+rm -r warmup                        # the folder and everything in it
+ls                                  # nothing left</code></pre>
+            <details><summary>Show the expected output (open it after you've run the commands)</summary>
+            <figure class="shot"><a href="images/prelab-9a-step3.png"><img src="images/prelab-9a-step3.png" alt="VS Code terminal: the first rmdir backup fails with rmdir: failed to remove 'backup': Directory not empty (marked with a red circle); after rm backup/copy.txt it works; ls prints notes.txt; after cd .. the prompt shows prelab, and after rm -r warmup, ls prints nothing."></a><figcaption>Step 3: the red circle marks the command that failed, the first <code>rmdir</code>; the last <code>ls</code> prints nothing. Click the picture to enlarge it.</figcaption></figure>
+            <details><summary>Show the output as text</summary>
+<pre><code>rmdir: failed to remove 'backup': Directory not empty
+notes.txt</code></pre>
+            </details>
+            </details>
+            The first <code>rmdir</code> says <code>rmdir: failed to remove 'backup': Directory not empty</code>: <code>rmdir</code> only deletes empty folders, which makes it the safe choice. <code>rm -r</code> deletes everything inside without asking, and nothing goes to the Recycle Bin, so check <code>pwd</code> first.</li>
+        </ol>
+        <div class="callout warn"><span class="title">Self-check</span>Your two checkpoints matched, the last <code>ls</code> printed nothing, and <code>pwd</code> now prints <code>/home/cssuwbstudent/CSSSKL342/prelab</code>: an empty <code>prelab</code> folder, ready for 9b.</div>
+      </div>
+
+      <div class="card handson" id="linux-practice-b">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>9b. Practice: on your own</h3><span class="mins">15 min</span></div>
+        <p>Now without step-by-step commands. Work in VS Code's terminal, starting in <code>~/CSSSKL342/prelab</code> (<code>cd ~/CSSSKL342/prelab</code>). Use the commands from 9a; the <a href="../reference/linux.html">Linux command reference</a> has them all. Check yourself against the expected output, and open the answer only after you've tried.</p>
+        <p><b>First, look things up.</b> Run <code>ls --help</code> (its first line is <code>Usage: ls [OPTION]... [FILE]...</code>), then <code>clear</code>. Open a long file with <code>less</code>, for example <code>less ~/CSSSKL342/hello/hello.cpp</code> (short, but it shows how): Space pages down, <code>q</code> quits.</p>
+        <ol class="steps">
+          <li><b>Build this tree.</b> In <code>prelab</code>, create a folder <code>practice</code> containing two folders, <code>src</code> and <code>docs</code>. In <code>src</code>, make two empty files, <code>main.cpp</code> and <code>util.h</code>. In <code>docs</code>, make <code>readme.txt</code> containing exactly two lines: <code>Lab 1</code>, then <code>practice</code>.
+            <div class="expect">Self-check: in <code>practice</code>, <code>ls -R</code> then <code>cat docs/readme.txt</code> print</div>
+<pre><code>.:
+docs  src
+
+./docs:
+readme.txt
+
+./src:
+main.cpp  util.h
+Lab 1
+practice</code></pre>
+            <details><summary>Show a model answer</summary>
+            <figure class="shot"><a href="images/prelab-9b-step1.png"><img src="images/prelab-9b-step1.png" alt="VS Code terminal: mkdir -p practice/src practice/docs, two touch-like steps, two echo commands, cd practice; then ls -R lists docs and src, ./docs: readme.txt, ./src: main.cpp util.h; cat docs/readme.txt prints Lab 1 and practice."></a><figcaption>The model answer in VS Code's terminal, then the self-check: <code>ls -R</code> and <code>cat docs/readme.txt</code>. Click the picture to enlarge it.</figcaption></figure>
+            <details><summary>Show the commands as text</summary>
+<pre><code>mkdir -p practice/src practice/docs
+touch practice/src/main.cpp practice/src/util.h
+echo "Lab 1" &gt; practice/docs/readme.txt
+echo "practice" &gt;&gt; practice/docs/readme.txt
+cd practice</code></pre>
+            </details>
+            </details></li>
+          <li><b>Reorganize it.</b> Still in <code>practice</code>: rename <code>src/util.h</code> to <code>src/convert.h</code>; copy <code>docs/readme.txt</code> into <code>src</code> under the name <code>notes.txt</code>; move <code>docs/readme.txt</code> up into <code>practice</code>; then delete the now-empty <code>docs</code> folder with the <i>safe</i> delete command.
+            <div class="expect">Self-check: <code>ls -R</code> prints</div>
+<pre><code>.:
+readme.txt  src
+
+./src:
+convert.h  main.cpp  notes.txt</code></pre>
+            Then try the same safe delete on <code>src</code>. What happens, and why is that a good thing?
+            <details><summary>Show a model answer</summary>
+            <figure class="shot"><a href="images/prelab-9b-step2.png"><img src="images/prelab-9b-step2.png" alt="VS Code terminal: mv, cp, mv docs/readme.txt ., rmdir docs; ls -R lists readme.txt and src, and ./src: convert.h main.cpp notes.txt; rmdir src fails with rmdir: failed to remove 'src': Directory not empty."></a><figcaption>The model answer, then the self-check <code>ls -R</code>, then the safe delete tried on <code>src</code>: the red circle marks the failed command. Click the picture to enlarge it.</figcaption></figure>
+            <details><summary>Show the commands as text</summary>
+<pre><code>mv src/util.h src/convert.h
+cp docs/readme.txt src/notes.txt
+mv docs/readme.txt .
+rmdir docs</code></pre>
+            </details>
+            <p><code>rmdir src</code> prints <code>rmdir: failed to remove 'src': Directory not empty</code>. <code>rmdir</code> refuses to delete a folder that still has files in it, so you can't lose work by accident; <code>rm -r src</code> would have deleted everything without asking. (<code>.</code> in <code>mv docs/readme.txt .</code> means "here, the current folder".)</p>
+            </details></li>
+          <li><b>Use relative paths.</b> Go into <code>src</code>. Without leaving it: print your current folder; print <code>practice/readme.txt</code> using a path that starts with <code>..</code>; copy that file into <code>src</code> as <code>copy.txt</code>; list <code>src</code>, and then list <code>practice</code> (again using <code>..</code>). Finally go back to <code>prelab</code> and delete the whole <code>practice</code> folder.
+            <div class="expect">Self-check: the commands print, in order</div>
+<pre><code>/home/cssuwbstudent/CSSSKL342/prelab/practice/src
+Lab 1
+practice
+convert.h  copy.txt  main.cpp  notes.txt
+readme.txt  src</code></pre>
+            and at the end, <code>pwd</code> is <code>/home/cssuwbstudent/CSSSKL342/prelab</code> and <code>ls</code> prints nothing.
+            <details><summary>Show a model answer</summary>
+            <figure class="shot"><a href="images/prelab-9b-step3.png"><img src="images/prelab-9b-step3.png" alt="VS Code terminal: cd src; pwd prints /home/cssuwbstudent/CSSSKL342/prelab/practice/src; cat ../readme.txt prints Lab 1 and practice; after cp, ls prints convert.h copy.txt main.cpp notes.txt; ls .. prints readme.txt src; cd ../..; rm -r practice; ls prints nothing."></a><figcaption>The model answer in VS Code's terminal: the prompt shows the current folder change from <code>practice</code> to <code>src</code> and back to <code>prelab</code>. Click the picture to enlarge it.</figcaption></figure>
+            <details><summary>Show the commands as text</summary>
+<pre><code>cd src
+pwd
+cat ../readme.txt
+cp ../readme.txt copy.txt
+ls
+ls ..
+cd ../..
+rm -r practice
+ls</code></pre>
+            </details>
+            </details></li>
+        </ol>
+      </div>
+
+      <div class="card handson" id="linux-practice-c">
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>9c. Practice: code files from the terminal</h3><span class="mins">10 min</span></div>
+        <p>The same commands, now with a C++ file, the way you'll work in every lab. Still in <code>~/CSSSKL342/prelab</code>; your step 8 program is in <code>~/CSSSKL342/hello</code>.</p>
+        <ol class="steps">
+          <li><b>Compile somewhere else.</b> In <code>prelab</code>, make a folder <code>greet</code>. Copy your step 8 <code>hello.cpp</code> into it under the name <code>greet.cpp</code>, using a path that starts with <code>..</code>. Go into <code>greet</code>, compile <code>greet.cpp</code> into a program named <code>greet</code> (with <code>-std=c++17 -Wall -Wextra</code>), run it, and list the folder. Then delete only the program, keep <code>greet.cpp</code>, and list the folder again.
+            <div class="expect">Self-check: running the program, then the two <code>ls</code>, print</div>
+<pre><code>Hello from Linux!
+greet  greet.cpp
+greet.cpp</code></pre>
+            <details><summary>Show a model answer</summary>
+            <figure class="shot"><a href="images/prelab-9c-step1.png"><img src="images/prelab-9c-step1.png" alt="VS Code terminal: mkdir greet; cp ../hello/hello.cpp greet/greet.cpp; cd greet; g++ -std=c++17 -Wall -Wextra greet.cpp -o greet prints nothing; ./greet prints Hello from Linux!; ls prints greet greet.cpp; rm greet; ls prints greet.cpp."></a><figcaption>The model answer in VS Code's terminal: g++ prints nothing (no errors, no warnings), and the program prints <code>Hello from Linux!</code>. Click the picture to enlarge it.</figcaption></figure>
+            <details><summary>Show the commands as text</summary>
+<pre><code>mkdir greet
+cp ../hello/hello.cpp greet/greet.cpp
+cd greet
+g++ -std=c++17 -Wall -Wextra greet.cpp -o greet
+./greet
+ls
+rm greet
+ls</code></pre>
+            </details>
+            <p><code>-o greet</code> names the program; without it, g++ calls it <code>a.out</code>. <code>./greet</code> runs the program in the current folder. Deleting the program is safe: <code>g++</code> can always make it again from <code>greet.cpp</code>.</p>
+            </details></li>
+          <li><b>Clean up.</b> Go to <code>~/CSSSKL342</code> and delete the whole <code>prelab</code> folder with one command. Check first with <code>pwd</code>: <code>rm -r</code> doesn't ask.
+            <div class="expect">Self-check: <code>ls</code> in <code>~/CSSSKL342</code> lists <code>hello</code> (and any other folders you made there), and no <code>prelab</code></div>
+            <details><summary>Show a model answer</summary>
+            <figure class="shot"><a href="images/prelab-9c-step2.png"><img src="images/prelab-9c-step2.png" alt="VS Code terminal: cd ~/CSSSKL342; pwd prints /home/cssuwbstudent/CSSSKL342; rm -r prelab; ls prints hello."></a><figcaption>The model answer in VS Code's terminal: after <code>rm -r prelab</code>, only <code>hello</code> is left. Click the picture to enlarge it.</figcaption></figure>
+            <details><summary>Show the commands as text</summary>
+<pre><code>cd ~/CSSSKL342
+pwd
+rm -r prelab
+ls</code></pre>
+            </details>
+            </details></li>
+        </ol>
       </div>
     </section>
 
@@ -511,6 +728,10 @@ g++ -std=c++17 -Wall -Wextra hello.cpp -o hello
             <tr><td>Step 8: the terminal prompt looks like <code>PS C:\…&gt;</code> or <code>you@your-mac ~ %</code></td><td>That terminal is on your computer, not in Linux: you're in the wrong VS Code window. Use the window whose bottom-left corner says <b>Container … (cssskl342)</b>.</td></tr>
             <tr><td>Step 8: <code>g++: command not found</code></td><td>Same cause as the row above: that terminal isn't in the container.</td></tr>
             <tr><td>Step 8: no &#9655; button, or no <b>Run/Debug C/C++ File</b> in its menu</td><td>C/C++ isn't installed in the container. In the attached window, open Extensions, search <b>C/C++ Extension Pack</b> (Microsoft), and click <b>Install in Container</b>; then check with the step 7 self-check. The button only shows while a <code>.cpp</code> file is open.</td></tr>
+            <tr><td>Step 9: <i>No such file or directory</i></td><td>You're in a different folder than you think. Run <code>pwd</code> to see where you are and <code>ls</code> to see what's there; the prompt shows only the last part of the folder name. <code>cd ~/CSSSKL342/prelab</code> takes you back to the practice folder from anywhere.</td></tr>
+            <tr><td>Step 9: <code>rmdir: failed to remove '…': Directory not empty</code></td><td>Expected in 9a step 3 and 9b step 2: <code>rmdir</code> deletes only empty folders. That's the point of the exercise, not a mistake.</td></tr>
+            <tr><td>Step 9: you typed the <code>#</code> comments too</td><td>Harmless: bash ignores everything from <code>#</code> to the end of the line. Leave them out next time to save typing.</td></tr>
+            <tr><td>Step 9: a command seems stuck, with no new prompt</td><td>Usually an unclosed quote (<code>echo "first line</code>) or a program waiting for input. Press <code>Ctrl+C</code> to get the prompt back, then type the command again; <code>less</code> quits with <code>q</code>.</td></tr>
             <tr><td>Mac: Docker says it can't run on this computer, or is very slow</td><td>You probably downloaded the build for the other chip. Delete Docker from Applications and install the one that matches <b>About This Mac</b>.</td></tr>
           </tbody>
         </table>
@@ -522,7 +743,7 @@ g++ -std=c++17 -Wall -Wextra hello.cpp -o hello
       <h2>Can't install?</h2>
       <div class="card">
         <p>If your computer can't run Docker (a Chromebook, a computer without virtualization, a work laptop you can't install on) or you run out of time, use the <b>CSS remote Linux lab</b> instead. It has the same tools, and VS Code connects to it with the <b>Remote - SSH</b> extension from step 2 instead of Docker. Follow the CSS wiki's <a href="https://csswiki.uwb.edu/how-to-connect-to-linux-lab-machines/">How to access the Linux lab</a> and <a href="https://csswiki.uwb.edu/quick-ssh-setup-for-linux-lab/">SSH key setup</a>, and check that <code>g++ --version</code> works there.</p>
-        <p>You still need VS Code (step 1) and the Remote Development pack (step 2) on the computer you bring. Skip steps 3–6. In a VS Code window connected to the Linux lab over SSH, install C/C++ as in <a href="#connect">step 7</a> (over SSH, the button says <b>Install in SSH</b> instead of <b>Install in Container</b>), then do the <a href="#hello">final test</a> (step 8) in a <code>CSSSKL342</code> folder in your Linux lab home directory.</p>
+        <p>You still need VS Code (step 1) and the Remote Development pack (step 2) on the computer you bring. Skip steps 3–6. In a VS Code window connected to the Linux lab over SSH, install C/C++ as in <a href="#connect">step 7</a> (over SSH, the button says <b>Install in SSH</b> instead of <b>Install in Container</b>), then do the <a href="#hello">final test</a> (step 8) in a <code>CSSSKL342</code> folder in your Linux lab home directory, and the <a href="#linux-practice">Linux command practice</a> (step 9) in the same folder: its commands and paths work there unchanged.</p>
       </div>
     </section>
 
@@ -535,9 +756,10 @@ g++ -std=c++17 -Wall -Wextra hello.cpp -o hello
           <li>All six checks in step 5 matched.</li>
           <li>Your container <code>cssskl342</code> shows as <b>Up</b> in <code>docker ps</code>, and you can say where <code>/home/cssuwbstudent/CSSSKL342</code> is on your own computer.</li>
           <li>The C/C++ extension is installed in the container (step 7 self-check).</li>
+          <li>You did the Linux command practice in step 9 and your self-checks matched.</li>
           <li>In VS Code attached to the container, <code>hello.cpp</code> compiled with no messages and printed <code>Hello from Linux!</code>, and the &#9655; button offers <b>Run C/C++ File</b> and <b>Debug C/C++ File</b>.</li>
         </ul>
-        <p style="margin:8px 0 0">Lab 1 begins in your running container, with VS Code attached (it starts with a Linux command warm-up), so bring your laptop (and charger) with all of this working. Stuck? Send your instructor the exact error message before Lab 1.</p>
+        <p style="margin:8px 0 0">Lab 1 begins in your running container, with VS Code attached, and assumes the step 9 commands, so bring your laptop (and charger) with all of this working. Stuck? Send your instructor the exact error message before Lab 1.</p>
       </div>
     </section>
 

@@ -5,7 +5,7 @@
 // TODO 1: make Entry a class template, Entry<T>, where T is the type of the
 //         value (the label stays a std::string). Move the definitions from
 //         entry.cpp into this file, below the class, and delete entry.cpp.
-// TODO 2: a global operator<< that prints an Entry as label=value, for
+// Done early (TODO 2): a global operator<< that prints an Entry as label=value, for
 //         example apples=12. Entry has no getLabel(), so make operator<< a
 //         friend of Entry.
 #ifndef ENTRY_H

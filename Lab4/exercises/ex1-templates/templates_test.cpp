@@ -40,12 +40,12 @@ int main() {
     // Entry<string> nickname("Ann", "annie");
     // cout << price.getValue() << " " << nickname.getValue() << endl;             // 0.75 annie
 
-    // ---- TODO 2: operator<<
+    // ---- Done early (TODO 2 in entry.h): operator<<
     // Entry<int> figs("figs", 3);
     // cout << boolalpha << (figs < apples) << " " << (apples < figs) << endl;                  // true false
     // cout << figs << " " << apples << " " << price << " " << nickname << endl;              // figs=3 apples=13 pear=0.75 Ann=annie
 
-    // ---- Last: arrays of Entry, printed and sorted by your Part A templates
+    // ---- Done early, after TODO 2: arrays of Entry, printed and sorted by your Part A templates
     // Entry<int> stock[] = {{"pears", 7}, {"figs", 3}, {"kiwis", 12}, {"limes", 5}};
     // printArray(stock, 4);             // pears=7 figs=3 kiwis=12 limes=5
     // sortArray(stock, 4);

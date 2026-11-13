@@ -25,9 +25,9 @@ int main() {
     check(-0.4, 0);
     check(-0.6, -1);
 
-    // TODO: add at least 6 more cases. Include exact halves (2.5, -2.5),
-    // whole numbers, 0.0, and at least one value you think might be tricky.
-    // You may compare against round (from <cmath>) here, in the tests.
+    // TODO: add at least 3 more cases: an exact half (2.5), a negative exact
+    // half (-2.5), and 0.0. You may compare against round (from <cmath>) here,
+    // in the tests.
 
     cout << failures << " failure(s)" << endl;
     return failures == 0 ? 0 : 1;

@@ -56,7 +56,7 @@ int main() {
     // TODO 6: count_if: how many students have gpa >= 3.0?
 
     // TODO 7: accumulate: the average gpa. (Start the sum at 0.0, not 0:
-    //         see Q4.)
+    //         the result has the start value's type.)
 
     // TODO 8: a lambda that CAPTURES a local variable: let int minId = 1040;
     //         count the students whose id >= minId with

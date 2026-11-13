@@ -20,36 +20,37 @@
       <summary title="Show or hide the sections of Part 1"><a href="#part1">1. Templates</a></summary>
       <a href="#p1-lecture" class="sub">Lecture: generic code</a>
       <a href="#ex1" class="sub">Exercise 1: sort, Entry&lt;T&gt;</a>
+      <a href="#p1-ahead" class="sub">Done early?</a>
       <a href="#p1-solution" class="sub">Walkthrough 1</a>
       <a href="#p1-selftest" class="sub">Self-test</a>
-      <a href="#p1-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 2"><a href="#part2">2. The rule of three</a></summary>
       <a href="#p2-lecture" class="sub">Lecture: copies that own memory</a>
       <a href="#ex2" class="sub">Exercise 2: IntArray copies</a>
+      <a href="#p2-ahead" class="sub">Done early?</a>
       <a href="#p2-solution" class="sub">Walkthrough 2</a>
       <a href="#p2-selftest" class="sub">Self-test</a>
-      <a href="#p2-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 3"><a href="#part3">3. Copying a linked chain</a></summary>
       <a href="#p3-lecture" class="sub">Lecture: deep-copying a chain</a>
       <a href="#ex3" class="sub">Exercise 3: LinkedStack</a>
+      <a href="#p3-ahead" class="sub">Done early?</a>
       <a href="#p3-solution" class="sub">Walkthrough 3</a>
       <a href="#p3-selftest" class="sub">Self-test</a>
-      <a href="#p3-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 4"><a href="#part4">4. Exceptions and RAII</a></summary>
       <a href="#p4-lecture" class="sub">Lecture: throw, catch, RAII</a>
       <a href="#ex4" class="sub">Exercise 4: exceptions</a>
+      <a href="#p4-ahead" class="sub">Done early?</a>
       <a href="#p4-solution" class="sub">Walkthrough 4</a>
       <a href="#p4-selftest" class="sub">Self-test</a>
-      <a href="#p4-quiz" class="sub">Section quiz</a>
     </details>
-    <a href="#submit">What to submit</a>
     <a href="#takeaways">Takeaways</a>
+    <a href="#quiz">Lab 4 Quiz</a>
+    <a href="#submit">What to submit (after class)</a>
     <div class="label" style="margin-top:24px">Reference</div>
     <a href="../reference/linux.html">Linux commands</a>
     <a href="../reference/gdb.html">gdb commands</a>
@@ -68,7 +69,8 @@
     <header class="hero">
       <div class="eyebrow">CSS SKL 342 · Lab 4</div>
       <h1>Templates and Classes That Own Memory</h1>
-      <p>Write code once for any type with function and class templates. Then the classes that own memory: what must happen when they're copied, assigned, and destroyed (the rule of three), for an array and for a chain of nodes, and how exceptions and RAII keep that memory safe. Every array-based and linked container you'll write in CSS 342, the course this lab supports, is a class template that needs all of this.</p>
+      <p>Write code once for any type with function and class templates. Then the classes that own memory: what must happen when they're copied, assigned, and destroyed (the rule of three), for an array and for a chain of nodes, and how exceptions and RAII keep that memory safe. Every array-based and linked container you'll write in CSS 342, the course this lab supports, is a class template that needs all of this. The lab ends with a short open-book quiz, on paper; you submit your code after class.</p>
+      <p class="topics"><b>Topics:</b> Templates · copy constructors and assignment operators · deep vs. shallow copy · exceptions</p>
       <div class="hero-links">
         <a class="btn" href="#schedule">Schedule</a>
         <a class="btn" href="#submit">What to submit</a>
@@ -82,7 +84,7 @@
       <div class="card">
         <ol class="steps">
           <li>Finish Lab 3. This lab uses <code>new</code>/<code>delete</code>, arrays, linked nodes, and valgrind constantly, and Lab 2's operators (<code>&lt;</code>, <code>==</code>, <code>&lt;&lt;</code>, <code>+=</code> returning <code>*this</code>).</li>
-          <li>Download the starter code, <a href="Lab4-starter.zip">Lab4-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder, so you have <span class="path">CSSSKL342/Lab4/exercises/</span>, with one folder per exercise, and <span class="path">CSSSKL342/Lab4/examples/</span> (the lecture examples) (the same way as in Lab 1). That <span class="path">Lab4</span> folder is what you zip and submit.</li>
+          <li>Download the starter code, <a href="Lab4-starter.zip">Lab4-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder, so you have <span class="path">CSSSKL342/Lab4/exercises/</span>, with one folder per exercise, and <span class="path">CSSSKL342/Lab4/examples/</span> (the lecture examples) (the same way as in Lab 1). That <span class="path">Lab4</span> folder is what you zip and submit after class.</li>
           <li>Every <code>Makefile</code> has a <code>check</code> target that runs valgrind. Use it.</li>
         </ol>
       </div>
@@ -95,49 +97,56 @@
           <thead>
             <tr><th>Topic</th><th>Block</th><th>Time</th><th>Length</th><th>Activity</th></tr>
           </thead>
-          <tbody>
+                    <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part1"><span class="num">1</span>Templates</a><small>function and class templates, templates live in headers</small></td>
               <td><span class="tag lecture">Lecture</span></td><td class="time">1:15</td><td class="time">15 min</td><td><a href="#p1-lecture">Generic code</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:30</td><td class="time">35 min</td><td><a href="#ex1">Exercise 1: sort templates and a class template</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:05</td><td class="time">10 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:30</td><td class="time">25 min</td><td><a href="#ex1">Exercise 1: sort templates and a class template</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">1:55</td><td class="time">5 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part2"><span class="num">2</span>The rule of three</a><small>destructor, copy constructor, <code>operator=</code></small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">2:15</td><td class="time">20 min</td><td><a href="#p2-lecture">Copies of a class that owns memory</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">2:00</td><td class="time">15 min</td><td><a href="#p2-lecture">Copies of a class that owns memory</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:35</td><td class="time">35 min</td><td><a href="#ex2">Exercise 2: copying and assigning an IntArray</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:10</td><td class="time">10 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:15</td><td class="time">30 min</td><td><a href="#ex2">Exercise 2: copying and assigning an IntArray</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:45</td><td class="time">5 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
           </tbody>
           <tbody class="break">
-            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">3:20</td><td class="time">10 min</td><td></td></tr>
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">2:50</td><td class="time">10 min</td><td></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part3"><span class="num">3</span>Copying a linked chain</a><small>the rule of three for a chain of nodes</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">3:30</td><td class="time">10 min</td><td><a href="#p3-lecture">Deep-copying a chain</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:00</td><td class="time">10 min</td><td><a href="#p3-lecture">Deep-copying a chain</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:40</td><td class="time">30 min</td><td><a href="#ex3">Exercise 3: LinkedStack</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:10</td><td class="time">5 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:10</td><td class="time">30 min</td><td><a href="#ex3">Exercise 3: LinkedStack</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:40</td><td class="time">5 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+          </tbody>
+          <tbody class="break">
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">3:45</td><td class="time">10 min</td><td></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part4"><span class="num">4</span>Exceptions and RAII</a><small>throw, try/catch, <code>unique_ptr</code></small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">4:15</td><td class="time">15 min</td><td><a href="#p4-lecture">Throw, catch, and clean up</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:55</td><td class="time">15 min</td><td><a href="#p4-lecture">Throw, catch, and clean up</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:30</td><td class="time">25 min</td><td><a href="#ex4">Exercise 4: exceptions</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:55</td><td class="time">10 min</td><td><a href="#p4-solution">Walkthrough 4</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:10</td><td class="time">25 min</td><td><a href="#ex4">Exercise 4: exceptions</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:35</td><td class="time">10 min</td><td><a href="#p4-solution">Walkthrough 4</a></td></tr>
           </tbody>
           <tbody>
-            <tr><td class="topic"><a href="#submit">Catch-up and wrap-up</a><small>finish, package, review</small></td><td><span class="tag solution">Wrap-up</span></td><td class="time">5:05</td><td class="time">10 min</td><td>Finish any exercise, build your <a href="#submit">submission zip</a>, and review the <a href="#takeaways">takeaways</a></td></tr>
+            <tr>
+              <td class="topic" rowspan="2"><a href="#quiz">Quiz and review</a><small>open book, then the answers</small></td>
+              <td><span class="tag quiz">Quiz</span></td><td class="time">End</td><td class="time"></td><td><a href="#quiz">Lab 4 Quiz, on paper</a> (10 questions, open book): <b>hand it in before you leave</b></td>
+            </tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">After</td><td class="time">10 min</td><td>We go over the quiz answers and the <a href="#takeaways">takeaways</a></td></tr>
           </tbody>
         </table>
       </div>
       <div class="callout info">
-        <span class="title">Self-checks</span>
-        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. Everything is submitted together as one zip at the end (see <a href="#submit">What to submit</a>).
+        <span class="title">Self-checks, and submitting after class</span>
+        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. If you fall behind, follow the walkthrough anyway and finish after class: you submit everything together as one zip <b>after class, by 11:59 pm on the day of the lab</b> (see <a href="#submit">What to submit</a>).
       </div>
     </section>
 
@@ -180,7 +189,7 @@ convertTo&lt;int&gt;(3.99);                  // R must be named; T deduced: 3</c
       </div>
 
       <div class="card handson" id="ex1">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 1: Sort templates and a class template</h3><span class="mins">35 min</span></div>
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 1: Sort templates and a class template</h3><span class="mins">25 min</span></div>
         <p>Folder: <span class="path">Lab4/exercises/ex1-templates/</span>. One test program, <code>templates_test.cpp</code>, covers both parts: uncomment each block when its step is done, then run <code>make</code> and <code>./templates_test</code>.</p>
         <h4>Part A: function templates</h4>
         <ol class="steps">
@@ -191,15 +200,47 @@ convertTo&lt;int&gt;(3.99);                  // R must be named; T deduced: 3</c
         <h4>Part B: turn a working class into a class template</h4>
         <p><code>Entry</code> (<code>entry.h</code>, <code>entry.cpp</code>) is an ordinary class that works: a label with an <code>int</code> value, like <code>"apples"</code> 12. It has a constructor, <code>getValue</code>, <code>setValue</code>, and <code>operator&lt;</code> (comparing the values).</p>
         <ol class="steps">
-          <li>TODO 1: make <code>Entry</code> a class template, <code>Entry&lt;T&gt;</code>, where <code>T</code> is the type of the value (the label stays a <code>string</code>). Move the definitions from <code>entry.cpp</code> into <code>entry.h</code> and delete <code>entry.cpp</code>. In <code>templates_test.cpp</code>, change <code>Entry fruit[]</code> and <code>Entry apples</code> to <code>Entry&lt;int&gt;</code>, and uncomment the TODO 1 block, which makes an <code>Entry&lt;double&gt;</code> and an <code>Entry&lt;string&gt;</code>.</li>
-          <li>TODO 2: add a global <code>operator&lt;&lt;</code> that prints an <code>Entry</code> as <code>label=value</code>. <code>Entry</code> has no <code>getLabel()</code>, so make <code>operator&lt;&lt;</code> a friend of <code>Entry</code> (example 1.2 shows how, for a class template). Uncomment the TODO 2 block.</li>
-          <li>Last: uncomment the final block. It makes arrays of <code>Entry&lt;int&gt;</code> and <code>Entry&lt;string&gt;</code> and prints and sorts them with <em>your</em> <code>printArray</code> and <code>sortArray</code> from Part A. Run <code>make check</code>.</li>
+          <li>TODO 1: make <code>Entry</code> a class template, <code>Entry&lt;T&gt;</code>, where <code>T</code> is the type of the value (the label stays a <code>string</code>). Move the definitions from <code>entry.cpp</code> into <code>entry.h</code> and delete <code>entry.cpp</code>. In <code>templates_test.cpp</code>, change <code>Entry fruit[]</code> and <code>Entry apples</code> to <code>Entry&lt;int&gt;</code>, and uncomment the TODO 1 block, which makes an <code>Entry&lt;double&gt;</code> and an <code>Entry&lt;string&gt;</code>. Run <code>make check</code>.</li>
         </ol>
-        <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./templates_test</code> matches every comment with all blocks uncommented, and that <code>make check</code> is clean.</div>
+        <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./templates_test</code> matches every comment in the Part A and TODO 1 blocks, and that <code>make check</code> is clean. (<code>operator&lt;&lt;</code>, TODO 2, is a Done early challenge.)</div>
       </div>
 
+      <details class="card optional" id="p1-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about templates</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order.</p>
+        <ol class="steps">
+          <li><b>Print an <code>Entry</code> with <code>&lt;&lt;</code>.</b> (TODO 2 in <code>entry.h</code>.) Add a global <code>operator&lt;&lt;</code> that prints an <code>Entry</code> as <code>label=value</code>. <code>Entry</code> has no <code>getLabel()</code>, so make <code>operator&lt;&lt;</code> a friend of <code>Entry</code>: example 1.2 shows how, for a class template. Then uncomment the two Done early blocks in <code>templates_test.cpp</code>: they print <code>Entry</code>s, and sort and print arrays of them with <i>your</i> Part A templates. Run <code>make check</code>.
+            <details><summary>Show what happens</summary>
+            <pre><code>true false
+figs=3 apples=13 pear=0.75 Ann=annie
+pears=7 figs=3 kiwis=12 limes=5
+figs=3 limes=5 pears=7 kiwis=12
+Bo=amy Cy=max Ann=zed</code></pre>
+            <p>Inside the class: <code>template &lt;typename U&gt; friend std::ostream &amp;operator&lt;&lt;(std::ostream &amp;out, const Entry&lt;U&gt; &amp;entry);</code>, with its own template line. Without it, the friend declares a <i>non-template</i> function for each <code>Entry&lt;T&gt;</code>, g++ warns <code>friend declaration ... declares a non-template function</code>, and the link fails with <code>undefined reference</code>. <code>printArray</code> uses <code>&lt;&lt;</code> on each element, so once <code>Entry</code> has one, your Part A template prints <code>Entry</code>s too.</p>
+            </details></li>
+          <li><b>When deduction fails.</b> <code>maxof.cpp</code>; save it in a scratch folder outside <code>Lab4</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run. Then add <code>cout &lt;&lt; maxOf(3, 4.5) &lt;&lt; endl;</code> and compile again.<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+template &lt;typename T&gt;
+T maxOf(T a, T b) {
+    return (a &lt; b) ? b : a;
+}
+
+int main() {
+    cout &lt;&lt; maxOf(3, 7) &lt;&lt; " " &lt;&lt; maxOf(2.5, 1.5) &lt;&lt; endl;
+    cout &lt;&lt; maxOf&lt;double&gt;(3, 4.5) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>7 2.5
+4.5</code></pre>
+            <p><code>maxOf(3, 4.5)</code> fails: <code>no matching function for call to 'maxOf(int, double)'</code>, with the note <code>deduced conflicting types for parameter 'T' ('int' and 'double')</code>. One <code>T</code> can't be both. Writing <code>maxOf&lt;double&gt;</code> chooses <code>T</code> yourself; then <code>3</code> converts to <code>3.0</code>.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p1-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">10 min</span></div>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">5 min</span></div>
         <p>The templated sort; <code>Entry</code> before and after, line by line: the template line, <code>Entry&lt;T&gt;::</code>, <code>int</code> becoming <code>T</code>, and the friend <code>operator&lt;&lt;</code> with its own template line; the <code>undefined reference</code> error from splitting a template into a <code>.cpp</code>, demonstrated live with <a href="examples/1.3.template_in_cpp/README.txt">example 1.3</a>.</p>
       </div>
 
@@ -215,16 +256,10 @@ convertTo&lt;int&gt;(3.99);                  // R must be named; T deduced: 3</c
           <li>You put a class template's member definitions in <code>Stack.cpp</code> and get <code>undefined reference to Stack&lt;int&gt;::push(int const&amp;)</code>. Why, and what's the fix?
             <details><summary>Show answer</summary><p>The file that uses <code>Stack&lt;int&gt;</code> only saw declarations, and <code>Stack.cpp</code> never instantiated <code>Stack&lt;int&gt;</code>, so no object file contains <code>push</code>. Move the definitions into the header.</p></details>
           </li>
-          <li>What's wrong with <code>vector&lt;int&gt; v; v[0] = 5;</code>?
-            <details><summary>Show answer</summary><p><code>v</code> is empty, so there is no <code>v[0]</code>: undefined behavior, like writing past the end of an array (with g++ it crashes). Use <code>v.push_back(5);</code>.</p></details>
+          <li>With example 1.2's <code>Box</code>: does <code>Box&lt;int&gt; a(1); Box&lt;double&gt; b = a;</code> compile?
+            <details><summary>Show answer</summary><p>No: <code>conversion from 'Box&lt;int&gt;' to non-scalar type 'Box&lt;double&gt;' requested</code>. Each <code>T</code> makes a separate, unrelated class, so <code>Box&lt;int&gt;</code> and <code>Box&lt;double&gt;</code> are two different types with no conversion between them, even though an <code>int</code> converts to a <code>double</code>.</p></details>
           </li>
         </ol>
-      </div>
-
-      <div class="card quiz" id="p1-quiz" data-quiz="Lab 4 Exercise 1 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 1 available on Canvas as the quiz <b>Lab 4 Exercise 1 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
       </div>
     </section>
 
@@ -236,7 +271,7 @@ convertTo&lt;int&gt;(3.99);                  // R must be named; T deduced: 3</c
       </div>
 
       <div class="card lecture" id="p2-lecture">
-        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Copies of a class that owns memory</h3><span class="mins">20 min</span></div>
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Copies of a class that owns memory</h3><span class="mins">15 min</span></div>
         <p class="why">In C++, copying an object is the default: passing by value, returning, and <code>=</code> all make copies. For most classes the compiler-written copy is right, but for a class that owns memory through a pointer it copies only the address, leaving two objects that share one block of memory and both delete it. Every CSS 342 container that uses <code>new</code> needs its own copy rules, and this part shows how to write them.</p>
         <ul>
           <li><b>Shallow vs. deep copy:</b> copying a pointer copies the <i>address</i> it holds, not what it points at. A <b>shallow copy</b> (<code>int *shallow = original;</code>) leaves two pointers to <i>one</i> array: a change through one shows up through the other. A <b>deep copy</b> gets its own memory (<code>new</code>) and copies the <i>values</i> into it: a different address, and changes stay separate. Example: <a href="examples/2.1.shallow_vs_deep/copies.cpp">2.1.shallow_vs_deep/copies.cpp</a> copies a 4-element array both ways, sets <code>original[0] = 99</code>, and prints each pointer's address and values (<a href="examples/2.1.shallow_vs_deep/README.txt">README.txt</a>):
@@ -307,7 +342,7 @@ deep     points to 0x238efed0: 10 20 30 40</code></pre>
       </div>
 
       <div class="card handson" id="ex2">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: Copying and assigning an IntArray</h3><span class="mins">35 min</span></div>
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: Copying and assigning an IntArray</h3><span class="mins">30 min</span></div>
         <p>Folder: <span class="path">Lab4/exercises/ex2-copy/</span>. <code>IntArray</code> is a growable array that owns its memory. It has a destructor, but no copy constructor and no <code>operator=</code>.</p>
         <ol class="steps">
           <li>Run <code>make</code> and <code>./copy_test</code>. Compare each line with the expected value in the comments, and note how the program ends. Run <code>make check</code> (valgrind) and look at the kinds of errors it reports.</li>
@@ -318,8 +353,72 @@ deep     points to 0x238efed0: 10 20 30 40</code></pre>
         <div class="callout warn"><span class="title">Self-check</span>Confirm that the output matches the comments in <code>copy_test.cpp</code> with Part B uncommented, and that <code>make check</code> is clean.</div>
       </div>
 
+      <details class="card optional" id="p2-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about copying</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order.</p>
+        <ol class="steps">
+          <li><b>Count the copies.</b> In <code>Lab4/exercises/ex2-copy</code> (after the exercise is done), add a line <code>std::cout &lt;&lt; "  copy constructor" &lt;&lt; std::endl;</code> at the top of your copy constructor's body and <code>std::cout &lt;&lt; "  operator=" &lt;&lt; std::endl;</code> at the top of <code>operator=</code> (with <code>#include &lt;iostream&gt;</code> in <code>intarray.cpp</code>). Build <code>count.cpp</code> with <code>g++ -std=c++17 -Wall -Wextra -g count.cpp intarray.cpp -o count</code>. Predict the lines first. Take the extra lines out afterwards.<pre><code>#include &lt;iostream&gt;
+#include "intarray.h"
+using namespace std;
+
+void byValue(IntArray a) {
+    cout &lt;&lt; "  byValue sees " &lt;&lt; a.size() &lt;&lt; " items" &lt;&lt; endl;
+}
+
+void byRef(const IntArray &amp;a) {
+    cout &lt;&lt; "  byRef sees " &lt;&lt; a.size() &lt;&lt; " items" &lt;&lt; endl;
+}
+
+int main() {
+    IntArray a;
+    a.add(1);
+    a.add(2);
+    IntArray b = a;
+    IntArray c(a);
+    byValue(a);
+    byRef(a);
+    b = c;
+    cout &lt;&lt; b.size() &lt;&lt; " " &lt;&lt; c.size() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>  copy constructor
+  copy constructor
+  copy constructor
+  byValue sees 2 items
+  byRef sees 2 items
+  operator=
+2 2</code></pre>
+            <p><code>IntArray b = a;</code> is <i>not</i> an assignment: it creates <code>b</code>, so it's the copy constructor, like <code>c(a)</code>. Passing by value makes the third copy; <code>const&amp;</code> makes none. Only <code>b = c</code>, on an object that already exists, calls <code>operator=</code>. valgrind is clean, because every copy owns its own array.</p>
+            </details></li>
+          <li><b>Forbid copying.</b> Some objects shouldn't be copied at all (a file, a network connection). <code>token.cpp</code>; save it in a scratch folder outside <code>Lab4</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run. Then add <code>Token c = a;</code>, and separately <code>b = a;</code>.<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Token {
+public:
+    explicit Token(int id) : id_(id) {}
+    Token(const Token &amp;) = delete;
+    Token &amp;operator=(const Token &amp;) = delete;
+    int id() const { return id_; }
+
+private:
+    int id_;
+};
+
+int main() {
+    Token a(1);
+    Token b(2);
+    cout &lt;&lt; a.id() &lt;&lt; " " &lt;&lt; b.id() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <p>As given it prints <code>1 2</code>. The copy fails with <code>use of deleted function 'Token::Token(const Token&amp;)'</code>, the assignment with <code>use of deleted function 'Token&amp; Token::operator=(const Token&amp;)'</code>. <code>= delete</code> is the fourth answer to the rule of three: instead of writing a correct copy, make copying a compile error.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p2-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">10 min</span></div>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">5 min</span></div>
         <p>A memory diagram of the shallow copy: two objects, one array, and why the program aborted at the end. Then the deep-copying copy constructor, and <code>operator=</code> line by line, including why copying before deleting also makes self-assignment safe.</p>
       </div>
 
@@ -350,12 +449,6 @@ for (...) data_[i] = other.data_[i];</code></pre>
             <details><summary>Show answer</summary><p>The first: the copy constructor only. The second: the default constructor, then <code>operator=</code>.</p></details>
           </li>
         </ol>
-      </div>
-
-      <div class="card quiz" id="p2-quiz" data-quiz="Lab 4 Exercise 2 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 2 available on Canvas as the quiz <b>Lab 4 Exercise 2 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
       </div>
     </section>
 
@@ -390,6 +483,43 @@ for (...) data_[i] = other.data_[i];</code></pre>
         <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./stack_test</code> matches the comments with all parts uncommented, and that <code>make check</code> is clean.</div>
       </div>
 
+      <details class="card optional" id="p3-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about LinkedStack</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order.</p>
+        <ol class="steps">
+          <li><b>Your copy constructor at work.</b> In <code>Lab4/exercises/ex3-linked</code> (after the exercise is done), save <code>show.cpp</code> and build it with <code>g++ -std=c++17 -Wall -Wextra -g show.cpp -o show</code>. <code>show</code> pops every item, so why is <code>words</code> still full afterwards?<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include "LinkedStack.h"
+using namespace std;
+
+template &lt;typename T&gt;
+void show(LinkedStack&lt;T&gt; s) {            // a copy: popping it leaves the caller's stack alone
+    while (!s.isEmpty()) {
+        cout &lt;&lt; s.peek() &lt;&lt; " ";
+        s.pop();
+    }
+    cout &lt;&lt; "(top first)" &lt;&lt; endl;
+}
+
+int main() {
+    LinkedStack&lt;string&gt; words;
+    words.push("to");
+    words.push("be");
+    words.push("or");
+    show(words);
+    show(words);
+    cout &lt;&lt; words.size() &lt;&lt; " still on the stack" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>or be to (top first)
+or be to (top first)
+3 still on the stack</code></pre>
+            <p><code>show</code> takes its stack <i>by value</i>, so it gets a copy, made by your copy constructor, and empties only the copy; the copy's destructor frees its nodes when <code>show</code> returns (valgrind is clean). The second call prints the same thing because <code>words</code> never changed. And <code>LinkedStack&lt;string&gt;</code> works with no new code: that's the template. Delete <code>show.cpp</code> afterwards.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p3-solution">
         <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 3</h3><span class="mins">5 min</span></div>
         <p><code>copyFrom</code> drawn step by step, with the <code>last</code> pointer; <code>clear</code> reused by the destructor and <code>operator=</code>.</p>
@@ -411,12 +541,6 @@ for (...) data_[i] = other.data_[i];</code></pre>
             <details><summary>Show answer</summary><p>1000, one per node.</p></details>
           </li>
         </ol>
-      </div>
-
-      <div class="card quiz" id="p3-quiz" data-quiz="Lab 4 Exercise 3 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 3 available on Canvas as the quiz <b>Lab 4 Exercise 3 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
       </div>
     </section>
 
@@ -447,11 +571,45 @@ for (...) data_[i] = other.data_[i];</code></pre>
         <ol class="steps">
           <li>TODO 1 (<code>rational.cpp</code>): throw <code>invalid_argument</code> for a zero denominator. Run <code>./exceptions_test</code> once as is and note what an uncaught exception does. Then add the <code>try</code>/<code>catch</code> for Part A.</li>
           <li>TODO 2 (<code>ArrayStack.h</code>): <code>peek</code> and <code>pop</code> throw <code>PrecondViolatedExcept</code> on an empty stack. Uncomment Part B and catch it.</li>
-          <li>TODO 3 (<code>exceptions_test.cpp</code>): call <code>risky(choice)</code> for 0–3 with one <code>try</code> and three <code>catch</code> clauses. Then put <code>exception</code> first, build, read the warning, and put it back.</li>
+          <li>TODO 3 (<code>exceptions_test.cpp</code>): call <code>risky(choice)</code> for 0–3 with one <code>try</code> and three <code>catch</code> clauses.</li>
           <li>TODO 4 (<code>raii.cpp</code>): run <code>make check</code> and find the leak. Fix <code>total()</code> with <code>unique_ptr&lt;int[]&gt;</code> and run <code>make check</code> again.</li>
         </ol>
         <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./exceptions_test</code> handles all four choices, and that <code>make check</code> is clean for <code>raii</code>.</div>
       </div>
+
+      <details class="card optional" id="p4-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about exceptions</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order.</p>
+        <ol class="steps">
+          <li><b>Catch order.</b> In Exercise 4's TODO 3, move the <code>catch (const exception &amp;e)</code> clause first, build, read the warning, and put it back.
+            <details><summary>Show what happens</summary>
+            <p>g++ warns that the later handlers will never be used (<code>exception of type '...' will be caught by earlier handler for 'std::exception'</code>): <code>catch</code> clauses are tried in order, and every standard exception <i>is an</i> <code>exception</code>. Always catch the most specific class first.</p>
+            </details></li>
+          <li><b>Catch by reference.</b> <code>slice.cpp</code>; save it in a scratch folder outside <code>Lab4</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run:<pre><code>#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+using namespace std;
+
+int main() {
+    try {
+        throw out_of_range("index 7 is out of range");
+    } catch (exception e) {
+        cout &lt;&lt; "by value:     " &lt;&lt; e.what() &lt;&lt; endl;
+    }
+    try {
+        throw out_of_range("index 7 is out of range");
+    } catch (const exception &amp;e) {
+        cout &lt;&lt; "by reference: " &lt;&lt; e.what() &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>warning: catching polymorphic type 'class std::exception' by value [-Wcatch-value=]
+by value:     std::exception
+by reference: index 7 is out of range</code></pre>
+            <p>Catching by value copies only the <code>exception</code> part of the <code>out_of_range</code> object ("slicing"), so its message is lost; <code>-Wall</code> warns about it. Catch by <code>const&amp;</code>, as every <code>catch</code> in this lab does.</p>
+            </details></li>
+        </ol>
+      </details>
 
       <div class="card solution" id="p4-solution">
         <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 4</h3><span class="mins">10 min</span></div>
@@ -475,26 +633,45 @@ for (...) data_[i] = other.data_[i];</code></pre>
           </li>
         </ol>
       </div>
+    </section>
 
-      <div class="card quiz" id="p4-quiz" data-quiz="Lab 4 Exercise 4 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 4 available on Canvas as the quiz <b>Lab 4 Exercise 4 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+    <!-- ============================== TAKEAWAYS ============================== -->
+    <section id="takeaways">
+      <h2>Takeaways</h2>
+      <div class="callout learned">
+        <span class="title">Learned</span>
+        <ul style="margin:4px 0 0">
+          <li>A template is written once and instantiated for each type; the type must support what the body uses, and the whole template lives in its header.</li>
+          <li>A class that owns memory needs the rule of three: destructor, deep-copying copy constructor, and <code>operator=</code> (or <code>= delete</code> copying). The compiler-written versions copy pointers, not what they point to.</li>
+          <li><code>operator=</code> handles self-assignment, copies before it deletes, and returns <code>*this</code>. Deep-copying a chain means appending in order, one <code>new</code> per node. Pass containers by <code>const&amp;</code>.</li>
+          <li>Throw standard exceptions, catch by <code>const&amp;</code> from most to least specific, and rely on destructors (RAII, <code>unique_ptr</code>) for cleanup.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================== QUIZ ============================== -->
+    <section id="quiz">
+      <h2>Lab 4 Quiz</h2>
+      <div class="card quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Lab 4 Quiz, on paper</h3></div>
+        <p>When we finish the last walkthrough, your instructor hands out the <b>Lab 4 Quiz</b> on paper: <b>10 multiple-choice questions</b>, covering all four parts. It is <b>open book</b>: you may use this page, the slides, and your own code. The questions are straightforward checks of what we did today; if you followed the exercises and walkthroughs, you have seen every answer.</p>
+        <p>Write your name and UW NetID at the top. For each question, write the letter of your answer (A, B, C, or D) in that question's box in the row at the <b>bottom of page 1</b>: only those boxes are graded. <b>You must hand in your quiz before you leave the classroom.</b></p>
+        <p>Right after the quiz, we go over the answers together, and with them the <a href="#takeaways">takeaways</a> of the lab.</p>
       </div>
     </section>
 
     <!-- ============================== SUBMIT ============================== -->
     <section id="submit">
-      <h2>What to submit</h2>
+      <h2>What to submit (after class)</h2>
       <div class="card">
-        <p>You submit <b>once</b>, after all four exercises are done.</p>
+        <p>You submit <b>once</b>, after class: <b>due 11:59 pm on the day of the lab</b>, after all four exercises are done. Finish any exercise you didn't complete in class first; the self-checks and walkthrough notes on this page tell you what each one should do.</p>
         <ol class="steps">
           <li>Keep the starter zip's layout: one folder named <code>Lab4</code>, with your work in <code>Lab4/exercises/</code>, one subfolder per exercise named exactly like the starter folders you were given. Keep each subfolder's layout the same as the starter code.</li>
           <li>In each subfolder, run <code>make clean</code>. Delete any other <code>.o</code> files, executables, and core dumps.</li>
           <li>Delete the <code>examples</code> folder (<code>Lab4/examples/</code>): it holds the lecture examples, and you didn't change anything in it. Your zip should contain only <code>exercises/</code>.</li>
           <li>Check that everything compiles with <code>g++ -std=c++17 -Wall -Wextra</code> on Linux with no warnings, and that <code>make check</code> is clean in every folder that has it.</li>
           <li>Create <b>one zip file of the whole <code>Lab4</code> folder</b>, named <code>Lab4-&lt;your UW NetID&gt;.zip</code> (from the folder above it: <code>zip -r Lab4-netid.zip Lab4</code>).</li>
-          <li>Upload that one zip file to the Lab 4 assignment on Canvas.</li>
+          <li>Upload that one zip file to the Lab 4 assignment on Canvas by 11:59 pm.</li>
         </ol>
       </div>
 <pre><code>Lab4/
@@ -517,20 +694,6 @@ for (...) data_[i] = other.data_[i];</code></pre>
         </table>
       </div>
       <div class="callout info">Self-test questions are for your own practice and are not submitted.</div>
-    </section>
-
-    <!-- ============================== TAKEAWAYS ============================== -->
-    <section id="takeaways">
-      <h2>Takeaways</h2>
-      <div class="callout learned">
-        <span class="title">Learned</span>
-        <ul style="margin:4px 0 0">
-          <li>A template is written once and instantiated for each type; the type must support what the body uses, and the whole template lives in its header.</li>
-          <li>A class that owns memory needs the rule of three: destructor, deep-copying copy constructor, and <code>operator=</code> (or <code>= delete</code> copying). The compiler-written versions copy pointers, not what they point to.</li>
-          <li><code>operator=</code> handles self-assignment, copies before it deletes, and returns <code>*this</code>. Deep-copying a chain means appending in order, one <code>new</code> per node. Pass containers by <code>const&amp;</code>.</li>
-          <li>Throw standard exceptions, catch by <code>const&amp;</code> from most to least specific, and rely on destructors (RAII, <code>unique_ptr</code>) for cleanup.</li>
-        </ul>
-      </div>
     </section>
 
     <footer>

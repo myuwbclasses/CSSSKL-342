@@ -33,7 +33,7 @@ int main() {
     //         v.at(100) and catch const out_of_range&. (Do NOT try
     //         v[100]: no check, undefined behavior.)
 
-    // TODO 6: a 3x4 table: vector<vector<int>> with 3 rows of 4
+    // Done early (TODO 6, optional): a 3x4 table: vector<vector<int>> with 3 rows of 4
     //         zeros (use the (count, value) constructor). Set table[r][c] to
     //         r * 10 + c and print it as 3 lines.
 

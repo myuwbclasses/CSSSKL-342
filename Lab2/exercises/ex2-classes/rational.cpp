@@ -5,9 +5,8 @@
 #include <numeric>   // gcd
 using namespace std;
 
-// TODO 1: leave this body empty at first, run main, and note what
-//         "default:" prints (Q2). Then initialize num_ and den_ with an
-//         initializer list.
+// TODO 1: initialize num_ and den_ with an initializer list (0/1).
+//         (Done early: see what "default:" prints if you don't.)
 Rational::Rational() {
 }
 

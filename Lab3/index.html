@@ -23,36 +23,37 @@
       <a href="#p1-amp" class="sub">Context of &amp;</a>
       <a href="#p1-star" class="sub">Context of *</a>
       <a href="#ex1" class="sub">Exercise 1: pointers</a>
+      <a href="#p1-ahead" class="sub">Done early?</a>
       <a href="#p1-solution" class="sub">Walkthrough 1</a>
       <a href="#p1-selftest" class="sub">Self-test</a>
-      <a href="#p1-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 2"><a href="#part2">2. Arrays</a></summary>
       <a href="#p2-lecture" class="sub">Lecture: arrays are memory</a>
       <a href="#ex2" class="sub">Exercise 2: arrays</a>
+      <a href="#p2-ahead" class="sub">Done early?</a>
       <a href="#p2-solution" class="sub">Walkthrough 2</a>
       <a href="#p2-selftest" class="sub">Self-test</a>
-      <a href="#p2-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 3"><a href="#part3">3. Dynamic memory</a></summary>
       <a href="#p3-lecture" class="sub">Lecture: new and delete</a>
       <a href="#ex3" class="sub">Exercise 3: new[], valgrind</a>
+      <a href="#p3-ahead" class="sub">Done early?</a>
       <a href="#p3-solution" class="sub">Walkthrough 3</a>
       <a href="#p3-selftest" class="sub">Self-test</a>
-      <a href="#p3-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 4"><a href="#part4">4. Linked nodes</a></summary>
       <a href="#p4-lecture" class="sub">Lecture: chains of nodes</a>
       <a href="#ex4" class="sub">Exercise 4: node functions</a>
+      <a href="#p4-ahead" class="sub">Done early?</a>
       <a href="#p4-solution" class="sub">Walkthrough 4</a>
       <a href="#p4-selftest" class="sub">Self-test</a>
-      <a href="#p4-quiz" class="sub">Section quiz</a>
     </details>
-    <a href="#submit">What to submit</a>
     <a href="#takeaways">Takeaways</a>
+    <a href="#quiz">Lab 3 Quiz</a>
+    <a href="#submit">What to submit (after class)</a>
     <div class="label" style="margin-top:24px">Reference</div>
     <a href="../reference/linux.html">Linux commands</a>
     <a href="../reference/gdb.html">gdb commands</a>
@@ -70,7 +71,8 @@
     <header class="hero">
       <div class="eyebrow">CSS SKL 342 · Lab 3</div>
       <h1>Pointers, Arrays, and Dynamic Memory</h1>
-      <p>Work directly with addresses, see what a C++ array really is (a block of memory, with no length and no bounds checking), allocate and release memory yourself, and build a chain of linked nodes. The array-based and linked bags, stacks, and lists you'll write in CSS 342, the course this lab supports, are built from exactly these pieces.</p>
+      <p>Work directly with addresses, see what a C++ array really is (a block of memory, with no length and no bounds checking), allocate and release memory yourself, and build a chain of linked nodes. The array-based and linked bags, stacks, and lists you'll write in CSS 342, the course this lab supports, are built from exactly these pieces. The lab ends with a short open-book quiz, on paper; you submit your code after class.</p>
+      <p class="topics"><b>Topics:</b> C++ memory management · pointers · arrays · new and delete operators · linked nodes</p>
       <div class="hero-links">
         <a class="btn" href="#schedule">Schedule</a>
         <a class="btn" href="#p1-symbols">&amp; and * at a glance</a>
@@ -86,7 +88,7 @@
         <ol class="steps">
           <li>Finish Lab 2. This lab uses structs and classes, constructors, destructors, and <code>const</code>.</li>
           <li>Check that <code>valgrind --version</code> runs in your Linux environment. You'll use it in every exercise from now on.</li>
-          <li>Download the starter code, <a href="Lab3-starter.zip">Lab3-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder, so you have <span class="path">CSSSKL342/Lab3/exercises/</span>, with one folder per exercise, and <span class="path">CSSSKL342/Lab3/examples/</span> (the lecture examples) (the same way as in Lab 1). That <span class="path">Lab3</span> folder is what you zip and submit.</li>
+          <li>Download the starter code, <a href="Lab3-starter.zip">Lab3-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder, so you have <span class="path">CSSSKL342/Lab3/exercises/</span>, with one folder per exercise, and <span class="path">CSSSKL342/Lab3/examples/</span> (the lecture examples) (the same way as in Lab 1). That <span class="path">Lab3</span> folder is what you zip and submit after class.</li>
         </ol>
       </div>
     </section>
@@ -98,49 +100,56 @@
           <thead>
             <tr><th>Topic</th><th>Block</th><th>Time</th><th>Length</th><th>Activity</th></tr>
           </thead>
-          <tbody>
+                    <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part1"><span class="num">1</span>Pointers</a><small><code>&amp;</code>, <code>*</code>, <code>nullptr</code>, <code>-&gt;</code>, the many jobs of <code>&amp;</code> and <code>*</code></small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">1:15</td><td class="time">25 min</td><td><a href="#p1-lecture">Addresses and pointers</a>; <a href="#p1-symbols">&amp; and * at a glance</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">1:15</td><td class="time">20 min</td><td><a href="#p1-lecture">Addresses and pointers</a>; <a href="#p1-symbols">&amp; and * at a glance</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:40</td><td class="time">20 min</td><td><a href="#ex1">Exercise 1: pointer basics</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:00</td><td class="time">10 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:35</td><td class="time">20 min</td><td><a href="#ex1">Exercise 1: pointer basics</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">1:55</td><td class="time">5 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part2"><span class="num">2</span>Arrays</a><small>contiguous memory, pointer arithmetic, no bounds checking</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">2:10</td><td class="time">15 min</td><td><a href="#p2-lecture">Arrays are memory</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">2:00</td><td class="time">15 min</td><td><a href="#p2-lecture">Arrays are memory</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:25</td><td class="time">30 min</td><td><a href="#ex2">Exercise 2: arrays and pointers</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:55</td><td class="time">10 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:15</td><td class="time">30 min</td><td><a href="#ex2">Exercise 2: arrays and pointers</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:45</td><td class="time">5 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
           </tbody>
           <tbody class="break">
-            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">3:05</td><td class="time">10 min</td><td></td></tr>
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">2:50</td><td class="time">10 min</td><td></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part3"><span class="num">3</span>Dynamic memory</a><small><code>new</code>/<code>delete</code>, <code>new[]</code>/<code>delete[]</code>, valgrind</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">3:15</td><td class="time">15 min</td><td><a href="#p3-lecture">The heap: new and delete</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:00</td><td class="time">15 min</td><td><a href="#p3-lecture">The heap: new and delete</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:30</td><td class="time">25 min</td><td><a href="#ex3">Exercise 3: dynamic arrays and memory bugs</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:55</td><td class="time">10 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:15</td><td class="time">25 min</td><td><a href="#ex3">Exercise 3: dynamic arrays and memory bugs</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:40</td><td class="time">5 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+          </tbody>
+          <tbody class="break">
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">3:45</td><td class="time">10 min</td><td></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part4"><span class="num">4</span>Linked nodes</a><small>building, walking, and freeing a chain</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">4:05</td><td class="time">15 min</td><td><a href="#p4-lecture">Chains of nodes</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:55</td><td class="time">15 min</td><td><a href="#p4-lecture">Chains of nodes</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:20</td><td class="time">35 min</td><td><a href="#ex4">Exercise 4: node functions</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:55</td><td class="time">10 min</td><td><a href="#p4-solution">Walkthrough 4</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:10</td><td class="time">30 min</td><td><a href="#ex4">Exercise 4: node functions</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:40</td><td class="time">5 min</td><td><a href="#p4-solution">Walkthrough 4</a></td></tr>
           </tbody>
           <tbody>
-            <tr><td class="topic"><a href="#submit">Catch-up and wrap-up</a><small>finish, package, review</small></td><td><span class="tag solution">Wrap-up</span></td><td class="time">5:05</td><td class="time">10 min</td><td>Finish any exercise, build your <a href="#submit">submission zip</a>, and review the <a href="#takeaways">takeaways</a></td></tr>
+            <tr>
+              <td class="topic" rowspan="2"><a href="#quiz">Quiz and review</a><small>open book, then the answers</small></td>
+              <td><span class="tag quiz">Quiz</span></td><td class="time">End</td><td class="time"></td><td><a href="#quiz">Lab 3 Quiz, on paper</a> (10 questions, open book): <b>hand it in before you leave</b></td>
+            </tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">After</td><td class="time">10 min</td><td>We go over the quiz answers and the <a href="#takeaways">takeaways</a></td></tr>
           </tbody>
         </table>
       </div>
       <div class="callout info">
-        <span class="title">Self-checks</span>
-        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. Everything is submitted together as one zip at the end (see <a href="#submit">What to submit</a>).
+        <span class="title">Self-checks, and submitting after class</span>
+        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. If you fall behind, follow the walkthrough anyway and finish after class: you submit everything together as one zip <b>after class, by 11:59 pm on the day of the lab</b> (see <a href="#submit">What to submit</a>).
       </div>
     </section>
 
@@ -152,7 +161,7 @@
       </div>
 
       <div class="card lecture" id="p1-lecture">
-        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Addresses and pointers</h3><span class="mins">25 min</span></div>
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Addresses and pointers</h3><span class="mins">20 min</span></div>
         <p class="why">Java hides addresses: every object variable is a reference the language manages for you. C++ lets you hold an address yourself, in a pointer, and that is how you reach memory you allocate while the program runs and how you build structures that grow and change shape, such as linked lists and trees. Pointers are also the most common cause of C++ crashes, so it pays to be exact about what <code>&amp;</code> and <code>*</code> mean.</p>
         <ul>
           <li><b>A pointer holds an address.</b> <code>int *p = &amp;a;</code>: <code>&amp;a</code> is "the address of <code>a</code>", and <code>p</code> stores it.</li>
@@ -308,9 +317,67 @@ DataType *aPtr(&amp;aVar);         // properly initialized: aPtr points to aVar<
         <div class="callout warn"><span class="title">Self-check</span>Confirm that the output, including the five address/value lines, is what you expect, and that you can explain each line.</div>
       </div>
 
+      <details class="card optional" id="p1-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about pointers</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Each is one small program: save it in a scratch folder outside <code>Lab3</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run.</p>
+        <ol class="steps">
+          <li><b>A pointer to a pointer.</b> <code>ptrptr.cpp</code>:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a = 1;
+    int *p = &amp;a;
+    int **pp = &amp;p;
+    **pp = 7;
+    cout &lt;&lt; a &lt;&lt; " " &lt;&lt; *p &lt;&lt; " " &lt;&lt; (*pp == p) &lt;&lt; endl;
+    int b = 2;
+    *pp = &amp;b;
+    cout &lt;&lt; *p &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>7 7 1
+2</code></pre>
+            <p><code>pp</code> holds the address of <code>p</code>. <code>*pp</code> <i>is</i> <code>p</code>, so <code>**pp</code> is <code>a</code>; and assigning to <code>*pp</code> re-points <code>p</code> itself. That's the <code>int**</code> row of the table: a function that must change the caller's pointer takes <code>int **</code> (or, in C++, <code>int *&amp;</code>, as <code>pushFront</code> does in Exercise 4).</p>
+            </details></li>
+          <li><b>Which part is <code>const</code>?</b> <code>constptr.cpp</code> compiles. Then add <code>*p = 3;</code> after <code>*q = 5;</code> and compile; then replace it with <code>q = &amp;b;</code>.<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a = 1, b = 2;
+    const int *p = &amp;a;     // pointer to const int
+    int *const q = &amp;a;     // const pointer to int
+    p = &amp;b;
+    *q = 5;
+    cout &lt;&lt; *p &lt;&lt; " " &lt;&lt; a &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <p>As given it prints <code>2 5</code>. <code>*p = 3;</code> fails with <code>assignment of read-only location '* p'</code>: <code>const int *p</code> may point elsewhere, but can't change what it points to. <code>q = &amp;b;</code> fails with <code>assignment of read-only variable 'q'</code>: <code>int *const q</code> can change the int, but always points at <code>a</code>. Read the declaration right to left: <i>q is a const pointer to int</i>.</p>
+            </details></li>
+          <li><b>Printing a null pointer.</b> <code>nullprint.cpp</code>:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int *p = nullptr;
+    cout &lt;&lt; p &lt;&lt; " " &lt;&lt; (p == nullptr) &lt;&lt; endl;
+    if (p) {
+        cout &lt;&lt; "never" &lt;&lt; endl;
+    }
+    cout &lt;&lt; "safe" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>0 1
+safe</code></pre>
+            <p>Printing the pointer itself is fine (<code>0</code>): only following it, <code>*p</code>, crashes. A pointer converts to <code>bool</code>, false when null, so <code>if (p)</code> is the usual check before you dereference.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p1-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">10 min</span></div>
-        <p>A memory diagram of <code>a</code>, <code>p</code>, and their addresses; <code>largerOf</code> returning a pointer to one of the caller's variables; the segmentation fault from <code>nullptr</code> (exit code 139) and gdb's <code>bt</code>; Q6 against the <a href="#p1-symbols">&amp; and * tables</a>.</p>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">5 min</span></div>
+        <p>A memory diagram of <code>a</code>, <code>p</code>, and their addresses; <code>largerOf</code> returning a pointer to one of the caller's variables; the segmentation fault from <code>nullptr</code> (exit code 139) and gdb's <code>bt</code>; every <code>&amp;</code> and <code>*</code> in the exercise, read against the <a href="#p1-symbols">&amp; and * tables</a>.</p>
       </div>
 
       <div class="review" id="p1-selftest">
@@ -332,12 +399,6 @@ DataType *aPtr(&amp;aVar);         // properly initialized: aPtr points to aVar<
             <details><summary>Show answer</summary><p><code>int &amp;r</code>: reference (declaration). <code>&amp;r</code>: address of (statement); since <code>r</code> is another name for <code>n</code>, it's <code>n</code>'s address. <code>int *p</code>: pointer (declaration). In <code>*p = *p * 2</code>, both <code>*p</code> are dereferences and the middle <code>*</code> is multiplication. <code>n</code> is 8.</p></details>
           </li>
         </ol>
-      </div>
-
-      <div class="card quiz" id="p1-quiz" data-quiz="Lab 3 Exercise 1 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 1 available on Canvas as the quiz <b>Lab 3 Exercise 1 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
       </div>
     </section>
 
@@ -388,7 +449,7 @@ a[8] = 0;             // compiles and runs: writes past the end, and no one repo
         <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: Arrays and pointers</h3><span class="mins">30 min</span></div>
         <p>Folder: <span class="path">Lab3/exercises/ex2-arrays/</span>.</p>
         <ol class="steps">
-          <li>Run <code>make</code> and read the warning about <code>sizeof</code>: it's there on purpose. (The <code>unused parameter</code> warnings are the empty TODO functions; they go away as you complete them.) Run <code>./arrays</code> and answer Q1. Then delete <code>sizeInside</code> and its call.</li>
+          <li>Run <code>make</code> and read the warning about <code>sizeof</code>: it's there on purpose. (The <code>unused parameter</code> warnings are the empty TODO functions; they go away as you complete them.) Run <code>./arrays</code>: why does <code>sizeof(values)</code> print 8 inside the function, when the array holds 8 ints of 4 bytes each? Then delete <code>sizeInside</code> and its call.</li>
           <li>Complete TODO 1 (count the elements with <code>sizeof</code>; print <code>a</code>, <code>&amp;a[0]</code>, <code>&amp;a[1]</code>, <code>&amp;a[2]</code>) and TODO 2 (<code>int *p = &amp;(a[5]);</code>, then print <code>*p</code>, <code>p[1]</code>, <code>p[-1]</code>, <code>p[-2]</code>, <code>*(p - 2)</code>).</li>
           <li>Complete TODOs 3–6: <code>sumArray</code>, <code>reverseArray</code>, and <code>findMax</code> (returns a pointer to the largest element) using pointers and no <code>[]</code>, and <code>movePoints</code> on an array of <code>Point</code> objects, using <code>-&gt;</code>.</li>
           <li>TODO 7: uncomment the loop that runs one step too far, run, and look at <code>r.id</code>. Run it under valgrind too. Then comment the loop out again.</li>
@@ -397,8 +458,48 @@ a[8] = 0;             // compiles and runs: writes past the end, and no one repo
         <div class="callout warn"><span class="title">Self-check</span>Confirm that the sum is 108, the reversed array is <code>17 16 15 14 13 12 11 10</code>, then <code>0 16 15 14 13 12 11 10</code> after <code>findMax</code>, the points are <code>(11, 12) (13, 14) (10, 10)</code>, <code>r.id</code> is back to 1234, and <code>make check</code> is clean.</div>
       </div>
 
+      <details class="card optional" id="p2-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about arrays</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Each is one small program: save it in a scratch folder outside <code>Lab3</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run.</p>
+        <ol class="steps">
+          <li><b>A 2-D array is one block.</b> <code>grid.cpp</code>:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int grid[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    int *flat = &amp;grid[0][0];
+    for (int i = 0; i &lt; 6; i++) {
+        cout &lt;&lt; flat[i] &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+    cout &lt;&lt; (&amp;grid[1][0] - &amp;grid[0][0]) &lt;&lt; " " &lt;&lt; sizeof(grid) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>1 2 3 4 5 6 
+3 24</code></pre>
+            <p><code>int grid[2][3]</code> is 6 ints in a row, row 0 first: the second row starts 3 ints after the first, and the whole array is 24 bytes. That's why a 2-D array parameter must give every size except the first: <code>void f(int g[][3], int rows)</code>.</p>
+            </details></li>
+          <li><b><code>a[i]</code> is <code>*(a + i)</code>, really.</b> <code>index.cpp</code>:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a[4] = {10, 20, 30, 40};
+    cout &lt;&lt; a[2] &lt;&lt; " " &lt;&lt; *(a + 2) &lt;&lt; " " &lt;&lt; 2[a] &lt;&lt; endl;
+    int *p = &amp;a[3], *q = &amp;a[1];
+    cout &lt;&lt; (p - q) &lt;&lt; " " &lt;&lt; (reinterpret_cast&lt;char *&gt;(p) - reinterpret_cast&lt;char *&gt;(q)) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>30 30 30
+2 8</code></pre>
+            <p><code>a[2]</code> is defined as <code>*(a + 2)</code>, and addition doesn't care about order, so even <code>2[a]</code> compiles (don't write that). Subtracting two pointers counts <i>elements</i> (2); the same addresses as <code>char*</code> are 8 bytes apart, because each <code>int</code> is 4 bytes.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p2-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">10 min</span></div>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">5 min</span></div>
         <p><code>a</code> drawn as a row of boxes with their addresses, 4 bytes apart; <code>p</code> pointing at <code>a[5]</code>, and <code>p[-2]</code> counted back from it; the two-pointer <code>reverseArray</code>; <code>findMax</code> returning a pointer into the array; TODO 7's off-by-one overwriting <code>r.id</code> with no error from anyone.</p>
       </div>
 
@@ -421,12 +522,6 @@ a[8] = 0;             // compiles and runs: writes past the end, and no one repo
             <details><summary>Show answer</summary><p>It compiles and usually runs without complaint, writing 100 into whatever is just past the array: undefined behavior. The valid indexes are 0, 1, and 2.</p></details>
           </li>
         </ol>
-      </div>
-
-      <div class="card quiz" id="p2-quiz" data-quiz="Lab 3 Exercise 2 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 2 available on Canvas as the quiz <b>Lab 3 Exercise 2 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
       </div>
     </section>
 
@@ -469,8 +564,59 @@ a[8] = 0;             // compiles and runs: writes past the end, and no one repo
         <div class="callout warn"><span class="title">Self-check</span>Confirm that valgrind reports <code>ERROR SUMMARY: 0 errors</code> and no leaks for both programs.</div>
       </div>
 
+      <details class="card optional" id="p3-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More memory bugs</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Each is one small program: save it in a scratch folder outside <code>Lab3</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run.</p>
+        <ol class="steps">
+          <li><b>Deleting twice.</b> <code>twice.cpp</code>. Run it, then run it under valgrind:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int *p = new int(5);
+    delete p;
+    delete p;
+    cout &lt;&lt; "done" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>free(): double free detected in tcache 2
+Aborted (core dumped)</code></pre>
+            <p>It never prints <code>done</code>: the second <code>delete</code> crashes the program (this time; a double delete is undefined behavior). valgrind names the line: <code>Invalid free() / delete / delete[]</code> ... <code>by main (twice.cpp:7)</code>. The habit that prevents it: <code>p = nullptr;</code> right after <code>delete p;</code>, since deleting a null pointer is harmless.</p>
+            </details></li>
+          <li><b><code>new int[3]</code> vs. <code>new int[3]()</code>.</b> <code>zeroed.cpp</code>, then under valgrind:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int *a = new int[3];
+    int *b = new int[3]();
+    cout &lt;&lt; b[0] &lt;&lt; b[1] &lt;&lt; b[2] &lt;&lt; endl;
+    if (a[0] == 0) {
+        cout &lt;&lt; "a[0] is 0" &lt;&lt; endl;
+    }
+    delete[] a;
+    delete[] b;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <p>It prints <code>000</code>, and then maybe <code>a[0] is 0</code> or maybe not: <code>b</code>'s <code>()</code> sets every element to 0, but <code>a</code>'s elements are whatever was in memory (here it happened to be 0). valgrind catches it: <code>Conditional jump or move depends on uninitialised value(s)</code> at <code>zeroed.cpp:8</code>, the <code>if</code>.</p>
+            </details></li>
+          <li><b><code>delete</code> on an array.</b> <code>mismatch.cpp</code>, then under valgrind:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int *a = new int[3];
+    delete a;
+    cout &lt;&lt; "done" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <p>It prints <code>done</code> and seems fine, but valgrind reports <code>Mismatched free() / delete / delete []</code>: memory from <code>new[]</code> must be released with <code>delete[]</code>. With an array of objects, plain <code>delete</code> would run only the first element's destructor.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p3-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 3</h3><span class="mins">10 min</span></div>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 3</h3><span class="mins">5 min</span></div>
         <p>Reading valgrind output: <code>Invalid read</code>, <code>Mismatched free() / delete / delete []</code>, and <code>definitely lost</code>, each with the line it points to. <code>makeSquares</code> handing its array to the caller; <code>grow</code> drawn as a memory diagram, and why it takes <code>int*&amp;</code>.</p>
       </div>
 
@@ -495,12 +641,6 @@ a[8] = 0;             // compiles and runs: writes past the end, and no one repo
             <details><summary>Show answer</summary><p><code>p</code> still holds the old address (it dangles). A second <code>delete p;</code> is a double delete: undefined behavior. If you set <code>p = nullptr;</code> after the first delete, a second delete is harmless.</p></details>
           </li>
         </ol>
-      </div>
-
-      <div class="card quiz" id="p3-quiz" data-quiz="Lab 3 Exercise 3 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 3 available on Canvas as the quiz <b>Lab 3 Exercise 3 Quiz</b> (4 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
       </div>
     </section>
 
@@ -531,18 +671,66 @@ a[8] = 0;             // compiles and runs: writes past the end, and no one repo
       </div>
 
       <div class="card handson" id="ex4">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 4: Node functions</h3><span class="mins">35 min</span></div>
-        <p>Folder: <span class="path">Lab3/exercises/ex4-nodes/</span>. <code>pushFront</code> and <code>printChain</code> are done; you write the rest.</p>
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 4: Node functions</h3><span class="mins">30 min</span></div>
+        <p>Folder: <span class="path">Lab3/exercises/ex4-nodes/</span>. <code>pushFront</code>, <code>printChain</code>, and <code>length</code> are done; you write the rest.</p>
         <ol class="steps">
-          <li>Complete <code>length</code>, <code>contains</code>, <code>pushBack</code>, <code>removeFirst</code>, and <code>deleteChain</code> in <code>nodes.cpp</code>. Draw each one before you write it.</li>
+          <li>Read the given <code>length</code>: it's the loop you'll reuse. Then complete <code>contains</code>, <code>pushBack</code>, <code>removeFirst</code>, and <code>deleteChain</code> in <code>nodes.cpp</code>. Draw each one before you write it.</li>
           <li>Run <code>make</code> and <code>./chain_test</code>, and compare against the comments in <code>chain_test.cpp</code>.</li>
           <li>Run <code>make check</code> (valgrind). It must report no errors and no leaks.</li>
         </ol>
         <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./chain_test</code>'s output matches the comments, and that <code>make check</code> is clean.</div>
       </div>
 
+      <details class="card optional" id="p4-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about chains</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted.</p>
+        <ol class="steps">
+          <li><b>Recursion, and reversing a chain.</b> In <code>Lab3/exercises/ex4-nodes</code> (after the exercise is done), save <code>more.cpp</code> and build it with <code>g++ -std=c++17 -Wall -Wextra -g more.cpp nodes.cpp -o more</code>. Before you look at <code>reverseChain</code>, draw a chain of 3 nodes and work out how to reverse it in place with three pointers.<pre><code>#include &lt;iostream&gt;
+#include "nodes.h"
+using namespace std;
+
+int lengthR(const Node *head) {
+    if (head == nullptr) {
+        return 0;
+    }
+    return 1 + lengthR(head-&gt;next);
+}
+
+void reverseChain(Node *&amp;head) {
+    Node *prev = nullptr;
+    Node *cur = head;
+    while (cur != nullptr) {
+        Node *next = cur-&gt;next;
+        cur-&gt;next = prev;
+        prev = cur;
+        cur = next;
+    }
+    head = prev;
+}
+
+int main() {
+    Node *head = nullptr;
+    for (int v = 1; v &lt;= 4; v++) {
+        pushBack(head, v);
+    }
+    printChain(head);
+    cout &lt;&lt; lengthR(head) &lt;&lt; " " &lt;&lt; lengthR(nullptr) &lt;&lt; endl;
+    reverseChain(head);
+    printChain(head);
+    deleteChain(head);
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>[1 -&gt; 2 -&gt; 3 -&gt; 4]
+4 0
+[4 -&gt; 3 -&gt; 2 -&gt; 1]</code></pre>
+            <p><code>lengthR</code> says: an empty chain has length 0; otherwise it's 1 plus the length of the rest. Many chain functions are this short recursively. <code>reverseChain</code> turns each <code>next</code> arrow around as it walks, saving <code>cur-&gt;next</code> first (the same trick as <code>deleteChain</code>). valgrind is clean. Delete <code>more.cpp</code> and <code>more</code> afterwards: they're not part of your submission.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p4-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 4</h3><span class="mins">10 min</span></div>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 4</h3><span class="mins">5 min</span></div>
         <p><code>pushBack</code> and the empty-chain case; <code>removeFirst</code> drawn step by step for the head, a middle node, and the tail; <code>deleteChain</code>'s save-then-delete loop, and what valgrind says without it.</p>
       </div>
 
@@ -567,26 +755,46 @@ a[8] = 0;             // compiles and runs: writes past the end, and no one repo
           </li>
         </ol>
       </div>
+    </section>
 
-      <div class="card quiz" id="p4-quiz" data-quiz="Lab 3 Exercise 4 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 4 available on Canvas as the quiz <b>Lab 3 Exercise 4 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+    <!-- ============================== TAKEAWAYS ============================== -->
+    <section id="takeaways">
+      <h2>Takeaways</h2>
+      <div class="callout learned">
+        <span class="title">Learned</span>
+        <ul style="margin:4px 0 0">
+          <li>A pointer holds an address: <code>&amp;</code> takes one, <code>*</code> follows one, <code>-&gt;</code> reaches a member. Initialize every pointer, and never follow <code>nullptr</code>.</li>
+          <li>In a declaration, <code>&amp;</code> is a reference and <code>*</code> a pointer; in a statement, <code>&amp;</code> is "address of" and <code>*</code> "follow the pointer". Between two values they are bitwise AND and multiplication, and <code>&amp;&amp;</code> is logical AND (<a href="#p1-symbols">tables</a>).</li>
+          <li>An array is one contiguous block with no length and no bounds checking: <code>a[i]</code> is <code>*(a + i)</code>, an index can even be negative from a pointer into the middle, and a bad index fails silently. Pass the count with every array.</li>
+          <li>Every <code>new</code> needs one <code>delete</code>, every <code>new[]</code> one <code>delete[]</code>. Run valgrind on everything: memory bugs usually look fine until they don't.</li>
+          <li>Linked structures are pointer rewiring: draw it, handle the empty and first-node cases, and save <code>next</code> before you delete.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================== QUIZ ============================== -->
+    <section id="quiz">
+      <h2>Lab 3 Quiz</h2>
+      <div class="card quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Lab 3 Quiz, on paper</h3></div>
+        <p>When we finish the last walkthrough, your instructor hands out the <b>Lab 3 Quiz</b> on paper: <b>10 multiple-choice questions</b>, covering all four parts. It is <b>open book</b>: you may use this page, the slides, and your own code. The questions are straightforward checks of what we did today; if you followed the exercises and walkthroughs, you have seen every answer.</p>
+        <p>Write your name and UW NetID at the top. For each question, write the letter of your answer (A, B, C, or D) in that question's box in the row at the <b>bottom of page 1</b>: only those boxes are graded. <b>You must hand in your quiz before you leave the classroom.</b></p>
+        <p>Right after the quiz, we go over the answers together, and with them the <a href="#takeaways">takeaways</a> of the lab.</p>
       </div>
     </section>
 
     <!-- ============================== SUBMIT ============================== -->
     <section id="submit">
-      <h2>What to submit</h2>
+      <h2>What to submit (after class)</h2>
       <div class="card">
-        <p>You submit <b>once</b>, after all four exercises are done.</p>
+        <p>You submit <b>once</b>, after class: <b>due 11:59 pm on the day of the lab</b>, after all four exercises are done. Finish any exercise you didn't complete in class first; the self-checks and walkthrough notes on this page tell you what each one should do.</p>
         <ol class="steps">
           <li>Keep the starter zip's layout: one folder named <code>Lab3</code>, with your work in <code>Lab3/exercises/</code>, one subfolder per exercise named exactly like the starter folders you were given. Keep each subfolder's layout the same as the starter code.</li>
           <li>In each subfolder, run <code>make clean</code>. Delete any other <code>.o</code> files, executables, and core dumps.</li>
           <li>Delete the <code>examples</code> folder (<code>Lab3/examples/</code>): it holds the lecture examples, and you didn't change anything in it. Your zip should contain only <code>exercises/</code>.</li>
           <li>Check that everything compiles with <code>g++ -std=c++17 -Wall -Wextra</code> on Linux with no warnings, and that valgrind is clean for every program.</li>
           <li>Create <b>one zip file of the whole <code>Lab3</code> folder</b>, named <code>Lab3-&lt;your UW NetID&gt;.zip</code> (from the folder above it: <code>zip -r Lab3-netid.zip Lab3</code>).</li>
-          <li>Upload that one zip file to the Lab 3 assignment on Canvas.</li>
+          <li>Upload that one zip file to the Lab 3 assignment on Canvas by 11:59 pm.</li>
         </ol>
       </div>
 <pre><code>Lab3/
@@ -607,21 +815,6 @@ a[8] = 0;             // compiles and runs: writes past the end, and no one repo
         </table>
       </div>
       <div class="callout info">Self-test questions are for your own practice and are not submitted.</div>
-    </section>
-
-    <!-- ============================== TAKEAWAYS ============================== -->
-    <section id="takeaways">
-      <h2>Takeaways</h2>
-      <div class="callout learned">
-        <span class="title">Learned</span>
-        <ul style="margin:4px 0 0">
-          <li>A pointer holds an address: <code>&amp;</code> takes one, <code>*</code> follows one, <code>-&gt;</code> reaches a member. Initialize every pointer, and never follow <code>nullptr</code>.</li>
-          <li>In a declaration, <code>&amp;</code> is a reference and <code>*</code> a pointer; in a statement, <code>&amp;</code> is "address of" and <code>*</code> "follow the pointer". Between two values they are bitwise AND and multiplication, and <code>&amp;&amp;</code> is logical AND (<a href="#p1-symbols">tables</a>).</li>
-          <li>An array is one contiguous block with no length and no bounds checking: <code>a[i]</code> is <code>*(a + i)</code>, an index can even be negative from a pointer into the middle, and a bad index fails silently. Pass the count with every array.</li>
-          <li>Every <code>new</code> needs one <code>delete</code>, every <code>new[]</code> one <code>delete[]</code>. Run valgrind on everything: memory bugs usually look fine until they don't.</li>
-          <li>Linked structures are pointer rewiring: draw it, handle the empty and first-node cases, and save <code>next</code> before you delete.</li>
-        </ul>
-      </div>
     </section>
 
     <footer>

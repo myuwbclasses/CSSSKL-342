@@ -15,3 +15,13 @@
     document.querySelectorAll('nav.toc details').forEach(function (d) { d.addEventListener('toggle', update); });
     update();
   })();
+
+// A link to a closed optional block (<details class="card optional" id=...>) opens it
+  (function () {
+    function openTarget() {
+      var t = location.hash && document.getElementById(location.hash.slice(1));
+      if (t && t.tagName === 'DETAILS' && !t.open) t.open = true;
+    }
+    window.addEventListener('hashchange', openTarget);
+    openTarget();
+  })();

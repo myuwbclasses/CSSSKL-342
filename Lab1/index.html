@@ -18,8 +18,6 @@
     <a href="#schedule">Schedule</a>
     <details>
       <summary title="Show or hide the sections of Part 0"><a href="#part0">0. Your Linux environment</a></summary>
-      <a href="#p0-commands" class="sub">Warm-up: Linux commands</a>
-      <a href="#p0-practice" class="sub">Practice: Linux commands</a>
       <a href="#p0-lecture" class="sub">Lecture: one folder, two names</a>
       <a href="#ex0" class="sub">Exercise 0: files on both sides</a>
       <a href="#p0-paths" class="sub">File names and paths</a>
@@ -31,28 +29,29 @@
       <summary title="Show or hide the sections of Part 1"><a href="#part1">1. How C++ programs are built</a></summary>
       <a href="#p1-lecture" class="sub">Lecture: the build model</a>
       <a href="#ex1" class="sub">Exercise 1: broken build</a>
+      <a href="#p1-ahead" class="sub">Done early?</a>
       <a href="#p1-solution" class="sub">Walkthrough 1</a>
       <a href="#p1-selftest" class="sub">Self-test</a>
-      <a href="#p1-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 2"><a href="#part2">2. Types, conversions, limits</a></summary>
       <a href="#p2-lecture" class="sub">Lecture: numbers in C++</a>
       <a href="#ex2" class="sub">Exercise 2: rounding, limits</a>
+      <a href="#p2-ahead" class="sub">Done early?</a>
       <a href="#p2-solution" class="sub">Walkthrough 2</a>
       <a href="#p2-selftest" class="sub">Self-test</a>
-      <a href="#p2-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 3"><a href="#part3">3. References</a></summary>
       <a href="#p3-lecture" class="sub">Lecture: parameter passing</a>
       <a href="#ex3" class="sub">Exercise 3: references</a>
+      <a href="#p3-ahead" class="sub">Done early?</a>
       <a href="#p3-solution" class="sub">Walkthrough 3</a>
       <a href="#p3-selftest" class="sub">Self-test</a>
-      <a href="#p3-quiz" class="sub">Section quiz</a>
     </details>
-    <a href="#submit">What to submit</a>
     <a href="#takeaways">Takeaways</a>
+    <a href="#quiz">Lab 1 Quiz</a>
+    <a href="#submit">What to submit (after class)</a>
     <div class="label" style="margin-top:24px">Reference</div>
     <a href="../reference/linux.html">Linux commands</a>
     <a href="../reference/gdb.html">gdb commands</a>
@@ -68,7 +67,8 @@
     <header class="hero">
       <div class="eyebrow">CSS SKL 342 · Lab 1</div>
       <h1>Toolchain and C++ Basics</h1>
-      <p>CSS SKL 342 is the C++ skills lab that runs alongside CSS 342, the data structures course. It starts from the Linux container you set up in the <a href="../Pre-Lab/index.html" style="color:inherit;text-decoration:underline">Pre-Lab</a>, then three rounds of mini-lecture, hands-on exercise, and solution walkthrough, covering C++ you'll need for your first CSS 342 programming assignment.</p>
+      <p>CSS SKL 342 is the C++ skills lab that runs alongside CSS 342, the data structures course. It starts from the Linux container you set up in the <a href="../Pre-Lab/index.html" style="color:inherit;text-decoration:underline">Pre-Lab</a>, then three rounds of mini-lecture, hands-on exercise, and solution walkthrough, covering C++ you'll need for your first CSS 342 programming assignment. The lab ends with a short open-book quiz; you submit your code after class.</p>
+      <p class="topics"><b>Topics:</b> Toolchain (g++, make) · datatype conversion · pass by value / pass by reference</p>
       <div class="hero-links">
         <a class="btn" href="#schedule">Schedule</a>
         <a class="btn" href="#submit">What to submit</a>
@@ -83,8 +83,8 @@
       <div class="card">
         <p>Programming assignments in CSS 342, the data structures course this lab supports, are built and graded with <code>g++</code> on Linux, as several <code>.h</code>/<code>.cpp</code> files, so that is how you'll work in this lab too. Before you arrive:</p>
         <ol class="steps">
-          <li>Complete the <a href="../Pre-Lab/index.html">Pre-Lab</a>: install VS Code, its extensions, and Docker, create your container <code>cssskl342</code>, and pass the final test (Hello, world compiled and run in VS Code attached to the container). Do it at least two days ahead; the downloads are large. Lab 1 starts from that working setup.</li>
-          <li>Download the starter code, <a href="Lab1-starter.zip">Lab1-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder (created in the Pre-Lab). Windows: right-click the zip &rarr; <b>Extract All&hellip;</b>, and choose your <span class="path">CSSSKL342</span> folder as the destination. Mac: double-click the zip in Downloads, then drag the <span class="path">Lab1</span> folder it makes into <span class="path">CSSSKL342</span>. You should now have <span class="path">CSSSKL342/Lab1/exercises/</span>, holding <span class="path">ex1-build/</span>, <span class="path">ex2-types/</span>, and <span class="path">ex3-references/</span>, and <span class="path">CSSSKL342/Lab1/examples/</span>, the lecture examples; in VS Code's terminal, <code>ls ~/CSSSKL342/Lab1/exercises</code> lists those three folders. That <span class="path">Lab1</span> folder is what you zip and submit at the end.</li>
+          <li>Complete the <a href="../Pre-Lab/index.html">Pre-Lab</a>: install VS Code, its extensions, and Docker, create your container <code>cssskl342</code>, pass the final test (Hello, world compiled and run in VS Code attached to the container), and do the <a href="../Pre-Lab/index.html#linux-practice">Linux command practice</a> (step 9). Do it at least two days ahead; the downloads are large. Lab 1 starts from that working setup and assumes those commands.</li>
+          <li>Download the starter code, <a href="Lab1-starter.zip">Lab1-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder (created in the Pre-Lab). Windows: right-click the zip &rarr; <b>Extract All&hellip;</b>, and choose your <span class="path">CSSSKL342</span> folder as the destination. Mac: double-click the zip in Downloads, then drag the <span class="path">Lab1</span> folder it makes into <span class="path">CSSSKL342</span>. You should now have <span class="path">CSSSKL342/Lab1/exercises/</span>, holding <span class="path">ex1-build/</span>, <span class="path">ex2-types/</span>, and <span class="path">ex3-references/</span>, and <span class="path">CSSSKL342/Lab1/examples/</span>, the lecture examples; in VS Code's terminal, <code>ls ~/CSSSKL342/Lab1/exercises</code> lists those three folders. That <span class="path">Lab1</span> folder is what you zip and submit after class.</li>
         </ol>
       </div>
     </section>
@@ -99,49 +99,59 @@
           </thead>
           <tbody>
             <tr>
-              <td class="topic" rowspan="5"><a href="#part0"><span class="num">0</span>Your Linux environment</a><small>image vs. container, the shared folder</small></td>
-              <td><span class="tag handson">Hands-on</span></td><td class="time">1:15</td><td class="time">15 min</td><td><a href="#p0-commands">Warm-up: Linux commands</a></td>
+              <td class="topic">Welcome<small>the course and the syllabus</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">1:15</td><td class="time">15 min</td><td>Course introduction and syllabus</td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:30</td><td class="time">10 min</td><td><a href="#p0-practice">Practice: Linux commands</a></td></tr>
-            <tr><td><span class="tag lecture">Lecture</span></td><td class="time">1:40</td><td class="time">10 min</td><td><a href="#p0-lecture">One folder, two names</a></td></tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:50</td><td class="time">20 min</td><td><a href="#ex0">Exercise 0: files on both sides</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:10</td><td class="time">5 min</td><td><a href="#p0-solution">Walkthrough 0</a></td></tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="topic" rowspan="3"><a href="#part0"><span class="num">0</span>Your Linux environment</a><small>image vs. container, the shared folder</small></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">1:30</td><td class="time">10 min</td><td><a href="#p0-lecture">One folder, two names</a></td>
+            </tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:40</td><td class="time">15 min</td><td><a href="#ex0">Exercise 0: files on both sides</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">1:55</td><td class="time">5 min</td><td><a href="#p0-solution">Walkthrough 0</a></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part1"><span class="num">1</span>How C++ programs are built</a><small>headers, compiler vs. linker, make</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">2:15</td><td class="time">20 min</td><td><a href="#p1-lecture">The build model</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">2:00</td><td class="time">15 min</td><td><a href="#p1-lecture">The build model</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:35</td><td class="time">35 min</td><td><a href="#ex1">Exercise 1: fix a broken multi-file build</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:10</td><td class="time">10 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:15</td><td class="time">25 min</td><td><a href="#ex1">Exercise 1: fix a broken multi-file build</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:40</td><td class="time">10 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
+          </tbody>
+          <tbody class="break">
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">2:50</td><td class="time">10 min</td><td></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part2"><span class="num">2</span>Types, conversions, and limits</a><small>sizes, overflow, casts, floating point</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">3:20</td><td class="time">15 min</td><td><a href="#p2-lecture">Numbers are not the same as in Java</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:00</td><td class="time">10 min</td><td><a href="#p2-lecture">Numbers are not the same as in Java</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:35</td><td class="time">30 min</td><td><a href="#ex2">Exercise 2: rounding and numeric limits</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:05</td><td class="time">5 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:10</td><td class="time">25 min</td><td><a href="#ex2">Exercise 2: rounding and numeric limits</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:35</td><td class="time">5 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
           </tbody>
           <tbody class="break">
-            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">4:10</td><td class="time">10 min</td><td></td></tr>
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">3:40</td><td class="time">10 min</td><td></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part3"><span class="num">3</span>References and parameter passing</a><small>value, &amp;, const &amp;, returning references</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">4:20</td><td class="time">15 min</td><td><a href="#p3-lecture">Value, reference, const reference</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:50</td><td class="time">15 min</td><td><a href="#p3-lecture">Value, reference, const reference</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:35</td><td class="time">25 min</td><td><a href="#ex3">Exercise 3: references</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">5:00</td><td class="time">5 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:05</td><td class="time">30 min</td><td><a href="#ex3">Exercise 3: references</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:35</td><td class="time">10 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
           </tbody>
           <tbody>
-            <tr><td class="topic"><a href="#submit">Catch-up and wrap-up</a><small>finish, package, review</small></td><td><span class="tag solution">Wrap-up</span></td><td class="time">5:05</td><td class="time">10 min</td><td>Finish any exercise, build your <a href="#submit">submission zip</a>, and review the <a href="#takeaways">takeaways</a></td></tr>
+            <tr>
+              <td class="topic" rowspan="2"><a href="#quiz">Quiz and review</a><small>open book, then the answers</small></td>
+              <td><span class="tag quiz">Quiz</span></td><td class="time">End</td><td class="time"></td><td><a href="#quiz">Lab 1 Quiz, on paper</a> (10 questions, open book): <b>hand it in before you leave</b></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">After</td><td class="time">10 min</td><td>We go over the quiz answers and the <a href="#takeaways">takeaways</a></td></tr>
           </tbody>
         </table>
       </div>
       <div class="callout info">
-        <span class="title">Self-checks</span>
-        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. Everything is submitted together as one zip at the end (see <a href="#submit">What to submit</a>).
+        <span class="title">Self-checks, and submitting after class</span>
+        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. If you fall behind, follow the walkthrough anyway and finish after class: you submit everything together as one zip <b>after class, by 11:59 pm on the day of the lab</b> (see <a href="#submit">What to submit</a>).
       </div>
     </section>
 
@@ -150,144 +160,6 @@
       <div class="part-head">
         <div class="part-num">0</div>
         <div><h2>Your Linux environment</h2><div class="sub">image vs. container, the shared folder, what runs where</div></div>
-      </div>
-
-      <div class="card handson" id="p0-commands">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Warm-up: Linux commands</h3><span class="mins">15 min</span></div>
-        <p>About fourteen commands do almost all of your work in a Linux terminal. Here they are; the full list, with their options and examples, is in the <a href="../reference/linux.html">Linux command reference</a>, a separate page linked from every lab's left menu (<b>Reference</b>).</p>
-        <div class="tbl tbl-scroll">
-          <table>
-            <thead><tr><th style="width:22%">Command</th><th>What it does</th></tr></thead>
-            <tbody>
-              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Where am I?</td></tr>
-              <tr><td><code>pwd</code></td><td>Print the current folder's full path.</td></tr>
-              <tr><td><code>ls</code></td><td>List the current folder: <code>-l</code> details, <code>-a</code> hidden names, <code>-R</code> everything inside.</td></tr>
-              <tr><td><code>cd</code></td><td>Change folder: <code>cd part0</code>, <code>cd ..</code> (up one), <code>cd ~</code> (home).</td></tr>
-              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Files and folders</td></tr>
-              <tr><td><code>mkdir</code></td><td>Make a folder; <code>-p</code> also makes missing parents.</td></tr>
-              <tr><td><code>touch</code></td><td>Make an empty file.</td></tr>
-              <tr><td><code>cp</code></td><td>Copy a file; <code>-r</code> copies a folder.</td></tr>
-              <tr><td><code>mv</code></td><td>Move into a folder, or rename: the same command.</td></tr>
-              <tr><td><code>rm</code></td><td>Delete a file; <code>-r</code> a folder and everything in it. No Recycle Bin: it is gone.</td></tr>
-              <tr><td><code>rmdir</code></td><td>Delete an <i>empty</i> folder (the safe choice).</td></tr>
-              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Text</td></tr>
-              <tr><td><code>cat</code></td><td>Print a whole file.</td></tr>
-              <tr><td><code>less</code></td><td>Page through a long file: Space for more, <code>q</code> to quit.</td></tr>
-              <tr><td><code>echo</code></td><td>Print text; <code>&gt;</code> writes it into a file, <code>&gt;&gt;</code> adds it to the end.</td></tr>
-              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Help and the screen</td></tr>
-              <tr><td><code>--help</code></td><td>After any command, shows its options: <code>ls --help</code>.</td></tr>
-              <tr><td><code>clear</code></td><td>Clear the screen (or <code>Ctrl+L</code>).</td></tr>
-              <tr><td colspan="2" style="background:var(--surface-2);font-weight:600">Keys</td></tr>
-              <tr><td><code>Tab</code></td><td>Finish a file or folder name.</td></tr>
-              <tr><td><code>&uarr; / &darr;</code></td><td>Bring back earlier commands.</td></tr>
-              <tr><td><code>Ctrl+C</code></td><td>Stop a running program.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p>In VS Code's terminal (attached to your container), type each line yourself; don't paste. Everything after <code>#</code> is a comment for you: leave it out. Use <code>Tab</code> to finish names and <code>&uarr;</code> to repeat a command.</p>
-        <ol class="steps">
-          <li><b>Make a folder and some files.</b>
-<pre><code>cd ~/CSSSKL342                      # go to your course folder
-pwd                                 # where am I?
-mkdir -p part0/warmup               # makes part0, and warmup inside it
-cd part0/warmup
-pwd
-touch empty.txt                     # an empty file
-echo "first line" &gt; notes.txt       # &gt;  writes into a file
-echo "second line" &gt;&gt; notes.txt     # &gt;&gt; adds to the end
-cat notes.txt
-ls</code></pre>
-            <div class="expect">Expected</div>
-<pre><code>/home/cssuwbstudent/CSSSKL342
-/home/cssuwbstudent/CSSSKL342/part0/warmup
-first line
-second line
-empty.txt  notes.txt</code></pre></li>
-          <li><b>Copy, move, and rename.</b>
-<pre><code>cp notes.txt copy.txt               # copy
-mkdir backup
-mv copy.txt backup/                 # move into a folder
-mv empty.txt blank.txt              # rename: same command
-ls -R                               # checkpoint 1</code></pre>
-            <div class="expect">Expected</div>
-<pre><code>.:
-backup  blank.txt  notes.txt
-
-./backup:
-copy.txt</code></pre></li>
-          <li><b>Delete, carefully.</b>
-<pre><code>rm blank.txt
-rmdir backup                        # fails -- read the message
-rm backup/copy.txt
-rmdir backup                        # now it works
-ls                                  # checkpoint 2: only notes.txt
-cd ..                               # up to part0
-rm -r warmup                        # the folder and everything in it
-ls                                  # nothing left</code></pre>
-            The first <code>rmdir</code> says <code>rmdir: failed to remove 'backup': Directory not empty</code>: <code>rmdir</code> only deletes empty folders, which makes it the safe choice. <code>rm -r</code> deletes everything inside without asking, and nothing goes to the Recycle Bin, so check <code>pwd</code> first.</li>
-          <li><b>Look things up.</b> Run <code>ls --help</code> (its first line is <code>Usage: ls [OPTION]... [FILE]...</code>), then <code>clear</code>. Open a long file with <code>less</code>, for example <code>less ~/CSSSKL342/Lab1/exercises/ex2-types/limits.cpp</code>: Space pages down, <code>q</code> quits.</li>
-        </ol>
-        <div class="callout warn"><span class="title">Self-check</span>Your two checkpoints matched, the last <code>ls</code> printed nothing, and <code>pwd</code> now prints <code>/home/cssuwbstudent/CSSSKL342/part0</code>: an empty <code>part0</code> folder, ready for the practice exercises below.</div>
-      </div>
-
-      <div class="card handson" id="p0-practice">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Practice: Linux commands</h3><span class="mins">10 min</span></div>
-        <p>Now without step-by-step commands. Work in VS Code's terminal, starting in <code>~/CSSSKL342/part0</code> (<code>cd ~/CSSSKL342/part0</code>). Use only commands from the warm-up; the <a href="../reference/linux.html">Linux command reference</a> is linked from the left menu (<b>Reference</b>). Check yourself against the expected output, and open the answer only after you've tried.</p>
-        <ol class="steps">
-          <li><b>Build this tree.</b> In <code>part0</code>, create a folder <code>practice</code> containing two folders, <code>src</code> and <code>docs</code>. In <code>src</code>, make two empty files, <code>main.cpp</code> and <code>util.h</code>. In <code>docs</code>, make <code>readme.txt</code> containing exactly two lines: <code>Lab 1</code>, then <code>practice</code>.
-            <div class="expect">Self-check: in <code>practice</code>, <code>ls -R</code> then <code>cat docs/readme.txt</code> print</div>
-<pre><code>.:
-docs  src
-
-./docs:
-readme.txt
-
-./src:
-main.cpp  util.h
-Lab 1
-practice</code></pre>
-            <details><summary>Show a model answer</summary>
-<pre><code>mkdir -p practice/src practice/docs
-touch practice/src/main.cpp practice/src/util.h
-echo "Lab 1" &gt; practice/docs/readme.txt
-echo "practice" &gt;&gt; practice/docs/readme.txt
-cd practice</code></pre>
-            </details></li>
-          <li><b>Reorganize it.</b> Still in <code>practice</code>: rename <code>src/util.h</code> to <code>src/convert.h</code>; copy <code>docs/readme.txt</code> into <code>src</code> under the name <code>notes.txt</code>; move <code>docs/readme.txt</code> up into <code>practice</code>; then delete the now-empty <code>docs</code> folder with the <i>safe</i> delete command.
-            <div class="expect">Self-check: <code>ls -R</code> prints</div>
-<pre><code>.:
-readme.txt  src
-
-./src:
-convert.h  main.cpp  notes.txt</code></pre>
-            Then try the same safe delete on <code>src</code>. What happens, and why is that a good thing?
-            <details><summary>Show a model answer</summary>
-<pre><code>mv src/util.h src/convert.h
-cp docs/readme.txt src/notes.txt
-mv docs/readme.txt .
-rmdir docs</code></pre>
-            <p><code>rmdir src</code> prints <code>rmdir: failed to remove 'src': Directory not empty</code>. <code>rmdir</code> refuses to delete a folder that still has files in it, so you can't lose work by accident; <code>rm -r src</code> would have deleted everything without asking. (<code>.</code> in <code>mv docs/readme.txt .</code> means "here, the current folder".)</p>
-            </details></li>
-          <li><b>Use relative paths.</b> Go into <code>src</code>. Without leaving it: print your current folder; print <code>practice/readme.txt</code> using a path that starts with <code>..</code>; copy that file into <code>src</code> as <code>copy.txt</code>; list <code>src</code>, and then list <code>practice</code> (again using <code>..</code>). Finally go back to <code>part0</code> and delete the whole <code>practice</code> folder.
-            <div class="expect">Self-check: the commands print, in order</div>
-<pre><code>/home/cssuwbstudent/CSSSKL342/part0/practice/src
-Lab 1
-practice
-convert.h  copy.txt  main.cpp  notes.txt
-readme.txt  src</code></pre>
-            and at the end, <code>pwd</code> is <code>/home/cssuwbstudent/CSSSKL342/part0</code> and <code>ls</code> prints nothing.
-            <details><summary>Show a model answer</summary>
-<pre><code>cd src
-pwd
-cat ../readme.txt
-cp ../readme.txt copy.txt
-ls
-ls ..
-cd ../..
-rm -r practice
-ls</code></pre>
-            </details></li>
-        </ol>
       </div>
 
       <div class="card lecture" id="p0-lecture">
@@ -303,7 +175,7 @@ ls</code></pre>
       </div>
 
       <div class="card handson" id="ex0">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 0: Files on both sides</h3><span class="mins">20 min</span></div>
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 0: Files on both sides</h3><span class="mins">15 min</span></div>
         <p>Goal: get comfortable moving between VS Code (in Linux) and File Explorer or Finder (on your computer), working on the same files. <b>Setup:</b> put the two windows side by side.</p>
         <ul>
           <li><b>VS Code</b>, attached to <code>cssskl342</code> (bottom-left label), with <code>/home/cssuwbstudent/CSSSKL342</code> open, and a terminal open (<code>Ctrl+`</code>).</li>
@@ -311,7 +183,7 @@ ls</code></pre>
         </ul>
         <p>If a file you just made on one side doesn't appear on the other, click the Explorer's <b>Refresh</b> button in VS Code, or press <code>F5</code> in File Explorer. In the steps, Windows names come first and the Mac equivalent follows in parentheses.</p>
         <ol class="steps">
-          <li><b>VS Code → your computer.</b> In VS Code's Explorer, open the <code>part0</code> folder you made in the warm-up, and in it create <code>from-vscode.txt</code> containing the line <code>written in VS Code</code>, and save. Now find the file in File Explorer, open it in <b>Notepad</b> (<b>TextEdit</b>), add a second line <code>added in Notepad</code>, save, and close Notepad. Back in VS Code, look at the file: both lines are there. (If the file was still open, VS Code reloads it; if it didn't, close and reopen it.)</li>
+          <li><b>VS Code → your computer.</b> In the terminal, make a folder for this part: <code>mkdir ~/CSSSKL342/part0</code>. In VS Code's Explorer, open <code>part0</code> (click Refresh if it doesn't appear yet), and in it create <code>from-vscode.txt</code> containing the line <code>written in VS Code</code>, and save. Now find the file in File Explorer, open it in <b>Notepad</b> (<b>TextEdit</b>), add a second line <code>added in Notepad</code>, save, and close Notepad. Back in VS Code, look at the file: both lines are there. (If the file was still open, VS Code reloads it; if it didn't, close and reopen it.)</li>
           <li><b>Your computer → VS Code.</b> In File Explorer, inside <code>part0</code>, create a new folder named <code>made-on-my-computer</code>. Find it in VS Code's Explorer. In VS Code, create <code>made-on-my-computer/sum.cpp</code> and type:
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
@@ -326,13 +198,10 @@ int main() {
 g++ -std=c++17 -Wall -Wextra sum.cpp -o sum
 ./sum</code></pre>
             It prints <code>2 + 3 = 5</code>. In File Explorer, the folder now holds <code>sum.cpp</code> and the program <code>sum</code>.</li>
-          <li><b>Rename on one side, move on the other.</b> In File Explorer, rename <code>from-vscode.txt</code> to <code>notes.txt</code>; VS Code's Explorer shows the new name. Then move it with a Linux command, from the terminal:
-<pre><code>cd ~/CSSSKL342/part0
-mv notes.txt made-on-my-computer/</code></pre>
-            In File Explorer, <code>notes.txt</code> is now inside <code>made-on-my-computer</code>.</li>
           <li><b>Delete on both sides.</b> In File Explorer, delete the program <code>sum</code>; it disappears from VS Code, and <code>ls made-on-my-computer</code> no longer lists it. Now delete from Linux:
-<pre><code>rm made-on-my-computer/notes.txt</code></pre>
-            Open the <b>Recycle Bin</b> (<b>Trash</b>) and look for <code>notes.txt</code>.</li>
+<pre><code>cd ~/CSSSKL342/part0
+rm from-vscode.txt</code></pre>
+            Open the <b>Recycle Bin</b> (<b>Trash</b>) and look for <code>sum</code> and <code>from-vscode.txt</code>.</li>
           <li><b>Outside the shared folder.</b> In the terminal, make a file in your Linux home folder, one level <i>above</i> <code>CSSSKL342</code>:
 <pre><code>echo "where am I?" &gt; ~/outside.txt
 ls ~</code></pre>
@@ -341,8 +210,8 @@ ls ~</code></pre>
         <div class="qlabel">Think about these (nothing to submit for Part 0; we answer them in the walkthrough):</div>
         <ol class="questions">
           <li>Give the full path of <code>sum.cpp</code> as Linux sees it, and as your computer sees it.</li>
-          <li>Did you find <code>notes.txt</code> in the Recycle Bin (Trash) after step 4? Why or why not?</li>
-          <li>Where was <code>outside.txt</code> stored in step 5? What would have happened to it if the container were removed and created again?</li>
+          <li>After step 3, which of the two files did you find in the Recycle Bin (Trash)? Why?</li>
+          <li>Where was <code>outside.txt</code> stored in step 4? What would have happened to it if the container were removed and created again?</li>
           <li>Which program compiled <code>sum</code>, and which operating system can run it?</li>
         </ol>
         <div class="callout warn">
@@ -397,8 +266,8 @@ cd made-on-my-computer
 ls ../made-on-my-computer/sum.cpp                                   # relative, via ..</code></pre>
       </div>
 
-      <div class="card" id="p0-ahead">
-        <div class="block-head"><span class="tag handson">Done early?</span><h3>Challenges while others finish</h3><span class="mins">optional</span></div>
+      <details class="card optional" id="p0-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>Challenges while others finish</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
         <p>Not submitted. Pick any, in any order; each one teaches something you'll run into in your CSS 342 assignments. Work in <code>~/CSSSKL342/part0</code> unless a step says otherwise, and delete what you made when you're done.</p>
         <ol class="steps">
           <li><b>The case-sensitivity trap.</b> Run this twice: first in <code>part0</code> (the shared folder), then in <code>/tmp</code> (Linux only: <code>cd /tmp</code>).
@@ -412,13 +281,14 @@ g++ main.cpp -o main &amp;&amp; echo "compiled OK"</code></pre>
           <li><b>A throwaway container.</b> In PowerShell or the Mac Terminal, start a temporary Linux machine from the same image: <code>docker run --rm -it cssimages/linuxlab bash</code>. Create a file with <code>echo test &gt; ~/scratch.txt</code>, check it with <code>ls ~</code>, then <code>exit</code>. Run the same <code>docker run</code> command again and <code>ls ~</code>. Where did <code>scratch.txt</code> go? (<code>--rm</code> deletes the container when it exits, and nothing of its was in a shared folder.)</li>
           <li><b>Terminal only.</b> Without touching the mouse: create <code>part0/a/b/c</code> with one command (<code>mkdir -p</code>), copy your Pre-Lab <code>hello.cpp</code> into <code>c</code> (<code>cp</code>), compile and run it there, list everything under <code>a</code> (<code>ls -R a</code>), and delete <code>a</code> and everything in it (<code>rm -r a</code>). The image has no manual pages, so use <code>--help</code> (for example <code>ls --help</code>). The CSS wiki's <a href="https://csswiki.uwb.edu/basic-linux-commands/">Basic Linux Commands</a> and <a href="https://csswiki.uwb.edu/50-step-unix/">50-Step Unix</a> pages have more.</li>
           <li><b>Let VS Code format your code.</b> Open <code>sum.cpp</code>, mess up its indentation, and press <code>Shift+Alt+F</code> (Mac: <code>Shift+Option+F</code>). The C/C++ extension reformats it with <code>clang-format</code>, from the image. To format every time you save, open Settings (<code>Ctrl+,</code>), search for <b>format on save</b>, and turn it on.</li>
+          <li><b>More Linux practice.</b> The <a href="../Pre-Lab/index.html#linux-practice">Pre-Lab, step 9</a> has Linux command practice with self-checks and model answers; redo any part of it.</li>
           <li><b>Read ahead.</b> If you haven't yet, set up <code>CSSSKL342/Lab1</code> with the starter code (see <a href="#before">Before lab</a>), and read the comments at the top of <code>Lab1/exercises/ex1-build/main.cpp</code>. That's where Part 1 starts.</li>
         </ol>
-      </div>
+      </details>
 
       <div class="card solution" id="p0-solution">
         <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 0</h3><span class="mins">5 min</span></div>
-        <p>We run steps 3–5 live, both windows side by side, and answer the four questions with the diagram: one folder with two names, no Recycle Bin in Linux, files outside <code>CSSSKL342</code> live only in the container, and Linux programs run only in Linux. If time allows, the case-sensitivity trap.</p>
+        <p>We run steps 3–4 live, both windows side by side, and answer the four questions with the diagram: one folder with two names, no Recycle Bin in Linux, files outside <code>CSSSKL342</code> live only in the container, and Linux programs run only in Linux. If time allows, the case-sensitivity trap.</p>
       </div>
 
       <div class="review" id="p0-selftest">
@@ -448,7 +318,7 @@ g++ main.cpp -o main &amp;&amp; echo "compiled OK"</code></pre>
       </div>
 
       <div class="card lecture" id="p1-lecture">
-        <div class="block-head"><span class="tag lecture">Lecture</span><h3>The build model</h3><span class="mins">20 min</span></div>
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>The build model</h3><span class="mins">15 min</span></div>
         <p class="why">In Java, <code>javac</code> finds your other classes for you. In C++, you tell the compiler which files to compile and the linker which pieces to join, and every multi-file CSS 342 assignment depends on getting this right. Most confusing build errors (<code>undefined reference</code>, <code>multiple definition</code>, <code>redefinition</code>) make sense once you know which stage is complaining.</p>
         <ul>
           <li><b>Three stages.</b> The <i>preprocessor</i> pastes <code>#include</code>d files in as text. The <i>compiler</i> turns each <code>.cpp</code> (with its includes) into an object file <code>.o</code>, one at a time, without seeing the others. The <i>linker</i> joins the <code>.o</code> files and matches every function call to exactly one definition.</li>
@@ -458,29 +328,10 @@ g++ main.cpp -o main &amp;&amp; echo "compiled OK"</code></pre>
 #define CONVERT_H
 // ... declarations ...
 #endif</code></pre>
-            The first time a <code>.cpp</code> includes the file, <code>CONVERT_H</code> is not yet defined, so the contents are kept and <code>CONVERT_H</code> gets defined; the second time, <code>#ifndef</code> is false and the whole file is skipped. The macro name must be unique to each header: copy-paste a header and forget to rename its guard, and the second header silently disappears.
-            <br><b>Alternative: <code>#pragma once</code></b> as the first line of the header does the same job:
-<pre><code>#pragma once
-// ... declarations ...</code></pre>
-            It is shorter, needs no macro name, and so cannot clash. It is not part of the C++ standard, but g++, clang, and Visual C++ all support it, so either form is fine for your CSS 342 assignments (check whether your instructor prefers one). Exercise 1 uses both: <code>report.h</code> already has <code>#pragma once</code>, and <code>convert.h</code> has no protection yet.</li>
-          <li><b><code>#include &lt;...&gt;</code> vs. <code>#include "..."</code>.</b> Angle brackets are for standard-library and system headers, such as <code>&lt;iostream&gt;</code> and <code>&lt;string&gt;</code>: the compiler searches only the system include directories. Quotes are for your own headers, such as <code>"convert.h"</code>: the compiler searches the folder of the file that has the <code>#include</code> first, then the system directories.</li>
-          <li><b>Global (free) functions.</b> In C++ a function does not have to belong to a class. <code>celsiusToFahrenheit</code> and <code>fahrenheitToCelsius</code> in Exercise 1 are global functions: declared in <code>convert.h</code>, defined in <code>convert.cpp</code>, and called by name from any file that includes the header, with no object and no class name in front. <code>main</code> itself is a global function. Java has nothing like this: every method lives in a class, and the nearest equivalent is a <code>static</code> method such as <code>Math.sqrt</code>.
-<pre><code>// convert.h -- no class anywhere
-double celsiusToFahrenheit(double celsius);
-
-// main.cpp
-#include "convert.h"
-double f = celsiusToFahrenheit(100.0);   // not obj.celsiusToFahrenheit(...), not Convert::...</code></pre></li>
-          <li><b>Namespaces.</b> Everything in the standard library is in the namespace <code>std</code>, so the full name of <code>cout</code> is <code>std::cout</code>. A <code>.cpp</code> file can write <code>using namespace std;</code> after its includes and then use the short name, <code>cout</code>; Exercise 1's <code>main.cpp</code> uses both forms. Never put <code>using namespace std;</code> in a header: it would apply to every file that includes that header. From here on, every <code>.cpp</code> in these labs uses <code>using namespace std;</code> and the short names; headers keep the full <code>std::</code> names.
-<pre><code>#include &lt;iostream&gt;      // standard library: system directories only
-#include "convert.h"     // your header: this file's folder first
-
-using namespace std;     // in a .cpp file only, never in a .h
-
-int main() {
-    std::cout &lt;&lt; "full name" &lt;&lt; std::endl;
-    cout &lt;&lt; "short name" &lt;&lt; endl;          // works because of using namespace std
-}</code></pre></li>
+            The first time a <code>.cpp</code> includes the file, <code>CONVERT_H</code> is not yet defined, so the contents are kept and <code>CONVERT_H</code> gets defined; the second time, the whole file is skipped. Each header needs its own macro name. <code>#pragma once</code> as a header's first line does the same job (Exercise 1's <code>report.h</code> uses it; its comments explain it).</li>
+          <li><b><code>#include &lt;iostream&gt;</code> vs. <code>#include "convert.h"</code>:</b> angle brackets for the standard library, quotes for your own headers (searched in the including file's folder first). The comments at the top of Exercise 1's <code>main.cpp</code> say more.</li>
+          <li><b>Global (free) functions.</b> In C++ a function does not have to belong to a class. <code>celsiusToFahrenheit</code> in Exercise 1 is declared in <code>convert.h</code>, defined in <code>convert.cpp</code>, and called by name, <code>celsiusToFahrenheit(100.0)</code>, from any file that includes the header: no object, no class name. <code>main</code> is a global function too. (Java's nearest equivalent is a <code>static</code> method such as <code>Math.sqrt</code>.)</li>
+          <li><b>Namespaces.</b> The standard library is in the namespace <code>std</code>: the full name of <code>cout</code> is <code>std::cout</code>. A <code>.cpp</code> file can write <code>using namespace std;</code> after its includes and then just <code>cout</code>; never put it in a header, where it would apply to every file that includes the header. From here on, every <code>.cpp</code> in these labs uses <code>using namespace std;</code> and the short names; headers keep <code>std::</code>.</li>
           <li><b>Compiler errors vs. linker errors.</b> Compiler errors have a file and line number. Linker errors say <code>undefined reference</code> or <code>multiple definition</code>, have no line number, and end with <code>ld returned 1 exit status</code>. Knowing which one you have tells you where to look.</li>
           <li><b>Commands:</b>
 <pre><code>g++ -std=c++17 -Wall -Wextra -g -c convert.cpp             # compile only: makes convert.o
@@ -493,17 +344,69 @@ cppcheck --enable=all *.cpp     # static analysis: finds bugs the compiler misse
       </div>
 
       <div class="card handson" id="ex1">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 1: Fix a broken multi-file build</h3><span class="mins">35 min</span></div>
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 1: Fix a broken multi-file build</h3><span class="mins">25 min</span></div>
         <p>Folder: <span class="path">Lab1/exercises/ex1-build/</span>. The program prints a small Celsius-to-Fahrenheit table, split across <code>main.cpp</code>, <code>convert.h/.cpp</code> (the conversion functions), and <code>report.h/.cpp</code> (printing one row). It contains three build errors and one warning, planted on purpose. Do not rewrite the program; make the smallest fix for each problem. Read the comments at the top of <code>main.cpp</code> first: they explain its <code>#include</code> lines and <code>using namespace std;</code>. The comments in <code>report.h</code> explain its <code>#pragma once</code>.</p>
         <ol class="steps">
           <li>Compile the files one at a time with <code>g++ -std=c++17 -Wall -Wextra -c</code>. Fix every compiler error and warning.</li>
           <li>Link the three <code>.o</code> files. Fix every linker error.</li>
-          <li>Finish the <code>Makefile</code>: add rules for <code>convert.o</code> and <code>report.o</code>, and a <code>clean</code> target. Run <code>make clean</code> then <code>make</code>, and run <code>./temps</code>. It prints a table, then converts temperatures you type in &deg;F to &deg;C until you enter <code>-999</code>.</li>
+          <li>Finish the <code>Makefile</code>: the rules for <code>main.o</code> and <code>convert.o</code> are given; following them, add a rule for <code>report.o</code> and a <code>clean</code> target. Run <code>make clean</code> then <code>make</code>, and run <code>./temps</code>. It prints a table, then converts temperatures you type in &deg;F to &deg;C until you enter <code>-999</code>.</li>
           <li>Run <code>touch report.cpp</code>, then <code>make</code> again.</li>
           <li>Run <code>cppcheck --enable=all *.cpp</code> on your fixed code.</li>
         </ol>
         <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>make</code> builds with no warnings and the program prints the expected output.</div>
       </div>
+
+      <details class="card optional" id="p1-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about the build</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order. Work on a <i>copy</i> of your finished Exercise 1, so the version you submit stays as it is, and delete the copy when you're done:<pre><code>cp -r ~/CSSSKL342/Lab1/exercises/ex1-build ~/CSSSKL342/extra-build
+cd ~/CSSSKL342/extra-build
+make</code></pre></p>
+        <ol class="steps">
+          <li><b>See what the compiler really gets.</b> The preprocessor's output is what the compiler compiles. Compare the sizes:<pre><code>wc -l main.cpp
+g++ -std=c++17 -E main.cpp | wc -l</code></pre>Then look at the whole output for <code>convert.cpp</code>, without the <code>#</code> bookkeeping lines: <code>g++ -std=c++17 -E convert.cpp | grep -v '^#'</code>. Where did all the extra lines come from?
+            <details><summary>Show what happens</summary>
+            <p>About 40 lines become about 32,000 (the exact count depends on the g++ version): <code>#include &lt;iostream&gt;</code> pastes in the whole <code>iostream</code> header and every header it includes. <code>convert.cpp</code> includes no system headers, so its output is short: the three declarations from <code>convert.h</code>, pasted in where the <code>#include</code> was, followed by <code>convert.cpp</code>'s own code. That pasted-together text is what "one translation unit" means.</p>
+            </details></li>
+          <li><b>Look inside the object files.</b> <code>nm</code> lists the names an object file defines and the names it needs:<pre><code>nm -C convert.o
+nm -C main.o</code></pre>What do <code>T</code> and <code>U</code> mean? Which file defines <code>printRow</code>?
+            <details><summary>Show what happens</summary>
+            <pre><code>0000000000000029 T celsiusToFahrenheit(double)
+0000000000000000 T clampToAbsoluteZero(double)
+000000000000007c T fahrenheitToCelsius(double)</code></pre>
+            <p>(from <code>convert.o</code>; addresses may differ). <code>T</code>: defined here (in the code, "text", section). <code>main.o</code> shows <code>T main</code> and <code>U celsiusToFahrenheit(double)</code>, <code>U fahrenheitToCelsius(double)</code>, <code>U printRow(double)</code>: <code>U</code> means used here but undefined, so another object file must supply it. <code>printRow</code> is a <code>T</code> in <code>report.o</code>. Linking is exactly this: match every <code>U</code> with one <code>T</code>; none is <i>undefined reference</i>, two is <i>multiple definition</i>.</p>
+            </details></li>
+          <li><b>Break it on purpose: compiler or linker?</b> Predict first, then try each, and undo it afterwards. (a) Delete the line <code>#include "report.h"</code> from <code>report.cpp</code> and run <code>make</code>. (b) Link without <code>convert.o</code>: <code>g++ -o temps main.o report.o</code>.
+            <details><summary>Show what happens</summary>
+            <p>(a) Compiler: <code>report.cpp:7:35: error: 'celsiusToFahrenheit' was not declared in this scope</code>. Surprise: <code>report.cpp</code> never includes <code>convert.h</code> itself; it got the declaration through <code>report.h</code>, which includes <code>convert.h</code>. (b) Linker: <code>undefined reference to `celsiusToFahrenheit(double)'</code> and <code>`fahrenheitToCelsius(double)'</code>, then <code>ld returned 1 exit status</code>: both <code>U</code>s from the previous challenge are left unmatched.</p>
+            </details></li>
+          <li><b>Ask <code>make</code> before it acts.</b> <code>make -n</code> prints the commands <code>make</code> <i>would</i> run, without running them. Run <code>touch convert.h</code>, then <code>make -n</code>. Which files depend on <code>convert.h</code>?
+            <details><summary>Show what happens</summary>
+            <pre><code>g++ -std=c++17 -Wall -Wextra -g -c main.cpp
+g++ -std=c++17 -Wall -Wextra -g -c convert.cpp
+g++ -std=c++17 -Wall -Wextra -g -c report.cpp
+g++ -std=c++17 -Wall -Wextra -g -o temps main.o convert.o report.o</code></pre>
+            <p>All three <code>.o</code> rules list <code>convert.h</code>, so a change to that one header recompiles everything. Run <code>make</code> to actually build.</p>
+            </details></li>
+          <li><b>A shorter Makefile.</b> Real Makefiles use a <i>pattern rule</i> instead of one rule per <code>.cpp</code>. Save this as <code>Makefile2</code> (command lines start with a TAB), then run <code>make -f Makefile2 clean</code>, <code>make -f Makefile2</code>, <code>touch report.h</code>, and <code>make -f Makefile2</code> again:<pre><code>CXX      = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -g
+
+temps: main.o convert.o report.o
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $&lt;
+
+main.o: convert.h report.h
+convert.o: convert.h
+report.o: report.h convert.h
+
+clean:
+	rm -f *.o temps</code></pre>
+            <details><summary>Show what happens</summary>
+            <p><code>%.o: %.cpp</code> means "any <code>.o</code> is built from the <code>.cpp</code> with the same name"; <code>$@</code> is the target, <code>$^</code> all its dependencies, <code>$&lt;</code> the first one. The three short lines add each file's headers. The first build runs the same four commands as before; after <code>touch report.h</code> it recompiles only <code>main.cpp</code> and <code>report.cpp</code> (the two rules that list <code>report.h</code>), then relinks.</p>
+            </details></li>
+        </ol>
+      </details>
 
       <div class="card solution" id="p1-solution">
         <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">10 min</span></div>
@@ -528,12 +431,6 @@ cppcheck --enable=all *.cpp     # static analysis: finds bugs the compiler misse
           </li>
         </ol>
       </div>
-
-      <div class="card quiz" id="p1-quiz" data-quiz="Lab 1 Exercise 1 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 1 available on Canvas as the quiz <b>Lab 1 Exercise 1 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
-      </div>
     </section>
 
     <!-- ============================== PART 2 ============================== -->
@@ -544,12 +441,11 @@ cppcheck --enable=all *.cpp     # static analysis: finds bugs the compiler misse
       </div>
 
       <div class="card lecture" id="p2-lecture">
-        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Numbers are not the same as in Java</h3><span class="mins">15 min</span></div>
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>Numbers are not the same as in Java</h3><span class="mins">10 min</span></div>
         <p class="why">A type tells the compiler how many bytes a value takes and which operations make sense on it, so mistakes like multiplying a string are caught before the program ever runs. C++ types sit close to the hardware: their sizes can differ between machines, and an <code>int</code> that overflows silently wraps around instead of throwing. Real programs also mix types all the time (an average is a <code>double</code> computed from <code>int</code> totals; an index is compared with a size), so you need to know when C++ converts for you, when a conversion loses information, and how to convert on purpose with a cast.</p>
         <ul>
           <li><b>Sizes are not fixed.</b> <code>int</code> is usually 32 bits, but <code>long</code> is 64 bits with g++ on Linux and 32 bits with Visual C++ on Windows. Ask the compiler with <code>numeric_limits</code> (<code>&lt;limits&gt;</code>).</li>
-          <li><b>Unsigned types</b> exist and wrap around; <code>sizeof</code> and <code>.size()</code> return them. Mixing signed and unsigned in comparisons is a common bug, and <code>-Wall</code> warns about it. Example: <a href="examples/2.1.signed_unsigned_bug/signs.cpp">2.1.signed_unsigned_bug/signs.cpp</a> has two such bugs, a countdown loop that never ends and a <code>-1</code> that isn't less than 3; its <a href="examples/2.1.signed_unsigned_bug/README.txt">README.txt</a> shows the warnings, the output, and the fixes.</li>
-          <li><b>Signed overflow is undefined behavior.</b> The program may do anything, not just wrap.</li>
+          <li><b>Unsigned types</b> exist and wrap around; <code>sizeof</code> and <code>.size()</code> return them. Mixing signed and unsigned in comparisons is a common bug, and <code>-Wall</code> warns about it. <b>Signed</b> overflow, on the other hand, is undefined behavior: the program may do anything, not just wrap. (Reading for later: <a href="examples/2.1.signed_unsigned_bug/signs.cpp">2.1.signed_unsigned_bug/signs.cpp</a> and its <a href="examples/2.1.signed_unsigned_bug/README.txt">README.txt</a> show two signed/unsigned bugs and their fixes.)</li>
           <li><b>Arithmetic happens in the operands' type</b>, before the result is stored:
 <pre><code>int big = 2000000000;
 long long p = big * 2;    // overflows in int first, THEN converts
@@ -561,18 +457,104 @@ double h = 7 / 2;         // 3.0, not 3.5: integer division happened first</code
       </div>
 
       <div class="card handson" id="ex2">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: Rounding and numeric limits</h3><span class="mins">30 min</span></div>
-        <p>Folder: <span class="path">Lab1/exercises/ex2-types/</span>.</p>
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: Rounding and numeric limits</h3><span class="mins">25 min</span></div>
+        <p>Folder: <span class="path">Lab1/exercises/ex2-types/</span>. Its <code>Makefile</code> is given: <code>make</code> builds both programs, <code>test_rounding</code> and <code>limits</code> (compare its rules with your Exercise 1 <code>Makefile</code>).</p>
         <h4>Part A: rounding (multi-file, with tests)</h4>
         <ol class="steps">
           <li>Create <code>rounding.cpp</code> and implement <code>int myRound(double value)</code> as declared in <code>rounding.h</code>: halves round away from zero (2.5 &rarr; 3, &minus;2.5 &rarr; &minus;3). Do not use <code>round</code>, <code>floor</code>, or <code>ceil</code>.</li>
-          <li>Add at least six more test cases to <code>test_rounding.cpp</code>, including exact halves, whole numbers, and <code>0.0</code>.</li>
-          <li>Write a <code>Makefile</code> (adapt the one from Exercise 1) that builds <code>test_rounding</code> from <code>test_rounding.cpp</code> and <code>rounding.cpp</code>, and <code>limits</code> from <code>limits.cpp</code>.</li>
+          <li>Add at least three more test cases to <code>test_rounding.cpp</code>: <code>2.5</code>, <code>-2.5</code>, and <code>0.0</code>. Run <code>make</code>, then <code>./test_rounding</code>.</li>
         </ol>
         <h4>Part B: limits</h4>
         <p>Read the comment at the top of <code>limits.cpp</code>, which explains how to read <code>std::numeric_limits&lt;int&gt;::min()</code> piece by piece. Then complete its TODOs and run it.</p>
         <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./test_rounding</code> reports 0 failures.</div>
       </div>
+
+      <details class="card optional" id="p2-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about numbers</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order. Work in a scratch folder outside <code>Lab1</code>, so nothing here ends up in your zip, and delete it when you're done:<pre><code>mkdir -p ~/CSSSKL342/extra
+cd ~/CSSSKL342/extra</code></pre>Each challenge is one small program: save it under the name given, compile it with <code>g++ -std=c++17 -Wall -Wextra NAME.cpp -o NAME</code>, and run <code>./NAME</code>.</p>
+        <ol class="steps">
+          <li><b>How big is each type?</b> <code>sizes.cpp</code>:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "char " &lt;&lt; sizeof(char) &lt;&lt; ", bool " &lt;&lt; sizeof(bool)
+         &lt;&lt; ", short " &lt;&lt; sizeof(short) &lt;&lt; ", int " &lt;&lt; sizeof(int) &lt;&lt; endl;
+    cout &lt;&lt; "long " &lt;&lt; sizeof(long) &lt;&lt; ", long long " &lt;&lt; sizeof(long long) &lt;&lt; endl;
+    cout &lt;&lt; "float " &lt;&lt; sizeof(float) &lt;&lt; ", double " &lt;&lt; sizeof(double)
+         &lt;&lt; ", int* " &lt;&lt; sizeof(int *) &lt;&lt; endl;
+    return 0;
+}</code></pre>Which sizes match Java's, and which don't?
+            <details><summary>Show what happens</summary>
+            <pre><code>char 1, bool 1, short 2, int 4
+long 8, long long 8
+float 4, double 8, int* 8</code></pre>
+            <p>In bytes. <code>int</code>, <code>short</code>, <code>float</code>, <code>double</code> match Java; C++'s <code>char</code> is 1 byte (Java's is 2), and <code>long</code> is 8 here but 4 with Visual C++ on Windows. <code>int*</code> (a pointer, Lab 3) is 8 bytes on a 64-bit machine.</p>
+            </details></li>
+          <li><b>Catch an overflow.</b> <code>overflow.cpp</code>:<pre><code>#include &lt;climits&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int x = INT_MAX;
+    x = x + 1;
+    cout &lt;&lt; x &lt;&lt; endl;
+    return 0;
+}</code></pre>Run it. Then compile it again with <code>-ftrapv</code> added, and run it again.
+            <details><summary>Show what happens</summary>
+            <p>Normally it prints <code>-2147483648</code>, with no error and no warning: the value wrapped around this time, but signed overflow is undefined behavior, so another compiler or optimization level may do something else. With <code>-ftrapv</code>, g++ checks every signed <code>+</code>, <code>-</code>, <code>*</code>, and the program stops at the overflow with <code>Aborted (core dumped)</code>: a crash you can find, instead of a wrong number you might not notice.</p>
+            </details></li>
+          <li><b>Warnings that <code>-Wall</code> doesn't give.</b> <code>narrow.cpp</code>:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double price = 3.99;
+    int dollars = price;
+    long long big = 5000000000LL;
+    int small = big;
+    cout &lt;&lt; dollars &lt;&lt; " " &lt;&lt; small &lt;&lt; endl;
+    return 0;
+}</code></pre>Compile it with <code>-Wall -Wextra</code>: any warnings? Then add <code>-Wconversion</code>. What does it print?
+            <details><summary>Show what happens</summary>
+            <p><code>-Wall -Wextra</code>: none. With <code>-Wconversion</code>:</p><pre><code>warning: conversion from 'double' to 'int' may change value [-Wfloat-conversion]
+warning: conversion from 'long long int' to 'int' may change value [-Wconversion]</code></pre>
+            <p>and the program prints <code>3 705032704</code>: 3.99 is truncated, and 5,000,000,000 doesn't fit in an <code>int</code>, so only its low 32 bits are kept. If you mean it, write the cast: <code>static_cast&lt;int&gt;(price)</code> says so, and silences the warning.</p>
+            </details></li>
+          <li><b>Ten times 0.1.</b> <code>tenth.cpp</code>:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double sum = 0.0;
+    for (int i = 0; i &lt; 10; i++) {
+        sum += 0.1;
+    }
+    cout &lt;&lt; boolalpha &lt;&lt; (sum == 1.0) &lt;&lt; endl;
+    cout.precision(17);
+    cout &lt;&lt; sum &lt;&lt; endl;
+    return 0;
+}</code></pre>Predict both lines first.
+            <details><summary>Show what happens</summary>
+            <pre><code>false
+0.99999999999999989</code></pre>
+            <p>0.1 has no exact binary form, so each addition is a tiny bit off, and ten small errors add up. This is why a loop like <code>for (double x = 0; x != 1.0; x += 0.1)</code> never ends: compare doubles with a tolerance, and count loops with integers.</p>
+            </details></li>
+          <li><b>Dividing by zero.</b> <code>zero.cpp</code>:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double d = 0.0;
+    cout &lt;&lt; 1.0 / d &lt;&lt; " " &lt;&lt; -1.0 / d &lt;&lt; " " &lt;&lt; 0.0 / d &lt;&lt; endl;
+    int zero = 0;
+    cout &lt;&lt; 1 / zero &lt;&lt; endl;
+    return 0;
+}</code></pre>Predict both lines.
+            <details><summary>Show what happens</summary>
+            <pre><code>inf -inf -nan
+Floating point exception (core dumped)</code></pre>
+            <p><code>double</code> has special values for this: infinity, and <code>nan</code> ("not a number") for 0/0. Integers have none, so integer division by zero is undefined behavior; on our machines the program is killed. (g++ didn't warn, because <code>zero</code> is a variable.)</p>
+            </details></li>
+        </ol>
+      </details>
 
       <div class="card solution" id="p2-solution">
         <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">5 min</span></div>
@@ -596,12 +578,6 @@ double h = 7 / 2;         // 3.0, not 3.5: integer division happened first</code
           </li>
         </ol>
       </div>
-
-      <div class="card quiz" id="p2-quiz" data-quiz="Lab 1 Exercise 2 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 2 available on Canvas as the quiz <b>Lab 1 Exercise 2 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
-      </div>
     </section>
 
     <!-- ============================== PART 3 ============================== -->
@@ -617,6 +593,11 @@ double h = 7 / 2;         // 3.0, not 3.5: integer division happened first</code
         <ul>
           <li><b>Reference variables:</b> <code>int &amp;r = i;</code> makes <code>r</code> another name for <code>i</code>; no new <code>int</code> is created, so changing <code>r</code> changes <code>i</code>. A reference must be initialized when it is declared (<code>int &amp;r;</code> doesn't compile), and it can never be made to refer to a different variable afterwards. Compare <code>int x = i;</code>, which creates a separate <code>int</code> holding a copy of the value.</li>
           <li><b>Pass by value</b> (<code>void f(int n)</code>): the function gets a copy. This is the default for every type, including objects.</li>
+          <li><b>The Java habit.</b> Coming from Java, it is natural to write
+<pre><code>void addItem(string list, string item) {
+    list += item;        // changes the COPY only
+}</code></pre>
+            and expect the caller's <code>list</code> to change. It doesn't: <code>list</code> is a full, separate copy, and it disappears when the function returns. No error, no warning; the caller's string is simply unchanged. In your CSS 342 assignments this is the bug "my insert doesn't change my list". The fix is one character: <code>string &amp;list</code>.</li>
           <li><b>Pass by reference</b> (<code>void f(int &amp;n)</code>): <code>n</code> is another name for the caller's variable. Use it when the function must change the argument, or to return more than one result.</li>
           <li><b>Pass by const reference</b> (<code>void f(const string &amp;s)</code>): no copy, and no changes allowed. The default way to pass objects in your CSS 342 assignments.</li>
           <li><b>Rule of thumb:</b> built-ins (<code>int</code>, <code>double</code>, <code>char</code>) by value; objects by <code>const&amp;</code>; plain <code>&amp;</code> only to change the argument.</li>
@@ -640,19 +621,132 @@ counterFor(40, passCount, failCount)++;     // the call IS failCount: failCount+
       </div>
 
       <div class="card handson" id="ex3">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 3: References</h3><span class="mins">25 min</span></div>
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 3: References</h3><span class="mins">30 min</span></div>
         <p>Folder: <span class="path">Lab1/exercises/ex3-references/</span>. Compile with <code>g++ -std=c++17 -Wall -Wextra references.cpp -o references</code> after each step.</p>
         <ol class="steps">
           <li><b>Part A, reference variables (given).</b> Compile and run the program as it is, and read Part A in <code>main</code>: <code>r</code> is a reference to <code>i</code>, and <code>x</code> is a copy. Then uncomment the line <code>int &amp;xr;</code>, compile, read the error, and comment it out again.</li>
           <li><b>Part B, passing arguments.</b> Implement <code>addOneByReference</code>, <code>swapValues</code>, <code>divide</code> (two results through reference parameters), and <code>countVowels</code>, uncommenting the matching lines in <code>main</code> as you go.</li>
           <li><b>Part C, returning a reference.</b> Implement <code>larger</code>, which returns a reference to the larger of two variables, and uncomment its lines in <code>main</code>.</li>
+          <li><b>Part D, predict, run, fix.</b> Four short cases, D1 to D4, at the end of <code>main</code> (D1 and D3 also use the functions <code>addExclaim</code> and <code>greet</code> above <code>main</code>). For each case, <b>first</b> write your prediction in the comment after <code>Prediction:</code>; <b>then</b> uncomment its lines, compile, run, and compare. Wrong predictions are the point: they show you exactly what to ask about in the walkthrough.
+            <ul>
+              <li><b>D1</b>: does <code>addExclaim</code> change <code>msg</code>? Then fix <code>addExclaim</code> by changing one character, so it prints <code>D1: Done!</code>.</li>
+              <li><b>D2</b>: what are <code>m</code>, <code>n</code>, and <code>ref</code> at the end?</li>
+              <li><b>D3</b>: uncomment the line <code>name[0] = 'J';</code> in <code>greet</code>. Does it compile? Read the error, then comment that line out again.</li>
+              <li><b>D4</b>: which of the three calls compile? Read the errors, then comment out the calls that don't compile.</li>
+            </ul></li>
         </ol>
-        <div class="callout warn"><span class="title">Self-check</span>With every line in <code>main</code> uncommented (except <code>int &amp;xr;</code>), the program compiles with only the <code>badReference</code> warning, and the Part B and C lines print <code>x = 1</code>, <code>x = 2</code>, <code>i = 3</code>, <code>a = 2, b = 1</code>, <code>17 / 5 = 3 remainder 2</code>, <code>5</code> vowels, then <code>p = 4, q = 0</code> and <code>p = 5, q = 0</code>.</div>
+        <div class="callout warn"><span class="title">Self-check</span>With every line in <code>main</code> uncommented (except <code>int &amp;xr;</code> and the two D4 calls that don't compile), the program compiles with only the <code>badReference</code> warning. The Part B and C lines print <code>x = 1</code>, <code>x = 2</code>, <code>i = 3</code>, <code>a = 2, b = 1</code>, <code>17 / 5 = 3 remainder 2</code>, <code>5</code> vowels, then <code>p = 4, q = 0</code> and <code>p = 5, q = 0</code>; Part D ends with <code>D1: Done!</code>, the D2 line, <code>Hello, Sam</code>, and <code>D4: y = 4</code>.</div>
       </div>
 
+      <details class="card optional" id="p3-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about references</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order. Work in a scratch folder outside <code>Lab1</code>, so nothing here ends up in your zip, and delete it when you're done:<pre><code>mkdir -p ~/CSSSKL342/extra
+cd ~/CSSSKL342/extra</code></pre>Each challenge is one small program: save it under the name given, compile it with <code>g++ -std=c++17 -Wall -Wextra NAME.cpp -o NAME</code>, and run <code>./NAME</code>. Predict the output before you run it.</p>
+        <ol class="steps">
+          <li><b>What a copy costs.</b> <code>cost.cpp</code> calls two functions 500 times each with a 10-million-character string; they differ only in the parameter:<pre><code>#include &lt;chrono&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+// Both return the first character; only the parameter differs.
+char firstByValue(string s) { return s[0]; }
+char firstByConstRef(const string &amp;s) { return s[0]; }
+
+int main() {
+    string big(10000000, 'x');      // 10 million characters
+    int count = 0;
+
+    auto start = chrono::steady_clock::now();
+    for (int i = 0; i &lt; 500; i++) {
+        count += firstByValue(big) == 'x';
+    }
+    auto middle = chrono::steady_clock::now();
+    for (int i = 0; i &lt; 500; i++) {
+        count += firstByConstRef(big) == 'x';
+    }
+    auto end = chrono::steady_clock::now();
+
+    using ms = chrono::milliseconds;
+    cout &lt;&lt; "by value:     "
+         &lt;&lt; chrono::duration_cast&lt;ms&gt;(middle - start).count() &lt;&lt; " ms" &lt;&lt; endl;
+    cout &lt;&lt; "by const ref: "
+         &lt;&lt; chrono::duration_cast&lt;ms&gt;(end - middle).count() &lt;&lt; " ms" &lt;&lt; endl;
+    cout &lt;&lt; count &lt;&lt; " calls" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>by value:     146 ms
+by const ref: 0 ms
+1000 calls</code></pre>
+            <p>(Your times will differ.) Every by-value call copies all 10 million characters, and throws the copy away; <code>const &amp;</code> copies nothing. This is the speed half of the rule of thumb: pass objects by <code>const&amp;</code>.</p>
+            </details></li>
+          <li><b>A reference in a loop.</b> <code>upper.cpp</code>. <code>for (char c : name)</code> visits each character of <code>name</code> in turn, like Java's for-each loop:<pre><code>#include &lt;cctype&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string name = "ada";
+    for (char c : name) {
+        c = toupper(c);
+    }
+    cout &lt;&lt; name &lt;&lt; endl;
+    for (char &amp;c : name) {
+        c = toupper(c);
+    }
+    cout &lt;&lt; name &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>ada
+ADA</code></pre>
+            <p>In the first loop <code>c</code> is a copy of each character, so changing it changes nothing: the Java habit again, one character at a time. In the second, <code>c</code> is a reference, another name for each character of <code>name</code> in turn, so the string changes. (Lab 5 uses these loops a lot.)</p>
+            </details></li>
+          <li><b>Returning a reference to a piece of an object.</b> <code>first.cpp</code>:<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+char &amp;firstChar(string &amp;s) {
+    return s[0];
+}
+
+int main() {
+    string name = "Sam";
+    firstChar(name) = 'P';
+    cout &lt;&lt; name &lt;&lt; endl;
+    name[2] = 't';
+    cout &lt;&lt; name &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>Pam
+Pat</code></pre>
+            <p><code>firstChar</code> returns a reference to <code>s[0]</code>, which is <code>name[0]</code>, so assigning to the call changes the string, just like <code>larger</code> in Exercise 3. And that is all <code>name[2] = 't'</code> is: <code>string</code>'s <code>[]</code> is a function that returns a <code>char&amp;</code>. You'll write your own <code>operator[]</code> in a later lab.</p>
+            </details></li>
+          <li><b>Three more reference rules.</b> <code>rules.cpp</code>:<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int i = 1;
+    int &amp;r = i;
+    int &amp;r2 = r;
+    r2 = 9;
+    const int &amp;c = 5;
+    const int &amp;d = i + 1;
+    i = 100;
+    cout &lt;&lt; i &lt;&lt; " " &lt;&lt; r &lt;&lt; " " &lt;&lt; r2 &lt;&lt; " " &lt;&lt; c &lt;&lt; " " &lt;&lt; d &lt;&lt; endl;
+    return 0;
+}</code></pre>Then change <code>const int &amp;c = 5;</code> to <code>int &amp;c = 5;</code> and compile again.
+            <details><summary>Show what happens</summary>
+            <pre><code>100 100 100 5 10</code></pre>
+            <p><code>int &amp;r2 = r;</code> doesn't make a reference to a reference: <code>r</code> is <code>i</code>, so <code>r2</code> is just a third name for <code>i</code>, and <code>r2 = 9</code> sets <code>i</code>. A <code>const</code> reference may name a temporary value, like <code>5</code> or <code>i + 1</code>; the temporary is kept alive as long as the reference. <code>d</code> names the temporary 10, computed when <code>i</code> was 9: it does not follow <code>i</code>. Without <code>const</code> it doesn't compile: <code>cannot bind non-const lvalue reference of type 'int&amp;' to an rvalue of type 'int'</code>, the same error as Part D's D4.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p3-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 3</h3><span class="mins">5 min</span></div>
-        <p>Part A on the board (one variable, two names; the matching addresses), then questions 5 and 6 in detail: <code>const&amp;</code> is the parameter style you'll use most in your CSS 342 assignments, and returning a reference comes back with <code>operator[]</code> and <code>operator=</code> in later labs.</p>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 3</h3><span class="mins">10 min</span></div>
+        <p>Part A on the board (one variable, two names; the matching addresses), then <code>countVowels</code> and <code>larger</code>: <code>const&amp;</code> is the parameter style you'll use most in your CSS 342 assignments, and returning a reference comes back with <code>operator[]</code> and <code>operator=</code> in later labs. Then your Part D predictions, case by case: who predicted what, and why the code does what it does.</p>
       </div>
 
       <div class="review" id="p3-selftest">
@@ -662,12 +756,12 @@ counterFor(40, passCount, failCount)++;     // the call IS failCount: failCount+
             <details><summary>Show answer</summary><p>Only <code>g(x)</code>. A non-const reference must bind to a variable that can be changed; <code>5</code> and <code>x + 1</code> are temporary values. If <code>g</code> took <code>const int&amp;</code>, all three would compile.</p></details>
           </li>
           <li>What does this print?
-<pre><code>int a = 1, b = 7;
-int &amp;r = a;
-r = b;
-r = r + 1;
-cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b;</code></pre>
-            <details><summary>Show answer</summary><p><code>8 7</code>. A reference cannot be re-pointed: <code>r = b</code> copies 7 into <code>a</code>, it does not make <code>r</code> refer to <code>b</code>. Then <code>r = r + 1</code> makes <code>a</code> 8.</p></details>
+<pre><code>int i = 1;
+int &amp;r = i;
+int y = r;
+y++;
+cout &lt;&lt; i &lt;&lt; " " &lt;&lt; r &lt;&lt; " " &lt;&lt; y;</code></pre>
+            <details><summary>Show answer</summary><p><code>1 1 2</code>. <code>int y = r;</code> declares a plain <code>int</code> (no <code>&amp;</code>), so <code>y</code> is a new variable holding a copy of <code>i</code>'s value. Changing <code>y</code> changes neither <code>i</code> nor <code>r</code>, which is <code>i</code>.</p></details>
           </li>
           <li>What is wrong with this function?
 <pre><code>const string &amp;longer(string a, string b) {
@@ -680,26 +774,45 @@ cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b;</code></pre>
           </li>
         </ol>
       </div>
+    </section>
 
-      <div class="card quiz" id="p3-quiz" data-quiz="Lab 1 Exercise 3 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 3 available on Canvas as the quiz <b>Lab 1 Exercise 3 Quiz</b> (7 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+    <!-- ============================== TAKEAWAYS ============================== -->
+    <section id="takeaways">
+      <h2>Takeaways</h2>
+      <div class="callout learned">
+        <span class="title">Learned</span>
+        <ul style="margin:4px 0 0">
+          <li>Your <code>CSSSKL342</code> folder is one folder with two names: <code>/home/cssuwbstudent/CSSSKL342</code> in Linux and your own folder on your computer. Keep all your work in it; Linux file names are case-sensitive, and <code>rm</code> is forever.</li>
+          <li>Headers declare, <code>.cpp</code> files define, and the linker matches them up. Guard every header, and read an error message well enough to tell whether it came from the compiler or the linker.</li>
+          <li>C++ type sizes vary, arithmetic happens in the operands' type, and signed overflow is undefined. Check with <code>numeric_limits</code> and cast <i>before</i> the operation.</li>
+          <li>A reference is another name for an existing variable, bound once. Without <code>&amp;</code>, a parameter is a copy, even an object (the Java habit). Pass objects by <code>const&amp;</code>; use <code>&amp;</code> only to change the caller's variable; never return a reference to a local.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================== QUIZ ============================== -->
+    <section id="quiz">
+      <h2>Lab 1 Quiz</h2>
+      <div class="card quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Lab 1 Quiz, on paper</h3></div>
+        <p>When we finish the last walkthrough, your instructor hands out the <b>Lab 1 Quiz</b> on paper: <b>10 multiple-choice questions</b>, covering all four parts. It is <b>open book</b>: you may use this page, the slides, and your own code. The questions are straightforward checks of what we did today; if you followed the exercises and walkthroughs, you have seen every answer.</p>
+        <p>Write your name and UW NetID at the top. For each question, write the letter of your answer (A, B, C, or D) in that question's box in the row at the <b>bottom of page 1</b>: only those boxes are graded. <b>You must hand in your quiz before you leave the classroom.</b></p>
+        <p>Right after the quiz, we go over the answers together, and with them the <a href="#takeaways">takeaways</a> of the lab.</p>
       </div>
     </section>
 
     <!-- ============================== SUBMIT ============================== -->
     <section id="submit">
-      <h2>What to submit</h2>
+      <h2>What to submit (after class)</h2>
       <div class="card">
-        <p>You submit <b>once</b>, after Exercises 1–3 are done. Part 0 (Exercise 0) has nothing to submit, and your <code>part0</code> folder stays out of the zip.</p>
+        <p>You submit <b>once</b>, after class: <b>due 11:59 pm on the day of the lab</b>. Finish any exercise you didn't complete in class first; the walkthrough notes and self-checks on this page tell you what each one should do. Part 0 (Exercise 0) has nothing to submit, and your <code>part0</code> folder stays out of the zip.</p>
         <ol class="steps">
           <li>Keep the starter zip's layout: one folder named <code>Lab1</code>, with your work in <code>Lab1/exercises/</code>, one subfolder per exercise named exactly like the starter folders you were given. Keep each subfolder's layout the same as the starter code.</li>
           <li>In each subfolder that has a <code>Makefile</code>, run <code>make clean</code>. Delete any other <code>.o</code> files and executables.</li>
           <li>Delete the <code>examples</code> folder (<code>Lab1/examples/</code>): it holds the lecture examples, and you didn't change anything in it. Your zip should contain only <code>exercises/</code>.</li>
           <li>Check that everything compiles with <code>g++ -std=c++17 -Wall -Wextra</code> on Linux with no warnings, except the one planted on purpose: <code>reference to local variable 'local' returned</code> from <code>badReference</code> in Exercise 3.</li>
           <li>Create <b>one zip file of the whole <code>Lab1</code> folder</b>, named <code>Lab1-&lt;your UW NetID&gt;.zip</code> (from the folder above it: <code>zip -r Lab1-netid.zip Lab1</code>).</li>
-          <li>Upload that one zip file to the Lab 1 assignment on Canvas.</li>
+          <li>Upload that one zip file to the Lab 1 assignment on Canvas by 11:59 pm.</li>
         </ol>
       </div>
 <pre><code>Lab1/
@@ -712,28 +825,13 @@ cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b;</code></pre>
           <thead><tr><th style="width:190px">Subfolder</th><th>What must be in it</th></tr></thead>
           <tbody>
             <tr><td><code>exercises/ex1-build/</code></td><td>Your fixed <code>main.cpp</code>, <code>convert.h</code>, <code>convert.cpp</code>, <code>report.h</code>, <code>report.cpp</code>; your finished <code>Makefile</code></td></tr>
-            <tr><td><code>exercises/ex2-types/</code></td><td><code>rounding.h</code>, your <code>rounding.cpp</code>, <code>test_rounding.cpp</code> with your added tests, your completed <code>limits.cpp</code>, your <code>Makefile</code></td></tr>
-            <tr><td><code>exercises/ex3-references/</code></td><td>Your completed <code>references.cpp</code></td></tr>
+            <tr><td><code>exercises/ex2-types/</code></td><td><code>rounding.h</code>, your <code>rounding.cpp</code>, <code>test_rounding.cpp</code> with your added tests, your completed <code>limits.cpp</code>, the given <code>Makefile</code></td></tr>
+            <tr><td><code>exercises/ex3-references/</code></td><td>Your completed <code>references.cpp</code>, including Part D with your predictions</td></tr>
           </tbody>
         </table>
       </div>
       <div class="callout info">Self-test questions are for your own practice and are not submitted.</div>
     </section>
-
-    <!-- ============================== TAKEAWAYS ============================== -->
-    <section id="takeaways">
-      <h2>Takeaways</h2>
-      <div class="callout learned">
-        <span class="title">Learned</span>
-        <ul style="margin:4px 0 0">
-          <li>Your <code>CSSSKL342</code> folder is one folder with two names: <code>/home/cssuwbstudent/CSSSKL342</code> in Linux and your own folder on your computer. Keep all your work in it; Linux file names are case-sensitive, and <code>rm</code> is forever.</li>
-          <li>Headers declare, <code>.cpp</code> files define, and the linker matches them up. Guard every header, and read an error message well enough to tell whether it came from the compiler or the linker.</li>
-          <li>C++ type sizes vary, arithmetic happens in the operands' type, and signed overflow is undefined. Check with <code>numeric_limits</code> and cast <i>before</i> the operation.</li>
-          <li>A reference is another name for an existing variable. Pass objects by <code>const&amp;</code>; use <code>&amp;</code> only to change the caller's variable; never return a reference to a local.</li>
-        </ul>
-      </div>
-    </section>
-
     <footer>
       CSS SKL 342 · Lab 1 of 5. Previous: <a href="../Pre-Lab/index.html">Pre-Lab, set up your computer</a>.
     </footer>

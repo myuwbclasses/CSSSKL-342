@@ -43,16 +43,18 @@ int main() {
     out << half << " and " << Rational(4, 2);
     check("cout << ...", out.str(), "1/2 and 2");
 
-    // (needs your declaration)
+    // Exercise 4 (needs your declarations of - and !=):
     // check("1/2 - 1/3", (half - third).toString(), "1/6");
-    // check("1/2 * 2/3", (half * Rational(2, 3)).toString(), "1/3");
     // check("1/2 != 1/3", half != third, true);
+    // Rational t(1, 6);
+    // (t += third) += third;                  // works only if += returns *this
+    // check("(t += 1/3) += 1/3", t.toString(), "5/6");
+
+    // Done early (needs your declarations of * and *=):
+    // check("1/2 * 2/3", (half * Rational(2, 3)).toString(), "1/3");
     // Rational s = third;
     // s *= Rational(3, 5);
     // check("s *= 3/5", s.toString(), "1/5");
-    // Rational t(1, 6);
-    // (t += third) += third;
-    // check("(t += 1/3) += 1/3", t.toString(), "5/6");
 
     cout << failures << " failure(s)" << endl;
     return failures == 0 ? 0 : 1;

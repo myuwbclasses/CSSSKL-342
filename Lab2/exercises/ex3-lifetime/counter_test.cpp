@@ -16,6 +16,6 @@ int main() {
 
     const Counter fixed;
     report(fixed);         // count = 0
-    // fixed.value() = 9;  // Q6: uncomment this line. What happens, and why?
+    // fixed.value() = 9;  // uncomment this line. What happens, and why?
     return 0;
 }

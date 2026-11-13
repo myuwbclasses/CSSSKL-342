@@ -26,9 +26,13 @@ void printChain(const Node *head) {
     cout << "]" << endl;
 }
 
-// TODO 1
+// Given: counts the nodes. Read it first: walking a chain always looks like this.
 int length(const Node *head) {
-    return 0;
+    int count = 0;
+    for (const Node *cur = head; cur != nullptr; cur = cur->next) {
+        count++;
+    }
+    return count;
 }
 
 // TODO 2

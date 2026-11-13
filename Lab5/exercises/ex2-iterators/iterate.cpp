@@ -19,7 +19,6 @@ int main() {
     // TODO 4: remove every element greater than 10 while iterating:
     //             it = v.erase(it);   // erase returns the next valid iterator
     //         and only ++it when you did NOT erase. Print v.
-    //         (Q3: what goes wrong if you always ++it after erase?)
 
     // TODO 5: a const_iterator: write a loop over a const vector<int>&
     //         (cv below). Try to assign through it, read the error, then

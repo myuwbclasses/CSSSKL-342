@@ -20,36 +20,37 @@
       <summary title="Show or hide the sections of Part 1"><a href="#part1">1. vector, string, files</a></summary>
       <a href="#p1-lecture" class="sub">Lecture: vector, string, files</a>
       <a href="#ex1" class="sub">Exercise 1: vectors, words, files</a>
+      <a href="#p1-ahead" class="sub">Done early?</a>
       <a href="#p1-solution" class="sub">Walkthrough 1</a>
       <a href="#p1-selftest" class="sub">Self-test</a>
-      <a href="#p1-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 2"><a href="#part2">2. Iterators</a></summary>
       <a href="#p2-lecture" class="sub">Lecture: using and writing</a>
       <a href="#ex2" class="sub">Exercise 2: iterators</a>
+      <a href="#p2-ahead" class="sub">Done early?</a>
       <a href="#p2-solution" class="sub">Walkthrough 2</a>
       <a href="#p2-selftest" class="sub">Self-test</a>
-      <a href="#p2-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 3"><a href="#part3">3. list and map</a></summary>
       <a href="#p3-lecture" class="sub">Lecture: more containers</a>
       <a href="#ex3" class="sub">Exercise 3: list, word count</a>
+      <a href="#p3-ahead" class="sub">Done early?</a>
       <a href="#p3-solution" class="sub">Walkthrough 3</a>
       <a href="#p3-selftest" class="sub">Self-test</a>
-      <a href="#p3-quiz" class="sub">Section quiz</a>
     </details>
     <details>
       <summary title="Show or hide the sections of Part 4"><a href="#part4">4. Algorithms and lambdas</a></summary>
       <a href="#p4-lecture" class="sub">Lecture: passing behavior</a>
       <a href="#ex4" class="sub">Exercise 4: students</a>
+      <a href="#p4-ahead" class="sub">Done early?</a>
       <a href="#p4-solution" class="sub">Walkthrough 4</a>
       <a href="#p4-selftest" class="sub">Self-test</a>
-      <a href="#p4-quiz" class="sub">Section quiz</a>
     </details>
-    <a href="#submit">What to submit</a>
     <a href="#takeaways">Takeaways</a>
+    <a href="#quiz">Lab 5 Quiz</a>
+    <a href="#submit">What to submit (after class)</a>
     <div class="label" style="margin-top:24px">Reference</div>
     <a href="../reference/linux.html">Linux commands</a>
     <a href="../reference/gdb.html">gdb commands</a>
@@ -69,7 +70,8 @@
     <header class="hero">
       <div class="eyebrow">CSS SKL 342 · Lab 5</div>
       <h1>Iterators and the Standard Library</h1>
-      <p>Use the standard containers you'd otherwise build by hand, read input files named on the command line, move through any container with iterators (including one you write yourself), and pass behavior to algorithms with function pointers and lambdas. This carries you through the rest of your CSS 342 assignments and into CSS 343.</p>
+      <p>Use the standard containers you'd otherwise build by hand, read input files named on the command line, move through any container with iterators (including one you write yourself), and pass behavior to algorithms with function pointers and lambdas. This carries you through the rest of your CSS 342 assignments and into CSS 343. The lab ends with a short open-book quiz, on paper; you submit your code after class.</p>
+      <p class="topics"><b>Topics:</b> File I/O · iterators · the C++ Standard Library: vector, string, list, map, algorithms</p>
       <div class="hero-links">
         <a class="btn" href="#schedule">Schedule</a>
         <a class="btn" href="#submit">What to submit</a>
@@ -84,7 +86,7 @@
         <ol class="steps">
           <li>Finish Lab 4. Today assumes templates, linked nodes, the rule of three, and exceptions. It also uses <code>cerr</code> (Lab 2) and input redirection with <code>&lt;</code> (Lab 1).</li>
           <li>Keep <a href="https://en.cppreference.com/w/cpp/container">cppreference.com's container pages</a> open: knowing how to look up a member function is part of the skill.</li>
-          <li>Download the starter code, <a href="Lab5-starter.zip">Lab5-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder, so you have <span class="path">CSSSKL342/Lab5/exercises/</span>, with one folder per exercise, and <span class="path">CSSSKL342/Lab5/examples/</span> (the lecture examples) (the same way as in Lab 1). That <span class="path">Lab5</span> folder is what you zip and submit.</li>
+          <li>Download the starter code, <a href="Lab5-starter.zip">Lab5-starter.zip</a>, and extract it into your <span class="path">CSSSKL342</span> folder, so you have <span class="path">CSSSKL342/Lab5/exercises/</span>, with one folder per exercise, and <span class="path">CSSSKL342/Lab5/examples/</span> (the lecture examples) (the same way as in Lab 1). That <span class="path">Lab5</span> folder is what you zip and submit after class.</li>
         </ol>
         <div class="callout warn" style="margin-bottom:0"><span class="title">Check your CSS 342 assignment rules</span>Many CSS 342 assignments ask you to build a data structure yourself and don't allow the standard container that does the same job. Read each assignment before reaching for <code>list</code> or <code>map</code>.</div>
       </div>
@@ -97,49 +99,56 @@
           <thead>
             <tr><th>Topic</th><th>Block</th><th>Time</th><th>Length</th><th>Activity</th></tr>
           </thead>
-          <tbody>
+                    <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part1"><span class="num">1</span>vector, string, and files</a><small>the containers you'll use most, and reading input files</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">1:15</td><td class="time">20 min</td><td><a href="#p1-lecture">vector, string, and files</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">1:15</td><td class="time">15 min</td><td><a href="#p1-lecture">vector, string, and files</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:35</td><td class="time">35 min</td><td><a href="#ex1">Exercise 1: vectors, words, and files</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:10</td><td class="time">10 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">1:30</td><td class="time">30 min</td><td><a href="#ex1">Exercise 1: vectors, words, and files</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:00</td><td class="time">5 min</td><td><a href="#p1-solution">Walkthrough 1</a></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part2"><span class="num">2</span>Iterators</a><small>using them, and writing one</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">2:20</td><td class="time">15 min</td><td><a href="#p2-lecture">Using and writing iterators</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">2:05</td><td class="time">15 min</td><td><a href="#p2-lecture">Using and writing iterators</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:35</td><td class="time">30 min</td><td><a href="#ex2">Exercise 2: iterators</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:05</td><td class="time">10 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">2:20</td><td class="time">25 min</td><td><a href="#ex2">Exercise 2: iterators</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">2:45</td><td class="time">5 min</td><td><a href="#p2-solution">Walkthrough 2</a></td></tr>
           </tbody>
           <tbody class="break">
-            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">3:15</td><td class="time">10 min</td><td></td></tr>
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">2:50</td><td class="time">10 min</td><td></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part3"><span class="num">3</span>list and map</a><small>choosing a container</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">3:25</td><td class="time">15 min</td><td><a href="#p3-lecture">More containers</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:00</td><td class="time">15 min</td><td><a href="#p3-lecture">More containers</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:40</td><td class="time">25 min</td><td><a href="#ex3">Exercise 3: list and word count</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:05</td><td class="time">5 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">3:15</td><td class="time">25 min</td><td><a href="#ex3">Exercise 3: list and word count</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">3:40</td><td class="time">5 min</td><td><a href="#p3-solution">Walkthrough 3</a></td></tr>
+          </tbody>
+          <tbody class="break">
+            <tr><td class="topic">Break</td><td><span class="tag break">Break</span></td><td class="time">3:45</td><td class="time">10 min</td><td></td></tr>
           </tbody>
           <tbody>
             <tr>
               <td class="topic" rowspan="3"><a href="#part4"><span class="num">4</span>Algorithms and lambdas</a><small>function pointers, lambdas, erase-remove</small></td>
-              <td><span class="tag lecture">Lecture</span></td><td class="time">4:10</td><td class="time">15 min</td><td><a href="#p4-lecture">Passing behavior to algorithms</a></td>
+              <td><span class="tag lecture">Lecture</span></td><td class="time">3:55</td><td class="time">15 min</td><td><a href="#p4-lecture">Passing behavior to algorithms</a></td>
             </tr>
-            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:25</td><td class="time">30 min</td><td><a href="#ex4">Exercise 4: students</a></td></tr>
-            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:55</td><td class="time">10 min</td><td><a href="#p4-solution">Walkthrough 4</a></td></tr>
+            <tr><td><span class="tag handson">Hands-on</span></td><td class="time">4:10</td><td class="time">30 min</td><td><a href="#ex4">Exercise 4: students</a></td></tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">4:40</td><td class="time">5 min</td><td><a href="#p4-solution">Walkthrough 4</a></td></tr>
           </tbody>
           <tbody>
-            <tr><td class="topic"><a href="#submit">Catch-up and wrap-up</a><small>finish, package, review all five labs</small></td><td><span class="tag solution">Wrap-up</span></td><td class="time">5:05</td><td class="time">10 min</td><td>Finish any exercise, build your <a href="#submit">submission zip</a>, and review the <a href="#takeaways">takeaways</a></td></tr>
+            <tr>
+              <td class="topic" rowspan="2"><a href="#quiz">Quiz and review</a><small>open book, then the answers</small></td>
+              <td><span class="tag quiz">Quiz</span></td><td class="time">End</td><td class="time"></td><td><a href="#quiz">Lab 5 Quiz, on paper</a> (10 questions, open book): <b>hand it in before you leave</b></td>
+            </tr>
+            <tr><td><span class="tag solution">Solutions</span></td><td class="time">After</td><td class="time">10 min</td><td>We go over the quiz answers and the <a href="#takeaways">takeaways</a></td></tr>
           </tbody>
         </table>
       </div>
       <div class="callout info">
-        <span class="title">Self-checks</span>
-        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. Everything is submitted together as one zip at the end (see <a href="#submit">What to submit</a>).
+        <span class="title">Self-checks, and submitting after class</span>
+        Each exercise ends with a self-check: before the walkthrough, run your code and confirm for yourself that it produces the expected results. If you fall behind, follow the walkthrough anyway and finish after class: you submit everything together as one zip <b>after class, by 11:59 pm on the day of the lab</b> (see <a href="#submit">What to submit</a>).
       </div>
     </section>
 
@@ -151,7 +160,7 @@
       </div>
 
       <div class="card lecture" id="p1-lecture">
-        <div class="block-head"><span class="tag lecture">Lecture</span><h3>vector, string, and files</h3><span class="mins">20 min</span></div>
+        <div class="block-head"><span class="tag lecture">Lecture</span><h3>vector, string, and files</h3><span class="mins">15 min</span></div>
         <p class="why">You've built growable arrays by hand; now use the standard library's. <code>vector</code> and <code>string</code> manage their own memory, copy correctly, and know their size. Most programs also read their input from files and command-line arguments rather than the keyboard, and CSS 342 assignments are often run that way. Knowing how these classes behave (when a vector reallocates, which index operations are unchecked) keeps you from bringing back the bugs they were made to prevent.</p>
         <ul>
           <li><b><code>vector&lt;T&gt;</code></b> (Lab 4) is the growable array you built in Labs 3 and 4, done right: it knows its <code>size()</code>, grows with <code>push_back</code>, frees its memory in its destructor, and copies deeply.</li>
@@ -167,11 +176,11 @@
       </div>
 
       <div class="card handson" id="ex1">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 1: Vectors, words, and files</h3><span class="mins">35 min</span></div>
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 1: Vectors, words, and files</h3><span class="mins">30 min</span></div>
         <p>Folder: <span class="path">Lab5/exercises/ex1-vector/</span>.</p>
         <h4>Part A: vectors (<code>vectors.cpp</code>)</h4>
         <ol class="steps">
-          <li>Complete the TODOs in order: <code>average</code> and <code>print</code>, appending and watching size and capacity, sorting, <code>at</code> vs. <code>[]</code>, and a 2D table.</li>
+          <li>Complete the TODOs in order: <code>average</code> and <code>print</code>, appending and watching size and capacity, sorting, and <code>at</code> vs. <code>[]</code> (TODOs 1–5; TODO 6, a 2-D table, is a Done early challenge).</li>
         </ol>
         <h4>Part B: words from a file (<code>words.cpp</code>)</h4>
         <ol class="steps">
@@ -183,8 +192,61 @@
         <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./vectors</code> catches <code>out_of_range</code>, that <code>./words data/lines.txt</code> prints one line per input line, and that a missing argument or file gives a message and exit code 1.</div>
       </div>
 
+      <details class="card optional" id="p1-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about vectors and input</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order. Each is one small program: save it in a scratch folder outside <code>Lab5</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run.</p>
+        <ol class="steps">
+          <li><b>A 2-D table.</b> <code>table.cpp</code>: a <code>vector</code> of <code>vector</code>s, made with the <code>(count, value)</code> constructor:<pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    vector&lt;vector&lt;int&gt;&gt; table(3, vector&lt;int&gt;(4, 0));
+    for (size_t r = 0; r &lt; table.size(); r++) {
+        for (size_t c = 0; c &lt; table[r].size(); c++) {
+            table[r][c] = r * 10 + c;
+        }
+    }
+    for (const vector&lt;int&gt; &amp;row : table) {
+        for (int x : row) {
+            cout &lt;&lt; x &lt;&lt; " ";
+        }
+        cout &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>0 1 2 3 
+10 11 12 13 
+20 21 22 23 </code></pre>
+            <p><code>vector&lt;int&gt;(4, 0)</code> is one row of 4 zeros; the outer <code>(3, row)</code> makes 3 copies of it. <code>table[r]</code> is a whole row, so <code>table[r][c]</code> works just like a 2-D array, but each row knows its size and can grow.</p>
+            </details></li>
+          <li><b>Reading numbers until the input goes bad.</b> <code>readnums.cpp</code> reads from a string as if it were a file:<pre><code>#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+using namespace std;
+
+int main() {
+    istringstream in("3 4 5x 6");
+    int x = 0, sum = 0;
+    while (in &gt;&gt; x) {
+        sum += x;
+        cout &lt;&lt; "read " &lt;&lt; x &lt;&lt; endl;
+    }
+    cout &lt;&lt; "sum " &lt;&lt; sum &lt;&lt; ", stopped: " &lt;&lt; (in.fail() ? "bad input" : "end") &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>read 3
+read 4
+read 5
+sum 12, stopped: bad input</code></pre>
+            <p><code>while (in &gt;&gt; x)</code> stops at the first read that fails. <code>&gt;&gt;</code> takes the <code>5</code> of <code>5x</code>, then can't make a number out of <code>x</code>, so the stream fails and <code>6</code> is never read. The same loop on an <code>ifstream</code> is the correct way to read a file of numbers: no <code>eof()</code> test.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p1-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">10 min</span></div>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 1</h3><span class="mins">5 min</span></div>
         <p>Capacity growing 5 &rarr; 10 is Lab 3's <code>grow()</code>; <code>at()</code> throwing Lab 4's <code>out_of_range</code>; checking <code>argc</code> and the open file; the <code>eof()</code> loop's extra pass; <code>split</code> with <code>istringstream</code>, the easiest way to parse input lines in your CSS 342 assignments; and the <code>\r</code> that Windows files leave at the end of each <code>getline</code> line.</p>
       </div>
 
@@ -214,12 +276,6 @@
           </li>
         </ol>
       </div>
-
-      <div class="card quiz" id="p1-quiz" data-quiz="Lab 5 Exercise 1 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 1 available on Canvas as the quiz <b>Lab 5 Exercise 1 Quiz</b> (7 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
-      </div>
     </section>
 
     <!-- ============================== PART 2 ============================== -->
@@ -245,12 +301,11 @@
       </div>
 
       <div class="card handson" id="ex2">
-        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: Iterators</h3><span class="mins">30 min</span></div>
+        <div class="block-head"><span class="tag handson">Hands-on</span><h3>Exercise 2: Iterators</h3><span class="mins">25 min</span></div>
         <p>Folder: <span class="path">Lab5/exercises/ex2-iterators/</span>.</p>
         <h4>Part A: using iterators (<code>iterate.cpp</code>)</h4>
         <ol class="steps">
           <li>Complete TODOs 1–5: an explicit iterator loop, writing through <code>*it</code>, a reverse loop, erasing while iterating, and a <code>const_iterator</code>.</li>
-          <li>For TODO 4, also try the wrong version (always <code>++it</code>, even after <code>erase</code>) and compare the output.</li>
         </ol>
         <h4>Part B: writing an iterator (<code>SimpleList.h</code>)</h4>
         <ol class="steps">
@@ -261,8 +316,71 @@
         <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./iterate</code> prints what you expect, and that <code>./list_test</code> matches its comments with a clean <code>make check</code>.</div>
       </div>
 
+      <details class="card optional" id="p2-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More about iterators</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order. Each is one small program: save it in a scratch folder outside <code>Lab5</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run.</p>
+        <ol class="steps">
+          <li><b>The wrong way to erase.</b> <code>erase.cpp</code> removes everything greater than 10 twice: correctly, then with <code>++it</code> after <i>every</i> step:<pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+void print(const vector&lt;int&gt; &amp;v) {
+    for (int x : v) {
+        cout &lt;&lt; x &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+}
+
+int main() {
+    vector&lt;int&gt; good = {5, 12, 14, 7};
+    for (auto it = good.begin(); it != good.end(); ) {
+        if (*it &gt; 10) {
+            it = good.erase(it);
+        } else {
+            ++it;
+        }
+    }
+    print(good);
+
+    vector&lt;int&gt; bad = {5, 12, 14, 7};
+    for (auto it = bad.begin(); it != bad.end(); ++it) {
+        if (*it &gt; 10) {
+            it = bad.erase(it);
+        }
+    }
+    print(bad);
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>5 7 
+5 14 7 </code></pre>
+            <p><code>erase</code> returns an iterator to the element <i>after</i> the one removed; the wrong loop then also runs <code>++it</code>, skipping that element, so <code>14</code> survives. If the last element were erased, the extra <code>++it</code> would step past <code>end()</code>: undefined behavior, often a crash.</p>
+            </details></li>
+          <li><b>Jumping with iterators.</b> <code>arith.cpp</code>. Then add <code>auto bad = l.begin() + 3;</code> and compile again:<pre><code>#include &lt;iostream&gt;
+#include &lt;list&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    vector&lt;int&gt; v = {10, 20, 30, 40, 50};
+    auto it = v.begin() + 3;
+    cout &lt;&lt; *it &lt;&lt; " " &lt;&lt; (v.end() - v.begin()) &lt;&lt; " " &lt;&lt; *(v.end() - 1) &lt;&lt; endl;
+    list&lt;int&gt; l = {10, 20, 30, 40, 50};
+    auto lit = l.begin();
+    advance(lit, 3);
+    cout &lt;&lt; *lit &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>40 5 50
+40</code></pre>
+            <p>A <code>vector</code> iterator is <i>random-access</i>: it can jump (<code>begin() + 3</code>) and subtract (<code>end() - begin()</code> is the size). A <code>list</code> iterator can only step, so <code>l.begin() + 3</code> fails with <code>no match for 'operator+' (operand types are 'std::__cxx11::list&lt;int&gt;::iterator' and 'int')</code>; <code>advance</code> steps 3 times instead. That's also why <code>sort</code> doesn't work on a <code>list</code>.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p2-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">10 min</span></div>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 2</h3><span class="mins">5 min</span></div>
         <p>The erase loop, right and wrong (<code>6 2 4</code> vs. <code>6 2 18 4</code>); the iterator for <code>SimpleList</code>, and how the range-based <code>for</code> expands into calls to it.</p>
       </div>
 
@@ -287,12 +405,6 @@
             <details><summary>Show answer</summary><p>Undefined behavior: <code>end()</code> refers to one past the last element; there's nothing there.</p></details>
           </li>
         </ol>
-      </div>
-
-      <div class="card quiz" id="p2-quiz" data-quiz="Lab 5 Exercise 2 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 2 available on Canvas as the quiz <b>Lab 5 Exercise 2 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
       </div>
     </section>
 
@@ -326,6 +438,58 @@
         <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./lists</code> ends with <code>2 4 5 6 8 10</code>, and that the word counts look right.</div>
       </div>
 
+      <details class="card optional" id="p3-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More containers</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order. Each is one small program: save it in a scratch folder outside <code>Lab5</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run.</p>
+        <ol class="steps">
+          <li><b>A <code>set</code> of words.</b> <code>uniq.cpp</code>:<pre><code>#include &lt;iostream&gt;
+#include &lt;set&gt;
+#include &lt;sstream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    istringstream in("the cat saw the dog and the cat ran");
+    set&lt;string&gt; words;
+    string w;
+    while (in &gt;&gt; w) {
+        words.insert(w);
+    }
+    for (const string &amp;s : words) {
+        cout &lt;&lt; s &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl &lt;&lt; words.size() &lt;&lt; " different, " &lt;&lt; words.count("cat") &lt;&lt; " " &lt;&lt; words.count("cow") &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>and cat dog ran saw the 
+6 different, 1 0</code></pre>
+            <p>A <code>set</code> keeps each value once, in sorted order, like the keys of a <code>map</code> with no values. <code>count</code> is 1 or 0: a quick "is it there?".</p>
+            </details></li>
+          <li><b>Looping over a map, C++17 style.</b> <code>bindings.cpp</code>:<pre><code>#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    map&lt;string, int&gt; counts = {{"tree", 3}, {"list", 5}, {"queue", 1}};
+    for (const auto &amp;[word, n] : counts) {
+        cout &lt;&lt; word &lt;&lt; ": " &lt;&lt; n &lt;&lt; endl;
+    }
+    counts["stack"]++;
+    cout &lt;&lt; counts.size() &lt;&lt; " " &lt;&lt; counts["stack"] &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>list: 5
+queue: 1
+tree: 3
+4 1</code></pre>
+            <p><code>const auto &amp;[word, n]</code> unpacks each <code>pair</code> into two names, instead of <code>p.first</code> and <code>p.second</code>. The keys come out sorted. <code>counts["stack"]++</code> creates <code>stack</code> with 0, then adds 1, which is why <code>[]</code> is the one-line word counter (and why it's wrong for a lookup that must not add).</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p3-solution">
         <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 3</h3><span class="mins">5 min</span></div>
         <p>Why list has its own <code>sort</code>; <code>operator[]</code> vs. <code>find</code> on a map (the size stays 27).</p>
@@ -347,12 +511,6 @@
             <details><summary>Show answer</summary><p>The member relinks and deletes the nodes, so the elements are really removed. The general algorithm can only shuffle values through iterators and needs a follow-up <code>erase</code> (Part 4).</p></details>
           </li>
         </ol>
-      </div>
-
-      <div class="card quiz" id="p3-quiz" data-quiz="Lab 5 Exercise 3 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 3 available on Canvas as the quiz <b>Lab 5 Exercise 3 Quiz</b> (5 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
       </div>
     </section>
 
@@ -390,8 +548,42 @@
         <div class="callout warn"><span class="title">Self-check</span>Confirm that <code>./students</code> runs to the end and finishes with the four remaining students.</div>
       </div>
 
+      <details class="card optional" id="p4-ahead">
+        <summary class="block-head"><span class="tag handson">Done early?</span><h3>More algorithms</h3><span class="mins">optional, not submitted<span class="opt-hint">: click to open</span></span></summary>
+        <p>Not submitted. Pick any, in any order. Each is one small program: save it in a scratch folder outside <code>Lab5</code> (for example <code>mkdir -p ~/CSSSKL342/extra</code>), compile with <code>g++ -std=c++17 -Wall -Wextra -g NAME.cpp -o NAME</code>, and predict before you run.</p>
+        <ol class="steps">
+          <li><b>The best student, and an upper-case word.</b> <code>best.cpp</code>:<pre><code>#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+struct Student {
+    string name;
+    double gpa;
+};
+
+int main() {
+    vector&lt;Student&gt; s = {{"Ana", 3.4}, {"Ben", 3.9}, {"Cy", 2.7}};
+    auto best = max_element(s.begin(), s.end(),
+                            [](const Student &amp;a, const Student &amp;b) { return a.gpa &lt; b.gpa; });
+    cout &lt;&lt; best-&gt;name &lt;&lt; " " &lt;&lt; best-&gt;gpa &lt;&lt; endl;
+
+    string word = "Hello";
+    transform(word.begin(), word.end(), word.begin(), [](char c) { return toupper(c); });
+    cout &lt;&lt; word &lt;&lt; endl;
+    return 0;
+}</code></pre>
+            <details><summary>Show what happens</summary>
+            <pre><code>Ben 3.9
+HELLO</code></pre>
+            <p><code>max_element</code> takes the same kind of "comes before" lambda as <code>sort</code> and returns an <i>iterator</i>, so <code>best-&gt;name</code>. <code>transform</code> applies a lambda to every element; writing the results back into <code>word.begin()</code> changes the string in place.</p>
+            </details></li>
+        </ol>
+      </details>
+
       <div class="card solution" id="p4-solution">
-        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 4</h3><span class="mins">10 min</span></div>
+        <div class="block-head"><span class="tag solution">Solutions</span><h3>Walkthrough 4</h3><span class="mins">5 min</span></div>
         <p>The same sort with a function pointer and with a lambda; captures; erase-remove drawn on the vector; <code>accumulate(..., 0)</code> truncating 3.6 + 2.9 to 5.</p>
       </div>
 
@@ -417,26 +609,46 @@ cout &lt;&lt; byCopy() &lt;&lt; " " &lt;&lt; byRef();</code></pre>
           </li>
         </ol>
       </div>
+    </section>
 
-      <div class="card quiz" id="p4-quiz" data-quiz="Lab 5 Exercise 4 Quiz">
-        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Section Quiz on Canvas</h3><span class="mins">10 min</span></div>
-        <div class="qlabel">Please answer the questions on Canvas</div>
-        <p>The last thing in this part, after the walkthrough and the self-test: your instructor will now make the questions for Exercise 4 available on Canvas as the quiz <b>Lab 5 Exercise 4 Quiz</b> (6 multiple-choice questions). You have <b>10 minutes</b> to complete it, so keep Canvas open in a browser window during class.</p>
+    <!-- ============================== TAKEAWAYS ============================== -->
+    <section id="takeaways">
+      <h2>Takeaways</h2>
+      <div class="callout learned">
+        <span class="title">Learned</span>
+        <ul style="margin:4px 0 0">
+          <li><code>vector</code> and <code>string</code> are the defaults: pass them by <code>const&amp;</code>, loop with range-for, and remember that growing can invalidate pointers and iterators.</li>
+          <li>Take the input file from <code>argv</code> after checking <code>argc</code>; check that it opened; read with <code>while (in &gt;&gt; x)</code> or <code>while (getline(in, line))</code>, never <code>while (!in.eof())</code>; split lines with <code>istringstream</code>; report errors on <code>cerr</code> with a nonzero exit code.</li>
+          <li>Iterators make every container look the same: <code>begin()</code> to <code>end()</code> with <code>!=</code>, <code>++</code>, <code>*</code>. Give your own container an iterator and range-for and the algorithms work on it.</li>
+          <li><code>list</code> for linked behavior, <code>map</code> for sorted lookup by key; <code>m[key]</code> inserts, <code>find</code> doesn't.</li>
+          <li>Pass behavior to algorithms with function pointers or lambdas; comparators use <code>&lt;</code>; remove with erase-remove.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================== QUIZ ============================== -->
+    <section id="quiz">
+      <h2>Lab 5 Quiz</h2>
+      <div class="card quiz">
+        <div class="block-head"><span class="tag quiz">Quiz</span><h3>Lab 5 Quiz, on paper</h3></div>
+        <p>When we finish the last walkthrough, your instructor hands out the <b>Lab 5 Quiz</b> on paper: <b>10 multiple-choice questions</b>, covering all four parts. It is <b>open book</b>: you may use this page, the slides, and your own code. The questions are straightforward checks of what we did today; if you followed the exercises and walkthroughs, you have seen every answer.</p>
+        <p>Write your name and UW NetID at the top. For each question, write the letter of your answer (A, B, C, or D) in that question's box in the row at the <b>bottom of page 1</b>: only those boxes are graded. <b>You must hand in your quiz before you leave the classroom.</b></p>
+        <p>Right after the quiz, we go over the answers together, and with them the <a href="#takeaways">takeaways</a> of the lab.</p>
       </div>
     </section>
 
     <!-- ============================== SUBMIT ============================== -->
     <section id="submit">
-      <h2>What to submit</h2>
+      <h2>What to submit (after class)</h2>
       <div class="card">
-        <p>You submit <b>once</b>, after all four exercises are done.</p>
+        <p>You submit <b>once</b>, after class: <b>due 11:59 pm on the day of the lab</b>, after all four exercises are done. Finish any exercise you didn't complete in class first; the self-checks and walkthrough notes on this page tell you what each one should do.</p>
         <ol class="steps">
           <li>Keep the starter zip's layout: one folder named <code>Lab5</code>, with your work in <code>Lab5/exercises/</code>, one subfolder per exercise named exactly like the starter folders you were given. Keep each subfolder's layout the same as the starter code, including <code>data/</code>.</li>
           <li>In each subfolder, run <code>make clean</code>. Delete any other executables.</li>
           <li>Delete the <code>examples</code> folder (<code>Lab5/examples/</code>, if there is one): it holds the lecture examples, and you didn't change anything in it. Your zip should contain only <code>exercises/</code>.</li>
           <li>Check that everything compiles with <code>g++ -std=c++17 -Wall -Wextra</code> on Linux with no warnings, and that <code>make check</code> is clean for <code>list_test</code>.</li>
           <li>Create <b>one zip file of the whole <code>Lab5</code> folder</b>, named <code>Lab5-&lt;your UW NetID&gt;.zip</code> (from the folder above it: <code>zip -r Lab5-netid.zip Lab5</code>).</li>
-          <li>Upload that one zip file to the Lab 5 assignment on Canvas.</li>
+          <li>Upload that one zip file to the Lab 5 assignment on Canvas by 11:59 pm.</li>
         </ol>
       </div>
 <pre><code>Lab5/
@@ -459,21 +671,6 @@ cout &lt;&lt; byCopy() &lt;&lt; " " &lt;&lt; byRef();</code></pre>
         </table>
       </div>
       <div class="callout info">Self-test questions are for your own practice and are not submitted.</div>
-    </section>
-
-    <!-- ============================== TAKEAWAYS ============================== -->
-    <section id="takeaways">
-      <h2>Takeaways</h2>
-      <div class="callout learned">
-        <span class="title">Learned</span>
-        <ul style="margin:4px 0 0">
-          <li><code>vector</code> and <code>string</code> are the defaults: pass them by <code>const&amp;</code>, loop with range-for, and remember that growing can invalidate pointers and iterators.</li>
-          <li>Take the input file from <code>argv</code> after checking <code>argc</code>; check that it opened; read with <code>while (in &gt;&gt; x)</code> or <code>while (getline(in, line))</code>, never <code>while (!in.eof())</code>; split lines with <code>istringstream</code>; report errors on <code>cerr</code> with a nonzero exit code.</li>
-          <li>Iterators make every container look the same: <code>begin()</code> to <code>end()</code> with <code>!=</code>, <code>++</code>, <code>*</code>. Give your own container an iterator and range-for and the algorithms work on it.</li>
-          <li><code>list</code> for linked behavior, <code>map</code> for sorted lookup by key; <code>m[key]</code> inserts, <code>find</code> doesn't.</li>
-          <li>Pass behavior to algorithms with function pointers or lambdas; comparators use <code>&lt;</code>; remove with erase-remove.</li>
-        </ul>
-      </div>
     </section>
 
     <footer>

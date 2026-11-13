@@ -22,7 +22,7 @@ int main() {
     // TODO 4: remove the element 3 (list's own remove member function).
     // TODO 5: sort with the list's own sort() member function. Then try
     //         sort(numbers.begin(), numbers.end()) instead, read the
-    //         error, and remove that line (Q2).
+    //         error, and remove that line.
     // TODO 6: remove every odd number (remove_if with a lambda:
     //         [](int n) { return n % 2 != 0; }).
     // TODO 7: insert 5 just before the 6, using an iterator found with a loop.

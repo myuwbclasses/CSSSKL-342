@@ -62,8 +62,8 @@ int main() {
     cout << "point: (" << pt.x << ", " << pt.y << ")" << endl;
 
     int *nothing = nullptr;
-    // TODO 6: call showThroughPointer(nothing), run, and record what happens
-    //         (Q4). Then remove the call again.
+    // TODO 6: call showThroughPointer(nothing), run, and see what happens.
+    //         Then remove the call again.
     (void)nothing;
 
     return 0;
